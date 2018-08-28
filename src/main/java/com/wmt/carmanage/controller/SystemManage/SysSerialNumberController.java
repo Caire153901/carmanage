@@ -1,11 +1,13 @@
 package com.wmt.carmanage.controller.SystemManage;
 
+import com.baomidou.mybatisplus.plugins.Page;
 import com.wmt.carmanage.service.SysSerialNumberService;
 import com.wmt.carmanage.vo.SysSerialNumberVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.constraints.Max;
 import java.util.List;
 
 /**
@@ -18,24 +20,26 @@ public class SysSerialNumberController {
 
     @Autowired
     SysSerialNumberService sysSerialNumberService;
-
+    
     /**
-     *  流水号页面跳转
-     * @return
-     */
-    @RequestMapping(value = "/", method = {RequestMethod.POST, RequestMethod.GET})
-    public String login() {
-        return "/system/serial_number";
-    }
-
-    /**
-     * 流水号列表查询
+     * 流水号列表
      * @param authorityName
+     * @param current
+     * @param sort
+     * @param asc
+     * @param pageSize
      * @return
+     * @throws Exception
      */
     @GetMapping("/list")
-    public List<SysSerialNumberVo> getSerialNumberList(String authorityName){
-        return  sysSerialNumberService.getList(authorityName);
+    public Page<SysSerialNumberVo> getSerialNumberList(
+                                    @RequestParam(value = "authorityName",required = false) String authorityName,
+                                    @RequestParam(value = "current",required = false,defaultValue = "1") Integer current,
+                                    @RequestParam(value = "sort",required = false,defaultValue = "gmtModified") String sort,
+                                    @RequestParam(value = "asc",required = false) Boolean asc,
+                                    @Max(value = 100,message = "每页条数不超过100") @RequestParam(value = "pageSize",required = false,defaultValue = "10") Integer pageSize)
+            throws Exception{
+        return sysSerialNumberService.getSerialNumberList(authorityName, current, sort, asc, pageSize);
     }
 
     /**

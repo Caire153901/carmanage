@@ -41,7 +41,7 @@ public class RoleController {
      * @throws Exception
      */
     @GetMapping("/list")
-    public Page<RoleVo> getRoleList(@RequestParam String roleName,
+    public Page<RoleVo> getRoleList(@RequestParam(value = "roleName",required = false) String roleName,
                                     @RequestParam(value = "current",required = false,defaultValue = "1") Integer current,
                                     @RequestParam(value = "sort",required = false,defaultValue = "gmtModified") String sort,
                                     @RequestParam(value = "asc",required = false) Boolean asc,

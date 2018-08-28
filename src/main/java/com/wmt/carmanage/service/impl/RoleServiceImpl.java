@@ -3,12 +3,21 @@ package com.wmt.carmanage.service.impl;
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.mapper.Wrapper;
 import com.baomidou.mybatisplus.plugins.Page;
+import com.google.common.collect.Lists;
+import com.wmt.carmanage.entity.Authority;
 import com.wmt.carmanage.entity.Role;
+import com.wmt.carmanage.entity.RoleAuthority;
+import com.wmt.carmanage.exception.BaseException;
 import com.wmt.carmanage.mapper.RoleMapper;
+import com.wmt.carmanage.service.AuthorityService;
+import com.wmt.carmanage.service.RoleAuthorityService;
 import com.wmt.carmanage.service.RoleService;
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
+import com.wmt.carmanage.util.ToolFunctions;
+import com.wmt.carmanage.vo.AuthorityVo;
 import com.wmt.carmanage.vo.RoleVo;
 import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -24,6 +33,10 @@ import java.util.List;
  */
 @Service
 public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements RoleService {
+
+    @Autowired
+    AuthorityService authorityService;
+
     /**
      * 获取角色的下拉列表
      * @return
@@ -54,45 +67,32 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements Ro
      */
     @Override
     public Page<RoleVo> getRoleList(String roleName, Integer current, String sort, Boolean asc, Integer pageSize) throws Exception {
-        if(null == sort){
-            sort ="gmtModified";
+        if (null == sort) {
+            sort = "gmtModified";
         }
-        if(null==asc){
+        if (null == asc) {
             asc = false;
         }
-        Page page = new Page(current,pageSize,sort,asc);
+        Page page = new Page(current, pageSize, sort, asc);
         EntityWrapper<Role> wrapper = new EntityWrapper<>();
-        if(null!=roleName && !roleName.equals("")){
-            wrapper.like("")
+        if (null != roleName && !roleName.equals("")) {
+            wrapper.like("role_name", roleName);
         }
-        return null;
-    }
+        Page<Role> rolePage = super.selectPage(page, wrapper);
+        // 3.判断并组装返回结果
+        if (null != rolePage.getRecords() || rolePage.getRecords().size() > 0) {
 
-
-
-    // 1.获取池塘ID
-    String poolId = getPoolId(customerId, poolNumber);
-    // 2.通过养殖场ID和池塘ID查询饲料投喂记录
-    EntityWrapper<Bpfeed> wrapper = new EntityWrapper<>();
-        wrapper.eq("CustomerId", customerId)
-            .eq("PoolId", poolId);
-    Page<Bpfeed> bpfeedPage = bpfeedService.selectPage(page,wrapper);
-
-    // 3.判断并组装返回结果
-        if(null == bpfeedPage.getRecords() || bpfeedPage.getRecords().size() == 0 ){
-        throw new BaseException("未查询到饲料投喂信息");
-    }else {
-        List<FeedInfoVo> feedInfoVoList = Lists.newArrayList();
-        bpfeedPage.getRecords().stream().forEach(bpfeed -> {
-            FeedInfoVo vo = new FeedInfoVo();
-            vo.setFeedDate(bpfeed.getDateTime());
-            vo.setFeedTypeName(bpfeed.getFeedTypeName());
-            vo.setFeedTimes(bpfeed.getFeedTimes());
-            vo.setFeedWeight(bpfeed.getWeight());
-            vo.setUnit(bpfeed.getUnit());
-            feedInfoVoList.add(vo);
-        });
-        page = page.setRecords(feedInfoVoList);  //查出的list调用setRecords
+            List<RoleVo> roleVoList = Lists.newArrayList();
+            rolePage.getRecords().stream().forEach(role -> {
+                RoleVo vo = new RoleVo();
+                BeanUtils.copyProperties(role, vo);
+                List<AuthorityVo> authorityVos = ToolFunctions.getAuthorityListByRoleId(role.getId());
+                vo.setAuthorityVoList(authorityVos);
+                roleVoList.add(vo);
+            });
+            page = page.setRecords(roleVoList);  //查出的list调用setRecords
+        }
         return page;
     }
+
 }

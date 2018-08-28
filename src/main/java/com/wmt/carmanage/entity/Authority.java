@@ -54,8 +54,23 @@ public class Authority implements Serializable {
      */
     @TableField("authority_order")
     private Integer authorityOrder;
-
+    /**
+     * 菜单地址
+     */
+    @TableField("url")
+    private String url;
+    /**
+     * 子菜单
+     */
     private List<Authority> childList;
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
 
     public List<Authority> getChildList() {
         return childList;

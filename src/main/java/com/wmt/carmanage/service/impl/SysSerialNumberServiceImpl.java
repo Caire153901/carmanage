@@ -2,6 +2,7 @@ package com.wmt.carmanage.service.impl;
 
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.mapper.Wrapper;
+import com.baomidou.mybatisplus.plugins.Page;
 import com.wmt.carmanage.entity.Authority;
 import com.wmt.carmanage.entity.SysSerialNumber;
 import com.wmt.carmanage.mapper.SysSerialNumberMapper;
@@ -17,6 +18,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * <p>
@@ -32,30 +34,47 @@ public class SysSerialNumberServiceImpl extends ServiceImpl<SysSerialNumberMappe
 
      @Autowired
      AuthorityService authorityService;
+
     /**
      * 流水号列表
      * @param authorityName
+     * @param current
+     * @param sort
+     * @param asc
+     * @param pageSize
      * @return
+     * @throws Exception
      */
     @Override
-    public List<SysSerialNumberVo> getList(String authorityName) {
-        List<SysSerialNumberVo> serialNumberVoList = new ArrayList<>();
-        Wrapper<SysSerialNumber> wrapper = new EntityWrapper<>();
-        if(null!=authorityName && !authorityName.equals("")){
-           Wrapper<Authority> authorityWrapper = new EntityWrapper<>();
-           authorityWrapper.eq("authority_name",authorityName);
-           Authority authority = authorityService.selectOne(authorityWrapper);
-            wrapper.eq("authority_id",authority.getId());
+    public Page<SysSerialNumberVo> getSerialNumberList(String authorityName, Integer current, String sort, Boolean asc, Integer pageSize) throws Exception {
+        if (null == sort) {
+            sort = "gmtModified";
         }
-        List<SysSerialNumber> list = super.selectList(wrapper);
-        list.stream().forEach(l->{
-            SysSerialNumberVo vo = new SysSerialNumberVo();
-            BeanUtils.copyProperties(l,vo);
-            Authority authority = authorityService.selectById(l.getAuthorityId());
-            vo.setAuthorityName(authority.getAuthorityName());
-            serialNumberVoList.add(vo);
-        });
-        return serialNumberVoList;
+        if (null == asc) {
+            asc = false;
+        }
+        List<SysSerialNumberVo> list = new ArrayList<>();
+        Page page = new Page(current, pageSize, sort, asc);
+        EntityWrapper<SysSerialNumber> wrapper = new EntityWrapper<>();
+        Page<SysSerialNumber> sysSerialNumberPage = super.selectPage(page,wrapper);
+        if(null!=sysSerialNumberPage.getRecords() && sysSerialNumberPage.getRecords().size()>0){
+            List<SysSerialNumberVo> sysSerialNumberVos = new ArrayList<>();
+            sysSerialNumberPage.getRecords().stream().forEach(sysSerialNumber -> {
+                SysSerialNumberVo vo = new SysSerialNumberVo();
+                BeanUtils.copyProperties(sysSerialNumber,vo);
+                Authority authority = authorityService.selectById(sysSerialNumber.getAuthorityId());
+                vo.setAuthorityName(authority.getAuthorityName());
+                sysSerialNumberVos.add(vo);
+            });
+            //查询过滤
+            if(null!=authorityName && !authorityName.equals("")){
+                list = sysSerialNumberVos.stream().filter(sysSerialNumberVo -> sysSerialNumberVo.getAuthorityName().contains(authorityName)).collect(Collectors.toList());
+            }else{
+                list.addAll(sysSerialNumberVos);
+            }
+            page = page.setRecords(list);
+        }
+        return page;
     }
 
     /**

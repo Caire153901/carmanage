@@ -1,5 +1,6 @@
 package com.wmt.carmanage.service;
 
+import com.baomidou.mybatisplus.plugins.Page;
 import com.wmt.carmanage.entity.SysSerialNumber;
 import com.baomidou.mybatisplus.service.IService;
 import com.wmt.carmanage.vo.SysSerialNumberVo;
@@ -17,11 +18,16 @@ import java.util.List;
 public interface SysSerialNumberService extends IService<SysSerialNumber> {
 
     /**
-     * 查询流水号列表
+     * 流水号列表
      * @param authorityName
+     * @param current
+     * @param sort
+     * @param asc
+     * @param pageSize
      * @return
+     * @throws Exception
      */
-    List<SysSerialNumberVo> getList(String  authorityName);
+    Page<SysSerialNumberVo> getSerialNumberList(String authorityName, Integer current, String sort, Boolean asc, Integer pageSize) throws Exception;
 
     /**
      * 新增

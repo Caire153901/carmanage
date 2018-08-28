@@ -31,6 +31,10 @@ public class AuthorityVo {
      */
     private Integer authorityOrder;
     /**
+     * 菜单地址
+     */
+    private String url;
+    /**
      *
      */
     private List<AuthorityVo> childList;

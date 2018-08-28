@@ -2,6 +2,7 @@ package com.wmt.carmanage.service.impl;
 
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.mapper.Wrapper;
+import com.baomidou.mybatisplus.plugins.Page;
 import com.wmt.carmanage.entity.Role;
 import com.wmt.carmanage.entity.UserInfo;
 import com.wmt.carmanage.mapper.UserInfoMapper;
@@ -9,6 +10,7 @@ import com.wmt.carmanage.service.AuthorityService;
 import com.wmt.carmanage.service.RoleService;
 import com.wmt.carmanage.service.UserInfoService;
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
+import com.wmt.carmanage.util.ToolFunctions;
 import com.wmt.carmanage.vo.AuthorityVo;
 import com.wmt.carmanage.vo.UserInfoVo;
 import org.springframework.beans.BeanUtils;
@@ -36,40 +38,51 @@ public class UserInfoServiceImpl extends ServiceImpl<UserInfoMapper, UserInfo> i
     AuthorityService authorityService;
 
 
+
     /**
      * 用户列表
+     * @param account
      * @param userName
      * @param roleId
+     * @param current
+     * @param sort
+     * @param asc
+     * @param pageSize
      * @return
+     * @throws Exception
      */
     @Override
-    public List<UserInfoVo> getUserInfoTable(String userName, Integer roleId) {
-        List<UserInfoVo> list = new ArrayList<>();
-        Wrapper<UserInfo> userInfoWrapper = new EntityWrapper<>();
-        if(null!=userName && !userName.equals("")){
-            userInfoWrapper.like("account",userName);
+    public Page<UserInfoVo> getUserInfoList(String account, String userName, Integer roleId, Integer current, String sort, Boolean asc, Integer pageSize) throws Exception {
+        if(null==sort){
+            sort ="gmt_modified";
         }
-        List<UserInfo> userInfoList = super.selectList(userInfoWrapper);
-        List<UserInfo> collect = new ArrayList<>();
-        if (null!=roleId){
-            collect=userInfoList.stream()
-                    .filter(userInfo -> userInfo.getRoleId()
-                            .equals(roleId)).collect(Collectors.toList());
-        }else {
-            collect = userInfoList;
+        if(null==asc){
+            asc = false;
         }
-        collect.stream().forEach(userInfo -> {
-            UserInfoVo vo = new UserInfoVo();
-            Integer role_id = userInfo.getRoleId();
-            Role role = roleService.selectById(role_id);
-            BeanUtils.copyProperties(userInfo,vo);
-            vo.setRoleName(role.getRoleName());
-            String authList ="";
-            authList=authorityService.getAuthorityListByRoleId(role_id)
-                    .stream().map(AuthorityVo::getAuthorityName).collect(Collectors.joining("-"));
-            vo.setAuthorityNames(authList);
-            list.add(vo);
-        });
-        return list;
+        Page page = new Page(current, pageSize, sort, asc);
+        EntityWrapper<UserInfo> wrapper = new EntityWrapper<>();
+        if(null!=account && !account.equals("")){
+            wrapper.like("account",account);
+        }
+        if (null!=userName && !userName.equals("")){
+           wrapper.like("user_name",userName);
+        }
+        if(null!= roleId) {
+            wrapper.eq("role_id", roleId);
+        }
+        Page<UserInfo> userInfoPage = super.selectPage(page,wrapper);
+        if(null!=userInfoPage.getRecords() && userInfoPage.getRecords().size()>0){
+            List<UserInfoVo> userInfoVoList = new ArrayList<>();
+            userInfoPage.getRecords().stream().forEach(userInfo -> {
+                UserInfoVo vo = new UserInfoVo();
+                BeanUtils.copyProperties(userInfo,vo);
+                Role role = roleService.selectById(userInfo.getRoleId());
+                vo.setRoleName(role.getRoleName());
+                vo.setAuthorityNames(ToolFunctions.getAuthorityNamesByRoleId(role.getId()));
+                userInfoVoList.add(vo);
+            });
+            page = page.setRecords(userInfoVoList);
+        }
+        return page;
     }
 }
