@@ -45,7 +45,7 @@
     <!-- 指定项目中某个包，当有日志操作行为时的日志记录级别 -->
     <!-- com.tongwei.breed，也就是只要是发生在这个根包下面的所有日志操作行为的权限都是DEBUG -->
     <!-- 级别依次为【从高到低】：FATAL > ERROR > WARN > INFO > DEBUG > TRACE  -->
-    <logger name="com.erp.autohome" level="DEBUG">
+    <logger name="com.wmt.carmanage" level="DEBUG">
         <appender-ref ref="FILE" />
     </logger>
     <!-- 日志输出级别 -->

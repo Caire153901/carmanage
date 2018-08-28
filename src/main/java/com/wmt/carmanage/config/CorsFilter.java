@@ -13,7 +13,6 @@ import java.util.Map;
 public class CorsFilter implements Filter {
 
     public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain) throws IOException, ServletException {
-//        System.out.println("进入过滤器...");
         HttpServletRequest request = (HttpServletRequest) req;
         Map<String, String[]> parameterMap = request.getParameterMap();
         System.out.println(parameterMap);
@@ -32,7 +31,6 @@ public class CorsFilter implements Filter {
         response.setHeader("Access-Control-Allow-Credentials", "true");
         response.setHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS, DELETE");
         response.setHeader("Access-Control-Max-Age", "3600");
-//        response.setHeader("Content-Type", "application/json;charset=UTF-8");
         response.setHeader("Access-Control-Allow-Headers", "Content-Type");
         if (((HttpServletRequest) req).getMethod().equals("OPTIONS")) {
             return;

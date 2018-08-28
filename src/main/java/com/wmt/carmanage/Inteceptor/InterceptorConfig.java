@@ -22,14 +22,6 @@ public class InterceptorConfig implements HandlerInterceptor {
         ServletRequestAttributes requestAttributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
         HttpServletRequest request = requestAttributes.getRequest();
 
-/*        //正式的
-        if(customerId.equals("deeb85b4-db32-4b6e-9e96-3f6d4a4edb95")){
-      //if(customerId.equals("d705c09f-d815-4d03-ae63-6f7cb555bc96")){
-            log.info("权限验证成功,customerId={}", customerId);
-            return true;
-        }else {
-            throw new BaseException(ResponseCode.AUTHENTICATION_FAILURE);
-        }*/
         return true;
     }
 

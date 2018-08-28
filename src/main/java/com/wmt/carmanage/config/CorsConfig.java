@@ -26,7 +26,6 @@ public class CorsConfig {
     public FilterRegistrationBean filterRegistration() {
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", buildConfig()); // 4
-//        CorsFilter corsFilter = new CorsFilter(source);
         FilterRegistrationBean registration = new FilterRegistrationBean();
         registration.setFilter(new CorsFilter());
         registration.addUrlPatterns("/*");

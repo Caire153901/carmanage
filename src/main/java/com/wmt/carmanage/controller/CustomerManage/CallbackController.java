@@ -8,6 +8,6 @@ import org.springframework.web.bind.annotation.RestController;
  * 回访信息管理
  */
 @RestController
-@RequestMapping("callback")
+@RequestMapping("/callback")
 public class CallbackController {
 }

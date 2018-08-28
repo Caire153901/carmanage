@@ -14,7 +14,7 @@ import org.springframework.context.annotation.Configuration;
  * mybaits-plus配置
  */
 @Configuration
-@MapperScan("com.erp.autohome.mapper")
+@MapperScan("com.wmt.carmanage.mapper")
 public class MybatisPlusConfig {
 
     /**
@@ -45,32 +45,6 @@ public class MybatisPlusConfig {
     public ISqlInjector sqlInjector(){
         return new LogicSqlInjector();
     }
-
-   /* @Bean
-    @ConfigurationProperties(prefix = "mybatis-plus.global-config")
-    public GlobalConfiguration globalConfiguration() {
-        GlobalConfiguration conf = new GlobalConfiguration(new LogicSqlInjector());
-
-        return conf;
-    }
-
-//    @ConfigurationProperties(prefix = "mybatis-plus")
-    @Bean
-    public SqlSessionFactory sqlSessionFactory(DataSource dataSource,
-                                               GlobalConfiguration globalConfiguration) throws Exception {
-        MybatisSqlSessionFactoryBean sqlSessionFactory = new MybatisSqlSessionFactoryBean();
-        sqlSessionFactory.setDataSource(dataSource);
-        PathMatchingResourcePatternResolver resourceLoader = new PathMatchingResourcePatternResolver();
-        sqlSessionFactory.setMapperLocations(resourceLoader.getResources("classpath:/mapper/*Mapper.xml"));
-//        mybatis-plus.typeAliasesPackage=com.tongwei.breed.entity
-        sqlSessionFactory.setTypeAliasesPackage("com.tongwei.breed.entity");
-        sqlSessionFactory.setTypeEnumsPackage("com.tongwei.breed.constant");
-
-        OptimisticLockerInterceptor optLock = new OptimisticLockerInterceptor();
-        sqlSessionFactory.setPlugins(new Interceptor[]{optLock});
-        sqlSessionFactory.setGlobalConfig(globalConfiguration);
-        return sqlSessionFactory.getObject();
-    }*/
 
 
 
