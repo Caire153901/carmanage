@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>汽车之家后台管理系统</title>
+        <link rel="stylesheet" type="text/css" href="../public/fonts/iconfont.css">
+        <link href="../public/css/base.css" rel="stylesheet">
+        <link href="../login/login.css" rel="stylesheet">
+        <link rel="shortcut icon" type="image/x-icon" href="../favicon.ico"/>
+        <script src="../public/js/jquery.min.js"></script>
+</head>
+<body>
+<div class="login-container">
+    <div class="left-login"></div>
+    <div class="right-login">
+        <div class="title-login">汽车之家后台管理系统<p>AutoHome Management System</p></div>
+        <div class="form-container">
+            <div class="alert alert-error alert-add" th:if=${msg}>
+                <i class="iconfont">&#xe62e;</i>
+                <span th:text="${msg}"></span>
+            </div>
+            <form action="/login/login" target="_self" method="post">
+                <form id="iform" th:action="@{/login/login}" th:method="post">
+                <label for="login-y"><img src="../public/images/login/user-login.png" alt="">
+                    <input class="form-control" name="account" type="text" id="login-y" placeholder="用户名" th:value="${account}"></label>
+                <label for="psd-y"><img src="../public/images/login/psd-login.png" alt="">
+                    <input class="form-control" name="password" type="password" id="psd-y" placeholder="密码" th:value="${password}">
+                    <img id="isPsdHide" src="../public/images/login/display_eyeon.png" alt=""></label>
+                <input type="submit" class="form-control" value="登录">
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    (function () {
+
+        function isPwdShow() {
+            var  flag = false;
+            document.getElementById('isPsdHide').onclick = function () {
+                var oPsd = document.getElementById('psd-y');
+                if(flag == false){
+                    this.src = '../public/images/login/display_eyeout.png';
+                    oPsd.type = 'text';
+                    flag = true;
+                }else {
+                    this.src = '../public/images/login/display_eyeon.png';
+                    oPsd.type = 'password';
+                    flag = false;
+                }
+            }
+        };
+
+        isPwdShow() ;
+
+        function carouser () {
+            var oBody = document.body;
+            var src = ['../public/images/login/bg-login.jpg','../public/images/login/bg-login1.jpg','../public/images/login/bg-login2.jpg'];
+            var index = 0;
+            function preloadImages(imgs) {
+                imgs.forEach(function (item){
+                    var image = new Image();
+                    image.src = item;
+                });
+            };
+            preloadImages(src);
+            setInterval(function () {
+                index++;
+                index > src.length-1 && (index = 0);
+                oBody.style.background = 'url('+src[index]+') no-repeat 0 0/100% 100%';
+            },5000);
+        };
+
+        carouser ();
+
+    })()
+</script>
+</body>
+</html>

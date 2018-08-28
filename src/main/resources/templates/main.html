@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>汽车之家后台管理系统</title>
+    <link rel="stylesheet" href="../public/easyuitemplate/easyui.css">
+    <link href="../public/css/base.css" rel="stylesheet">
+    <link href="../public/css/platform.css" rel="stylesheet">
+    <link rel="stylesheet" href="../public/css/addstyle.css">
+    <link rel="stylesheet" type="text/css" href="../public/fonts/iconfont.css">
+    <link rel="shortcut icon" type="image/x-icon" href="../favicon.ico"/>
+    <script type="text/javascript" src="../public/js/jquery.min.js"></script>
+    <script type="text/javascript" src="../public/easyui/jquery.easyui.min.js"></script>
+    <script type="text/javascript" src="../public/easyui/easyui-lang-zh_CN.js"></script>
+    <script type="text/javascript" src="../public/js/base.js"></script>
+    <script type="text/javascript" src="../main/main.js"></script>
+    <style>
+        .pf-date{
+            color: white;
+            font-size: medium;
+            text-align:center
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div id="pf-hd">
+        <div class="pf-logo">
+            <span class="logo-title"></span>
+        </div>
+        <div id="showDate" class="pf-date"></div>
+        <div class="pf-user">
+            <h4 class="pf-user-name ellipsis" th:text="${userInfo.account}"></h4>
+            <i class="iconfont xiala">&#xe607;</i>
+
+            <div class="pf-user-panel">
+                <ul class="pf-user-opt">
+                    <li class="pf-largeScreen">
+                        <a href="../main/main">
+                            <i class="iconfont">&#xe6a6;</i>
+                            <span class="pf-opt-name">首页</span>
+                        </a>
+                    </li>
+                    <li class="pf-modify-pwd">
+                        <a href="javascript:;">
+                            <i class="iconfont">&#xe634;</i>
+                            <span class="pf-opt-name">帮助</span>
+                        </a>
+                    </li>
+                    <li class="pf-logout">
+                        <a>
+                            <i class="iconfont">&#xe60e;</i>
+                            <span class="pf-opt-name">退出</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div style="position: relative;float: right;height: 70px;line-height: 70px;color:white">
+            欢迎您！
+        </div>
+    </div>
+
+    <div id="pf-bd">
+        <div id="pf-sider"></div>
+        <div id="pf-page">
+            <div id="tabs1" class="easyui-tabs1" style="width:100%;height:100%;"></div>
+        </div>
+    </div>
+
+    <div id="pf-ft">
+        <div class="system-name">
+            <i class="iconfont">&#xe65e;</i>
+            <span>汽车之家后台管理系统&nbsp;v1.0</span>
+        </div>
+        <div class="copyright-name">
+            <span>&copy;&nbsp;tongwei.com&nbsp;版权所有&nbsp;&nbsp;&nbsp;&nbsp;</span>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    //切换sidebar引导箭头方向
+    $(function () {
+        $('#pf-sider').on('click',' .toggle-icon',function () {
+            $(this).toggleClass('icon-right')
+        })
+
+        $('#tabs1').tabs({
+            tabHeight: 44,
+        });
+        //初始化首页面板
+        $('#tabs1').tabs('add', {
+            title: '首页',
+            closable: false,
+            //content: '<div class="iframe-container"><iframe id="iframe" class="page-iframe" src="' + getRootPath__() + '/fistPages" frameborder="no" border="no" height="100%" width="100%" scrolling="auto"></iframe></div>',
+        });
+        setInterval("fnDate();",1000); //每隔一秒运行一次
+    })
+
+    //取得系统当前时间
+    function fnDate(){
+        var date=new Date();
+        var year=date.getFullYear();//当前年份
+        var month=date.getMonth();//当前月份
+        var data=date.getDate();//天
+        var hours=date.getHours();//小时
+        var minute=date.getMinutes();//分
+        var second=date.getSeconds();//秒
+        $("#showDate").html("现在是:"+year+"年"+fnW((month+1))+"月"+fnW(data)+"日"+"  "+fnW(hours)+":"+fnW(minute)+":"+fnW(second)); //将值赋给div
+    }
+    //补位 当某个字段不是两位数时补0
+    function fnW(str){
+        var num;
+        str>10?num=str:num="0"+str;
+        return num;
+    }
+</script>
+</body>
+</html>
+
