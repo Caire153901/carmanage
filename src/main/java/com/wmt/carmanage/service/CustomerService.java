@@ -26,4 +26,37 @@ public interface CustomerService extends IService<Customer> {
      */
     Page<CustomerVo> getCustomerList(String customerName,String customerCode, Integer current, String sort,Boolean asc,Integer pageSize) throws Exception;
 
+    /**
+     * 新增
+     * @param customer
+     * @return
+     * @throws Exception
+     */
+    boolean saveCustomer(Customer customer) throws Exception;
+
+    /**
+     * 修改
+     * @param customer
+     * @return
+     * @throws Exception
+     */
+    boolean editCustomer(Customer customer) throws Exception;
+
+    /**
+     * 删除
+     * @param id
+     * @return
+     * @throws Exception
+     */
+    boolean deleteCustomer(Integer id) throws Exception;
+
+    /**
+     * 禁用/启用
+     * @param id
+     * @return
+     * @throws Exception
+     */
+    boolean enableCustomer(Integer id,byte type) throws Exception;
+
+
 }

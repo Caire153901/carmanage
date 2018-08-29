@@ -27,4 +27,28 @@ public interface VisitInfoService extends IService<VisitInfo> {
      * @throws Exception
      */
     Page<VisitInfoVo> getVisitInfoList(String customerName, String orderCode, Integer current, String sort, Boolean asc, Integer pageSize) throws Exception;
+
+    /**
+     * 新增
+     * @param visitInfo
+     * @return
+     * @throws Exception
+     */
+    boolean saveVisitInfo(VisitInfo visitInfo) throws Exception;
+
+    /**
+     * 修改
+     * @param visitInfo
+     * @return
+     * @throws Exception
+     */
+    boolean editVisitInfo(VisitInfo visitInfo) throws Exception;
+
+    /**
+     * 删除
+     * @param id
+     * @return
+     * @throws Exception
+     */
+    boolean deleteVisitInfo(Integer id) throws Exception;
 }

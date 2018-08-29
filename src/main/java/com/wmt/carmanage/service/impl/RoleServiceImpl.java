@@ -95,4 +95,74 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements Ro
         return page;
     }
 
+    /**
+     * 新增
+     * @param role
+     * @return
+     * @throws Exception
+     */
+    @Override
+    public boolean saveRole(Role role) throws Exception {
+        EntityWrapper<Role> wrapper = new EntityWrapper<>();
+        wrapper.eq("role_name",role.getRoleName());
+        List<Role> list = super.selectList(wrapper);
+        if(list.size()>0){
+            throw new BaseException("角色名【"+role.getRoleName()+"】已存在");
+        }else {
+            return super.insert(role);
+        }
+    }
+
+    /**
+     * 修改
+     * @param role
+     * @return
+     * @throws Exception
+     */
+    @Override
+    public boolean editRole(Role role) throws Exception {
+        Role old = super.selectById(role.getId());
+        if(!old.getRoleName().equals(role.getRoleName())){
+            EntityWrapper<Role> wrapper = new EntityWrapper<>();
+            wrapper.eq("role_name",role.getRoleName());
+            List<Role> list = super.selectList(wrapper);
+            if(list.size()>0){
+                throw new BaseException("角色名【"+role.getRoleName()+"】已存在");
+            }else {
+                return super.updateById(role);
+            }
+        }
+        return false;
+    }
+
+    /**
+     * 删除
+     * @param id
+     * @return
+     * @throws Exception
+     */
+    @Override
+    public boolean deleteRole(Integer id) throws Exception {
+        Role role = super.selectById(id);
+        role.setUseStatus(2);
+        return super.updateById(role);
+    }
+
+    /**
+     * 启用/禁用
+     * @param id
+     * @param type
+     * @return
+     * @throws Exception
+     */
+    @Override
+    public boolean enableRole(Integer id, byte type) throws Exception {
+        Role role = super.selectById(id);
+        if(type==0){
+            role.setUseStatus(0);
+        }else if(type==1){
+            role.setUseStatus(1);
+        }
+        return super.updateById(role);
+    }
 }

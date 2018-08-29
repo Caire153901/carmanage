@@ -22,6 +22,10 @@ public class StoreInfoVo {
      */
     private Integer maxCapacity;
     /**
+     * 仓库余量
+     */
+    private Integer marginCapacity;
+    /**
      * 仓库现有容量
      */
     private Integer capacity;

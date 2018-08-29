@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wmt.carmanage.mapper.OrderInfoMapper">
+    <resultMap id="OrderInfoVoMap" type="com.wmt.carmanage.vo.OrderInfoVo">
+        <result column="id"  property="id" jdbcType="INTEGER"/>
+        <result column="order_code"  property="orderCode" jdbcType="VARCHAR"  />
+        <result column="closing_cost"  property="closingCost" jdbcType="DECIMAL"  />
+        <result column="sales_date"  property="salesDate" jdbcType="DATE"  />
+        <result column="order_status"  property="orderStatus" jdbcType="INTEGER"/>
+        <result column="order_note"  property="orderNote" jdbcType="VARCHAR"/>
+        <result column="use_status"  property="useStatus" jdbcType="INTEGER"/>
+        <association property="customer" javaType="com.wmt.carmanage.entity.Customer">
+            <id column="customer_id" property="id" jdbcType="INTEGER"/>
+            <result column="customer_code" property="customerCode" jdbcType="VARCHAR"/>
+            <result column="customer_name" property="customerName" jdbcType="VARCHAR"/>
+            <result column="sex" property="sex" jdbcType="INTEGER"/>
+            <result column="telphone" property="telphone" jdbcType="VARCHAR"/>
+            <result column="identity_card" property="identityCard" jdbcType="VARCHAR"/>
+            <result column="address" property="address" jdbcType="VARCHAR"/>
+        </association>
+        <association property="carInfo" javaType="com.wmt.carmanage.entity.CarInfo">
+            <id column="car_id" property="id" jdbcType="INTEGER"/>
+            <result column="car_code" property="carCode" jdbcType="VARCHAR"/>
+            <result column="car_name" property="carName" jdbcType="VARCHAR"/>
+            <result column="car_model" property="carModel" jdbcType="VARCHAR"/>
+            <result column="car_color" property="carColor" jdbcType="VARCHAR"/>
+            <result column="engine_number" property="engineNumber" jdbcType="VARCHAR"/>
+            <result column="yieldly" property="yieldly" jdbcType="VARCHAR"/>
+            <result column="flow" property="flow" jdbcType="VARCHAR"/>
+            <result column="store_id" property="storeId" jdbcType="INTEGER"/>
+            <result column="manufacturer_id" property="manufacturerId" jdbcType="INTEGER"/>
+            <result column="production_date" property="productionDate"  jdbcType="DATE"/>
+            <result column="storage_date" property="storageDate" jdbcType="DATE" />
+            <result column="car_note" property="carNote" jdbcType="VARCHAR"/>
+        </association>
+    </resultMap>
+
+    <select id="getOrderInfoList" parameterType="map" resultMap="OrderInfoVoMap">
+        SELECT a.id,a.car_id,a.closing_cost,a.customer_id,a.use_status,
+                a.order_code,a.order_note,a.order_status,a.sales_date,
+                b.address,b.customer_code,b.customer_name,b.identity_card,b.sex,b.telphone,
+                c.car_code,c.car_color,c.car_model,c.car_name,c.car_note,c.engine_number,c.flow,
+                c.manufacturer_id,c.production_date,c.storage_date,c.store_id,c.yieldly
+        FROM order_info a
+        LEFT JOIN customer b ON a.customer_id = b.id
+        LEFT JOIN car_info c ON a.car_id = c.id
+        <where>
+            <if test="carCode != null and carCode !=''">
+                c.car_code LIKE CONCAT('%',#{carCode},'%')
+            </if>
+            <if test="carModel != null and carModel !=''">
+               and c.car_model LIKE CONCAT('%',#{carModel},'%')
+            </if>
+            <if test="orderCode != null and orderCode !=''">
+              and  a.order_code LIKE CONCAT('%',#{orderCode},'%')
+            </if>
+            <if test="customerName != null and customerName !=''">
+               and b.customer_name LIKE CONCAT('%',#{customerName},'%')
+            </if>
+            <if test="customerCode != null and customerCode !=''">
+               and  b.customer_code LIKE CONCAT('%',#{customerCode},'%')
+            </if>
+        </where>
+    </select>
+</mapper>

@@ -86,7 +86,7 @@ public class CarInfo implements Serializable {
     @TableField("img_url")
     private String imgUrl;
     /**
-     * 数据状态，0启用，1禁用，2删除
+     * 数据状态，0启用，1禁用，2删除,3已选
      */
     @TableField("use_status")
     private Integer useStatus;

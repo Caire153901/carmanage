@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wmt.carmanage.mapper.CarInfoMapper">
+    <resultMap id="CarInfoVoMap" type="com.wmt.carmanage.vo.CarInfoVo">
+        <result column="id"  property="id" jdbcType="INTEGER"/>
+        <result column="order_code"  property="carCode" jdbcType="VARCHAR"  />
+        <result column="closing_cost"  property="carName" jdbcType="VARCHAR"  />
+        <result column="sales_date"  property="carModel" jdbcType="VARCHAR"  />
+        <result column="sales_date"  property="carColor" jdbcType="VARCHAR"  />
+        <result column="sales_date"  property="engineNumber" jdbcType="VARCHAR"  />
+        <result column="sales_date"  property="yieldly" jdbcType="VARCHAR"  />
+        <result column="sales_date"  property="flow" jdbcType="VARCHAR"  />
+        <result column="sales_date"  property="productionDate" jdbcType="DATE"  />
+        <result column="sales_date"  property="storageDate" jdbcType="DATE"  />
+        <result column="order_status"  property="carNote" jdbcType="VARCHAR"/>
+        <result column="order_status"  property="carNote" jdbcType="imgUrl"/>
+        <result column="use_status"  property="useStatus" jdbcType="INTEGER"/>
+
+        <association property="storeInfo" javaType="com.wmt.carmanage.entity.StoreInfo">
+            <id column="store_id" property="id" jdbcType="INTEGER"/>
+            <result column="store_name" property="storeName" jdbcType="VARCHAR"/>
+            <result column="max_capacity" property="maxCapacity" jdbcType="INTEGER"/>
+            <result column="capacity" property="capacity" jdbcType="INTEGER"/>
+            <result column="address" property="address" jdbcType="VARCHAR"/>
+        </association>
+        <association property="manufacturer" javaType="com.wmt.carmanage.entity.Manufacturer">
+            <id column="manufacturer_id" property="id" jdbcType="INTEGER"/>
+            <result column="manufacturer_code" property="manufacturerCode" jdbcType="VARCHAR"/>
+            <result column="manufacturer_name" property="manufacturerName" jdbcType="VARCHAR"/>
+            <result column="linkman" property="linkman" jdbcType="VARCHAR"/>
+            <result column="telphone" property="telphone" jdbcType="VARCHAR"/>
+            <result column="postcode" property="postcode" jdbcType="VARCHAR"/>
+        </association>
+    </resultMap>
+
+    <select id="getCarInfoVoList" parameterType="map" resultMap="CarInfoVoMap">
+        SELECT a.id,a.car_code,a.car_name,a.car_color,a.car_model,a.car_note,a.engine_number,a.store_id,
+                a.flow,a.img_url,a.manufacturer_id,a.production_date,a.storage_date,a.use_status,a.yieldly,
+                b.address,b.capacity,b.max_capacity,b.store_name,c.linkman,c.manufacturer_code,c.manufacturer_name,c.postcode,c.postcode,c.telphone
+        FROM car_info a
+        LEFT JOIN store_info b ON a.store_id = b.id
+        LEFT JOIN manufacturer c ON a.manufacturer_id = c.id
+        <where>
+            <if test="carCode != null and carCode !=''">
+                a.car_code LIKE CONCAT('%',#{carCode},'%')
+            </if>
+            <if test="carName != null and carName !=''">
+                and a.car_name LIKE CONCAT('%',#{carName},'%')
+            </if>
+            <if test="carModel != null and carModel !=''">
+                and  a.car_model LIKE CONCAT('%',#{carModel},'%')
+            </if>
+            <if test="manufacturerId != null and manufacturerId !=''">
+                and a.manufacturer_id = #{customerName}
+            </if>
+            <if test="storeInfoId != null and storeInfoId !=''">
+                and  a.store_id =#{storeInfoId}
+            </if>
+            <if test="useStatus != null and useStatus !=''">
+                and  a.use_status =#{useStatus}
+            </if>
+            <if test="storageStartDate!=null and storageStartDate!='' and storageEndDate!=null and storageEndDate!=''">
+                AND date_format(a.storage_date,'%Y-%m-%d') <![CDATA[ >= ]]> #{storageStartDate}
+                AND date_format(a.storage_date,'%Y-%m-%d') <![CDATA[ <= ]]> #{storageEndDate}
+            </if>
+            <if test="productionStartDate!=null and productionStartDate!='' and productionEndDate!=null and productionEndDate!=''">
+                AND date_format(a.production_date,'%Y-%m-%d') <![CDATA[ >= ]]> #{productionStartDate}
+                AND date_format(a.production_date,'%Y-%m-%d') <![CDATA[ <= ]]> #{productionEndDate}
+            </if>
+        </where>
+    </select>
+</mapper>

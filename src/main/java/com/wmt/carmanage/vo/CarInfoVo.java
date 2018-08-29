@@ -50,7 +50,7 @@ public class CarInfoVo {
     /**
      * 所属厂商
      */
-    private Manufacturer manufacturerId;
+    private Manufacturer manufacturer;
     /**
      * 生产日期
      */
@@ -68,7 +68,7 @@ public class CarInfoVo {
      */
     private String imgUrl;
     /**
-     * 数据状态，0启用，1禁用，2删除
+     * 数据状态，0启用，1禁用，2删除，3已选
      */
     private Integer useStatus;
 }

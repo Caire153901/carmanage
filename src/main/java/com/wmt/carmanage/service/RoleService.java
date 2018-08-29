@@ -34,4 +34,36 @@ public interface RoleService extends IService<Role> {
      */
     Page<RoleVo> getRoleList(String roleName,Integer current,String sort,Boolean asc,Integer pageSize)throws Exception;
 
+    /**
+     * 新增
+     * @param role
+     * @return
+     * @throws Exception
+     */
+    boolean saveRole(Role role) throws Exception;
+
+    /**
+     * 修改
+     * @param role
+     * @return
+     * @throws Exception
+     */
+    boolean editRole(Role role) throws Exception;
+
+    /**
+     * 删除
+     * @param id
+     * @return
+     * @throws Exception
+     */
+    boolean deleteRole(Integer id) throws Exception;
+
+    /**
+     * 禁用/启用
+     * @param id
+     * @return
+     * @throws Exception
+     */
+    boolean enableRole(Integer id,byte type) throws Exception;
+
 }

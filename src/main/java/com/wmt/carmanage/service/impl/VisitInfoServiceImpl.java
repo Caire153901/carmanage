@@ -86,4 +86,39 @@ public class VisitInfoServiceImpl extends ServiceImpl<VisitInfoMapper, VisitInfo
         }
         return page;
     }
+
+    /**
+     * 新增
+     * @param visitInfo
+     * @return
+     * @throws Exception
+     */
+    @Override
+    public boolean saveVisitInfo(VisitInfo visitInfo) throws Exception {
+        return super.insert(visitInfo);
+    }
+
+    /**
+     * 修改
+     * @param visitInfo
+     * @return
+     * @throws Exception
+     */
+    @Override
+    public boolean editVisitInfo(VisitInfo visitInfo) throws Exception {
+        return super.updateById(visitInfo);
+    }
+
+    /**
+     * 删除
+     * @param id
+     * @return
+     * @throws Exception
+     */
+    @Override
+    public boolean deleteVisitInfo(Integer id) throws Exception {
+        VisitInfo old = super.selectById(id);
+        old.setUseStatus(2);
+        return super.updateById(old);
+    }
 }

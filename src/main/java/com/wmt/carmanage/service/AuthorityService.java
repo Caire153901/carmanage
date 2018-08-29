@@ -29,4 +29,36 @@ public interface AuthorityService extends IService<Authority> {
      */
     Page<AuthorityVo> getAuthorityList(String authorityName, Integer parentId,Integer current, String sort, Boolean asc, Integer pageSize) throws Exception;
 
+    /**
+     * 新增
+     * @param authority
+     * @return
+     * @throws Exception
+     */
+    boolean saveAuthority(Authority authority) throws Exception;
+
+    /**
+     * 修改
+     * @param authority
+     * @return
+     * @throws Exception
+     */
+    boolean editAuthority(Authority authority) throws Exception;
+
+    /**
+     * 删除
+     * @param id
+     * @return
+     * @throws Exception
+     */
+    boolean deleteAuthority(Integer id) throws Exception;
+
+    /**
+     * 禁用/启用
+     * @param id
+     * @return
+     * @throws Exception
+     */
+    boolean enableAuthority(Integer id,byte type) throws Exception;
+
 }

@@ -44,6 +44,11 @@ public class StoreInfo implements Serializable {
      */
     private Integer capacity;
     /**
+     * 仓库余量
+     */
+    @TableField("margin_capacity")
+    private Integer marginCapacity;
+    /**
      * 创建时间
      */
     @TableField("gmt_create")
@@ -59,6 +64,14 @@ public class StoreInfo implements Serializable {
     @TableField("use_status")
     private Integer useStatus;
 
+
+    public Integer getMarginCapacity() {
+        return marginCapacity;
+    }
+
+    public void setMarginCapacity(Integer marginCapacity) {
+        this.marginCapacity = marginCapacity;
+    }
 
     public Integer getId() {
         return id;

@@ -28,4 +28,36 @@ public interface ManufacturerService extends IService<Manufacturer> {
      */
     Page<ManufacturerVo> getManufacturerList(String manufacturerCode, String manufacturerName, Integer current, String sort, Boolean asc, Integer pageSize) throws Exception;
 
+    /**
+     * 新增
+     * @param manufacturer
+     * @return
+     * @throws Exception
+     */
+    boolean saveManufacturer(Manufacturer manufacturer) throws Exception;
+
+    /**
+     * 修改
+     * @param manufacturer
+     * @return
+     * @throws Exception
+     */
+    boolean editManufacturer(Manufacturer manufacturer) throws Exception;
+
+    /**
+     * 删除
+     * @param id
+     * @return
+     * @throws Exception
+     */
+    boolean deleteManufacturer(Integer id) throws Exception;
+
+    /**
+     * 禁用/启用
+     * @param id
+     * @return
+     * @throws Exception
+     */
+    boolean enableManufacturer(Integer id,byte type) throws Exception;
+
 }

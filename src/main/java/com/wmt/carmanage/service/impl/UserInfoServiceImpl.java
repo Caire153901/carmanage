@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.mapper.Wrapper;
 import com.baomidou.mybatisplus.plugins.Page;
 import com.wmt.carmanage.entity.Role;
 import com.wmt.carmanage.entity.UserInfo;
+import com.wmt.carmanage.exception.BaseException;
 import com.wmt.carmanage.mapper.UserInfoMapper;
 import com.wmt.carmanage.service.AuthorityService;
 import com.wmt.carmanage.service.RoleService;
@@ -84,5 +85,65 @@ public class UserInfoServiceImpl extends ServiceImpl<UserInfoMapper, UserInfo> i
             page = page.setRecords(userInfoVoList);
         }
         return page;
+    }
+
+    /**
+     * 新增
+     * @param userInfo
+     * @return
+     * @throws Exception
+     */
+    @Override
+    public boolean saveUserInfo(UserInfo userInfo) throws Exception {
+        EntityWrapper<UserInfo> wrapper = new EntityWrapper<>();
+        wrapper.eq("account",userInfo.getAccount());
+        List<UserInfo> list = super.selectList(wrapper);
+        if(list.size()>0){
+           throw new BaseException("用户名【"+userInfo.getAccount()+"】已存在");
+        }else{
+            return super.insert(userInfo);
+        }
+    }
+
+    /**
+     * 修改
+     * @param userInfo
+     * @return
+     * @throws Exception
+     */
+    @Override
+    public boolean editUserInfo(UserInfo userInfo) throws Exception {
+        return super.updateById(userInfo);
+    }
+
+    /**
+     * 删除
+     * @param id
+     * @return
+     * @throws Exception
+     */
+    @Override
+    public boolean deleteUserInfo(Integer id) throws Exception {
+        UserInfo old = super.selectById(id);
+        old.setUseStatus(2);
+        return super.updateById(old);
+    }
+
+    /**
+     * 禁用
+     * @param id
+     * @param type
+     * @return
+     * @throws Exception
+     */
+    @Override
+    public boolean enableUserInfo(Integer id, byte type) throws Exception {
+        UserInfo old = super.selectById(id);
+        if(type==0){
+            old.setUseStatus(0);
+        }else if(type==1){
+            old.setUseStatus(1);
+        }
+        return super.updateById(old);
     }
 }

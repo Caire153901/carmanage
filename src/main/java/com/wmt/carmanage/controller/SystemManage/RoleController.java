@@ -1,13 +1,12 @@
 package com.wmt.carmanage.controller.SystemManage;
 
 import com.baomidou.mybatisplus.plugins.Page;
+import com.wmt.carmanage.entity.Role;
 import com.wmt.carmanage.service.RoleService;
 import com.wmt.carmanage.vo.RoleVo;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.constraints.Max;
 import java.util.List;
@@ -49,4 +48,51 @@ public class RoleController {
             throws Exception{
         return roleService.getRoleList(roleName, current, sort, asc, pageSize);
     }
+
+    /**
+     * 添加
+     * @param role
+     * @return
+     * @throws Exception
+     */
+    @PostMapping("/add")
+    public boolean saveRole(@Validated Role role) throws Exception{
+        return roleService.saveRole(role);
+    }
+
+    /**
+     * 修改
+     * @param role
+     * @return
+     * @throws Exception
+     */
+    @PostMapping("/edit")
+    public boolean updateRole(@Validated Role role) throws Exception{
+        return roleService.editRole(role);
+    }
+
+
+    /**
+     * 删除
+     * @param id
+     * @return
+     * @throws Exception
+     */
+    @PostMapping("/delete")
+    public boolean deleteRole(@RequestParam Integer id) throws Exception{
+        return roleService.deleteRole(id);
+    }
+
+    /**
+     * 启用/禁用
+     * @param id
+     * @param type
+     * @return
+     * @throws Exception
+     */
+    @PostMapping("/enable")
+    public boolean enableRole(@RequestParam Integer id,@RequestParam byte type) throws Exception{
+        return roleService.enableRole(id,type);
+    }
+    
 }

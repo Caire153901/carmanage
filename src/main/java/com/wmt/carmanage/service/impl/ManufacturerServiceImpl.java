@@ -1,13 +1,16 @@
 package com.wmt.carmanage.service.impl;
 
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
+import com.baomidou.mybatisplus.mapper.Wrapper;
 import com.baomidou.mybatisplus.plugins.Page;
 import com.wmt.carmanage.entity.Manufacturer;
+import com.wmt.carmanage.exception.BaseException;
 import com.wmt.carmanage.mapper.ManufacturerMapper;
 import com.wmt.carmanage.service.ManufacturerService;
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
 import com.wmt.carmanage.vo.ManufacturerVo;
 import org.springframework.beans.BeanUtils;
+import org.springframework.beans.BeansException;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -61,5 +64,77 @@ public class ManufacturerServiceImpl extends ServiceImpl<ManufacturerMapper, Man
             page = page.setRecords(manufacturerVoList);
         }
         return page;
+    }
+
+    /**
+     * 新增
+     * @param manufacturer
+     * @return
+     * @throws Exception
+     */
+    @Override
+    public boolean saveManufacturer(Manufacturer manufacturer) throws Exception {
+        Wrapper<Manufacturer> wrapper = new EntityWrapper<>();
+        wrapper.eq("manufacturer_name",manufacturer.getManufacturerName());
+        wrapper.or("manufacturer_code",manufacturer.getManufacturerCode());
+        wrapper.notIn("use_status","0,1");
+        List<Manufacturer> list = super.selectList(wrapper);
+        if(list.size()>0){
+            throw new BaseException("厂商名："+manufacturer.getManufacturerName()+",或厂商编号"+manufacturer.getManufacturerCode()+"已存在");
+        }else{
+            return super.insert(manufacturer);
+        }
+    }
+
+    /**
+     * 修改
+     * @param manufacturer
+     * @return
+     * @throws Exception
+     */
+    @Override
+    public boolean editManufacturer(Manufacturer manufacturer) throws Exception {
+        Wrapper<Manufacturer> wrapper = new EntityWrapper<>();
+        Manufacturer old = super.selectById(manufacturer.getId());
+        if(!manufacturer.getManufacturerName().equals(old.getManufacturerName())){
+            wrapper.eq("manufacturer_name",manufacturer.getManufacturerName());
+            wrapper.notIn("use_status","0,1");
+            List<Manufacturer> list = super.selectList(wrapper);
+            if(list.size()>0){
+                throw new BaseException("厂商名："+manufacturer.getManufacturerName()+"已存在");
+            }
+        }
+        return super.updateById(manufacturer);
+    }
+
+    /**
+     * 删除
+     * @param id
+     * @return
+     * @throws Exception
+     */
+    @Override
+    public boolean deleteManufacturer(Integer id) throws Exception {
+        Manufacturer old = super.selectById(id);
+        old.setUseStatus(2);
+        return super.updateById(old);
+    }
+
+    /**
+     * 启用/禁用
+     * @param id
+     * @param type
+     * @return
+     * @throws Exception
+     */
+    @Override
+    public boolean enableManufacturer(Integer id, byte type) throws Exception {
+        Manufacturer old = super.selectById(id);
+        if(type==0){//启用
+            old.setUseStatus(0);
+        }else if(type==1){//禁用
+            old.setUseStatus(1);
+        }
+        return super.updateById(old);
     }
 }
