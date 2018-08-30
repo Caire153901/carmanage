@@ -11,8 +11,8 @@ import com.wmt.carmanage.vo.CustomerVo;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * <p>
@@ -135,5 +135,29 @@ public class CustomerServiceImpl extends ServiceImpl<CustomerMapper, Customer> i
             old.setUseStatus(1);
         }
         return super.updateById(old);
+    }
+
+    /**
+     * 按照省会分布进行客户统计
+     * @return
+     */
+    @Override
+    public Map getCustomerPie() {
+        Map map = new HashMap();
+        Set<String> legendData = new LinkedHashSet<>();
+        List<Map<String,Object>> data = new ArrayList<>();
+        Map<String,Object> valueMap = new HashMap<>();
+        EntityWrapper<Customer> wrapper = new EntityWrapper<>();
+        List<Customer> list = super.selectList(wrapper);
+        Map<String, Long> collects = list.stream().collect(Collectors.groupingBy(Customer::getProvincial, Collectors.counting()));
+        collects.forEach((key,value)->{
+            legendData.add(key);
+            valueMap.put("name",key);
+            valueMap.put("value",value);
+            data.add(valueMap);
+        });
+        map.put("legendData",legendData);
+        map.put("seriesData",data);
+        return map;
     }
 }

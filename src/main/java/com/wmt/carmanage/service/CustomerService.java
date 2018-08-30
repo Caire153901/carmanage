@@ -5,6 +5,8 @@ import com.wmt.carmanage.entity.Customer;
 import com.baomidou.mybatisplus.service.IService;
 import com.wmt.carmanage.vo.CustomerVo;
 
+import java.util.Map;
+
 /**
  * <p>
  * 客户信息表 服务类
@@ -57,6 +59,12 @@ public interface CustomerService extends IService<Customer> {
      * @throws Exception
      */
     boolean enableCustomer(Integer id,byte type) throws Exception;
+
+    /**
+     * 客户统计
+     * @return
+     */
+    Map getCustomerPie();
 
 
 }

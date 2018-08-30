@@ -51,6 +51,10 @@ public class Customer implements Serializable {
      */
     private String address;
     /**
+     * 省
+     */
+    private String provincial;
+    /**
      * 数据状态,0启用，1禁用，2删除
      */
     @TableField("use_status")
@@ -66,6 +70,14 @@ public class Customer implements Serializable {
     @TableField("gmt_modify")
     private Date gmtModify;
 
+
+    public String getProvincial() {
+        return provincial;
+    }
+
+    public void setProvincial(String provincial) {
+        this.provincial = provincial;
+    }
 
     public Integer getId() {
         return id;

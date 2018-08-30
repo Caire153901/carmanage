@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.service.IService;
 import com.wmt.carmanage.vo.StoreInfoVo;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * <p>

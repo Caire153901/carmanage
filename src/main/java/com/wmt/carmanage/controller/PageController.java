@@ -173,6 +173,45 @@ public class PageController {
         return "/store/stock_list";
     }
 
+    /**
+     * 统计的库存统计分析
+     * @return
+     */
+    @RequestMapping(value = "/statistics/store")
+    public String storeStatistics(HttpSession session) {
+        UserInfo userInfo = (UserInfo) session.getAttribute(Const.USER_KEY);
+        if(null==userInfo){
+            return "redirect:/login";
+        }
+        return "/statistics/statistics_store";
+    }
+
+    /**
+     * 统计的销售趋势分析
+     * @return
+     */
+    @RequestMapping(value = "/statistics/order")
+    public String carOrderStatistics(HttpSession session) {
+        UserInfo userInfo = (UserInfo) session.getAttribute(Const.USER_KEY);
+        if(null==userInfo){
+            return "redirect:/login";
+        }
+        return "/statistics/statistics_order";
+    }
+
+    /**
+     * 统计的客户分析
+     * @return
+     */
+    @RequestMapping(value = "/statistics/customer")
+    public String customerStatistics(HttpSession session) {
+        UserInfo userInfo = (UserInfo) session.getAttribute(Const.USER_KEY);
+        if(null==userInfo){
+            return "redirect:/login";
+        }
+        return "/statistics/statistics_customer";
+    }
+
 
 
 

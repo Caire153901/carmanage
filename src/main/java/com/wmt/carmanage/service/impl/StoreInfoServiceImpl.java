@@ -157,4 +157,5 @@ public class StoreInfoServiceImpl extends ServiceImpl<StoreInfoMapper, StoreInfo
         }
         return super.updateById(old);
     }
+
 }

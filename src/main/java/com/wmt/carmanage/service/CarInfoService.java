@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.service.IService;
 import com.wmt.carmanage.vo.CarInfoVo;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * <p>
@@ -59,5 +60,12 @@ public interface CarInfoService extends IService<CarInfo> {
      * @return
      */
     boolean editCarInfoStore(CarInfo carInfo);
+
+    /**
+     * 根据仓库ID获取仓库车辆情况
+     * @param storeId
+     * @return
+     */
+    Map getStorePieByStoreId(Integer storeId);
 
 }

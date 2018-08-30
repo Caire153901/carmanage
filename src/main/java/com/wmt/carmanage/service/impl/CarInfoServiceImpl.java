@@ -15,10 +15,9 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 /**
  * <p>
@@ -142,5 +141,31 @@ public class CarInfoServiceImpl extends ServiceImpl<CarInfoMapper, CarInfo> impl
         storeInfo.setMarginCapacity(storeInfo.getMarginCapacity()-1);
         storeInfoService.updateById(storeInfo);
         return super.updateById(carInfo);
+    }
+
+    /**
+     * 根据仓库ID获取车辆统计情况
+     * @param storeId
+     * @return
+     */
+    @Override
+    public Map getStorePieByStoreId(Integer storeId) {
+        Map map = new HashMap();
+        Set<String> legendData = new LinkedHashSet<>();
+        List<Map<String,Object>> data = new ArrayList<>();
+        Map<String,Object> valueMap = new HashMap<>();
+        EntityWrapper<CarInfo> wrapper = new EntityWrapper<>();
+        wrapper.eq("store_id",storeId);
+        List<CarInfo> list = super.selectList(wrapper);
+        Map<String, Long> collect = list.stream().collect(Collectors.groupingBy(CarInfo::getCarName, Collectors.counting()));
+        collect.forEach((key,value)->{
+            legendData.add(key);
+            valueMap.put("name",key);
+            valueMap.put("value",value);
+            data.add(valueMap);
+        });
+        map.put("legendData",legendData);
+        map.put("seriesData",data);
+        return map;
     }
 }

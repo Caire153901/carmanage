@@ -34,6 +34,10 @@ public class CustomerVo {
      */
     private String address;
     /**
+     * 省
+     */
+    private String provincial;
+    /**
      * 数据状态,0启用，1禁用，2删除
      */
     private Integer useStatus;

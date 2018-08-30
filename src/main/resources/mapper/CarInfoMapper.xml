@@ -3,17 +3,17 @@
 <mapper namespace="com.wmt.carmanage.mapper.CarInfoMapper">
     <resultMap id="CarInfoVoMap" type="com.wmt.carmanage.vo.CarInfoVo">
         <result column="id"  property="id" jdbcType="INTEGER"/>
-        <result column="order_code"  property="carCode" jdbcType="VARCHAR"  />
-        <result column="closing_cost"  property="carName" jdbcType="VARCHAR"  />
-        <result column="sales_date"  property="carModel" jdbcType="VARCHAR"  />
-        <result column="sales_date"  property="carColor" jdbcType="VARCHAR"  />
-        <result column="sales_date"  property="engineNumber" jdbcType="VARCHAR"  />
-        <result column="sales_date"  property="yieldly" jdbcType="VARCHAR"  />
-        <result column="sales_date"  property="flow" jdbcType="VARCHAR"  />
-        <result column="sales_date"  property="productionDate" jdbcType="DATE"  />
-        <result column="sales_date"  property="storageDate" jdbcType="DATE"  />
-        <result column="order_status"  property="carNote" jdbcType="VARCHAR"/>
-        <result column="order_status"  property="carNote" jdbcType="imgUrl"/>
+        <result column="car_code"  property="carCode" jdbcType="VARCHAR"  />
+        <result column="car_name"  property="carName" jdbcType="VARCHAR"  />
+        <result column="car_model"  property="carModel" jdbcType="VARCHAR"  />
+        <result column="car_color"  property="carColor" jdbcType="VARCHAR"  />
+        <result column="engine_number"  property="engineNumber" jdbcType="VARCHAR"  />
+        <result column="yieldly"  property="yieldly" jdbcType="VARCHAR"  />
+        <result column="flow"  property="flow" jdbcType="VARCHAR"  />
+        <result column="production_date"  property="productionDate" jdbcType="DATE"  />
+        <result column="storage_date"  property="storageDate" jdbcType="DATE"  />
+        <result column="car_note"  property="carNote" jdbcType="VARCHAR"/>
+        <result column="img_url"  property="imgUrl" jdbcType="VARCHAR"/>
         <result column="use_status"  property="useStatus" jdbcType="INTEGER"/>
 
         <association property="storeInfo" javaType="com.wmt.carmanage.entity.StoreInfo">

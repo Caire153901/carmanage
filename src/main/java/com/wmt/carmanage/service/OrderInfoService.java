@@ -5,6 +5,8 @@ import com.wmt.carmanage.entity.OrderInfo;
 import com.baomidou.mybatisplus.service.IService;
 import com.wmt.carmanage.vo.OrderInfoVo;
 
+import java.util.Map;
+
 /**
  * <p>
  * 订单信息表 服务类
@@ -55,5 +57,12 @@ public interface OrderInfoService extends IService<OrderInfo> {
      * @throws Exception
      */
     boolean deleteOrderInfo(Integer id) throws Exception;
+
+    /**
+     * 根据年份获取车辆销售趋势图
+     * @param year
+     * @return
+     */
+    Map getOrderLineByYear(Integer year);
 
 }
