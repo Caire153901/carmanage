@@ -10,41 +10,47 @@ import org.springframework.test.context.junit4.SpringRunner;
 import java.util.Map;
 
 /**
- * 统计管理测试
+ * 仓库管理测试
  */
-@RunWith(SpringRunner.class)
 @SpringBootTest
-public class StatisticsControllerTest extends BaseTest {
-
+@RunWith(SpringRunner.class)
+public class StoreManageTest extends BaseTest{
 
     /**
-     * 仓库饼图
+     * 汽车列表
      */
     @Test
-    public void getStatisticsStorePie() {
-        String url = "/statistics/store/pie";
+    public void getCarList() {
+        String url = "/car_info/list";
         Map<String,String> params = Maps.newHashMap();
-        params.put("storeId", "1");
+        doGet(url, params);
+    }
+     /**
+     * 汽车类型下拉列表
+     */
+    @Test
+    public void getCarSelectList() {
+        String url = "/car_info/car_type_select";
+        Map<String,String> params = Maps.newHashMap();
         doGet(url, params);
     }
 
     /**
-     * 客户饼图
+     * 仓库列表
      */
     @Test
-    public void getStatisticsCustomerPie() {
-        String url = "/statistics/customer/pie";
+    public void getStoreList() {
+        String url = "/store/list";
         Map<String,String> params = Maps.newHashMap();
         doGet(url, params);
     }
-    /**
-     * 销售线图
+     /**
+     * 仓库下拉列表
      */
     @Test
-    public void getStatisticsOrderLine() {
-        String url = "/statistics/order/line";
+    public void getStoreSelectList() {
+        String url = "/store/store_select";
         Map<String,String> params = Maps.newHashMap();
-        params.put("year", "2018");
         doGet(url, params);
     }
 

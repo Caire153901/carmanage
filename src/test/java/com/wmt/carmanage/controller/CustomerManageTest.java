@@ -10,41 +10,38 @@ import org.springframework.test.context.junit4.SpringRunner;
 import java.util.Map;
 
 /**
- * 统计管理测试
+ * 客户管理测试
  */
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class StatisticsControllerTest extends BaseTest {
+public class CustomerManageTest extends BaseTest {
 
 
     /**
-     * 仓库饼图
+     * 客户列表
      */
     @Test
-    public void getStatisticsStorePie() {
-        String url = "/statistics/store/pie";
-        Map<String,String> params = Maps.newHashMap();
-        params.put("storeId", "1");
-        doGet(url, params);
-    }
-
-    /**
-     * 客户饼图
-     */
-    @Test
-    public void getStatisticsCustomerPie() {
-        String url = "/statistics/customer/pie";
+    public void getCustomerList() {
+        String url = "/customer/list";
         Map<String,String> params = Maps.newHashMap();
         doGet(url, params);
     }
     /**
-     * 销售线图
+     * 厂商列表
      */
     @Test
-    public void getStatisticsOrderLine() {
-        String url = "/statistics/order/line";
+    public void getManufacturerList() {
+        String url = "/manufacturer/list";
         Map<String,String> params = Maps.newHashMap();
-        params.put("year", "2018");
+        doGet(url, params);
+    }
+    /**
+     * 回访信息列表
+     */
+    @Test
+    public void getVisitList() {
+        String url = "/visit/list";
+        Map<String,String> params = Maps.newHashMap();
         doGet(url, params);
     }
 

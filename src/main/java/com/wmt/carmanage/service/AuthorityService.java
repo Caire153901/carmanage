@@ -61,4 +61,18 @@ public interface AuthorityService extends IService<Authority> {
      */
     boolean enableAuthority(Integer id,byte type) throws Exception;
 
+    /**
+     * 根据角色ID获取权限
+     * @param roleId
+     * @return
+     */
+    List<AuthorityVo> getAuthorityListByRoleId(Integer roleId);
+
+    /**
+     * 根据角色ID获取权限拼接
+     * @param roleId
+     * @return
+     */
+    String getAuthorityNamesByRoleId(Integer roleId);
+
 }

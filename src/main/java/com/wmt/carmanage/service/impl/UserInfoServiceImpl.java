@@ -79,7 +79,7 @@ public class UserInfoServiceImpl extends ServiceImpl<UserInfoMapper, UserInfo> i
                 BeanUtils.copyProperties(userInfo,vo);
                 Role role = roleService.selectById(userInfo.getRoleId());
                 vo.setRoleName(role.getRoleName());
-                vo.setAuthorityNames(ToolFunctions.getAuthorityNamesByRoleId(role.getId()));
+                vo.setAuthorityNames(authorityService.getAuthorityNamesByRoleId(role.getId()));
                 userInfoVoList.add(vo);
             });
             page = page.setRecords(userInfoVoList);
