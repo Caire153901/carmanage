@@ -17,11 +17,27 @@ public class PageController {
      * 登录
      * @return
      */
+    @RequestMapping("/")
+    public String  mains() {
+        return "login";
+    }
+
+    /**
+     * 登录
+     * @return
+     */
     @RequestMapping("/login")
     public String  login() {
         return "login";
     }
-
+    /**
+     * 退出跳到登录页面
+     * @return
+     */
+    @RequestMapping("/logout")
+    public String logout(){
+        return "login";
+    }
     /**
      * 主页面
      * @return
@@ -34,6 +50,14 @@ public class PageController {
         }
         model.addAttribute("userInfo",userInfo);
         return "main";
+    }
+    /**
+     * 首页
+     * @return
+     */
+    @RequestMapping("/firstPage")
+    public String fistPage(){
+        return "firstPage";
     }
     /**
      *  流水号页面跳转
