@@ -37,13 +37,13 @@ public class UserController {
     public Page<UserInfoVo> getSerialNumberList(
             @RequestParam(value = "account",required = false) String account,
             @RequestParam(value = "userName",required = false) String userName,
-            @RequestParam(value = "userInfoId",required = false) Integer userInfoId,
+            @RequestParam(value = "roleId",required = false) Integer roleId,
             @RequestParam(value = "current",required = false,defaultValue = "1") Integer current,
             @RequestParam(value = "sort",required = false,defaultValue = "gmtModified") String sort,
             @RequestParam(value = "asc",required = false) Boolean asc,
             @Max(value = 100,message = "每页条数不超过100") @RequestParam(value = "pageSize",required = false,defaultValue = "10") Integer pageSize)
             throws Exception{
-        return userInfoService.getUserInfoList(account, userName, userInfoId, current, sort, asc, pageSize);
+        return userInfoService.getUserInfoList(account, userName, roleId, current, sort, asc, pageSize);
     }
 
     /**

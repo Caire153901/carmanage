@@ -44,7 +44,7 @@ public class StoreInfoController {
                                          @RequestParam(value = "storeName",required = false) String storeName,
                                          @RequestParam(value = "isChoose",required = false) Boolean isChoose,
                                          @RequestParam(value = "current",required = false,defaultValue = "1") Integer current,
-                                         @RequestParam(value = "sort",required = false,defaultValue = "gmtModified") String sort,
+                                         @RequestParam(value = "sort",required = false,defaultValue = "gmtModify") String sort,
                                          @RequestParam(value = "asc",required = false) Boolean asc,
                                          @Max(value = 100,message = "每页条数不超过100") @RequestParam(value = "pageSize",required = false,defaultValue = "10") Integer pageSize)
             throws Exception{

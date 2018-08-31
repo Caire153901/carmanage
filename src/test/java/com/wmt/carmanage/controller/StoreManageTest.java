@@ -32,6 +32,7 @@ public class StoreManageTest extends BaseTest{
     public void getCarSelectList() {
         String url = "/car_info/car_type_select";
         Map<String,String> params = Maps.newHashMap();
+        params.put("storeId","1");
         doGet(url, params);
     }
 

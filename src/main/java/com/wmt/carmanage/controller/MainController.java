@@ -30,8 +30,6 @@ public class MainController extends BaseController {
     @Autowired
     AuthorityService authorityService;
 
-
-
      /**
      * 获取当前用户可用菜单
      * 返回一级菜单

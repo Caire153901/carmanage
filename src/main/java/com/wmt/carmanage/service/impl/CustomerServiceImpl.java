@@ -37,7 +37,7 @@ public class CustomerServiceImpl extends ServiceImpl<CustomerMapper, Customer> i
     @Override
     public Page<CustomerVo> getCustomerList(String customerName,String customerCode, Integer current, String sort, Boolean asc, Integer pageSize) throws Exception {
         if(null==sort){
-            sort = "gmtModified";
+            sort = "gmtModify";
         }
         if(null==asc){
             asc = false;

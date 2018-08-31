@@ -55,7 +55,7 @@ public class UserInfoServiceImpl extends ServiceImpl<UserInfoMapper, UserInfo> i
     @Override
     public Page<UserInfoVo> getUserInfoList(String account, String userName, Integer roleId, Integer current, String sort, Boolean asc, Integer pageSize) throws Exception {
         if(null==sort){
-            sort ="gmt_modified";
+            sort ="gmtModified";
         }
         if(null==asc){
             asc = false;

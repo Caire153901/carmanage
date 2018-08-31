@@ -1,5 +1,6 @@
 package com.wmt.carmanage.vo;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.wmt.carmanage.entity.Customer;
 import com.wmt.carmanage.entity.OrderInfo;
 import lombok.Data;
@@ -27,6 +28,7 @@ public class VisitInfoVo {
     /**
      * 回访时间
      */
+    @JsonFormat(pattern = "yyyy-MM-dd",timezone = "GMT+8")
     private Date visitDate;
     /**
      * 回访事件

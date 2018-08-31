@@ -86,8 +86,10 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements Ro
             rolePage.getRecords().stream().forEach(role -> {
                 RoleVo vo = new RoleVo();
                 BeanUtils.copyProperties(role, vo);
-                List<AuthorityVo> authorityVos = authorityService.getAuthorityListByRoleId(role.getId());
-                vo.setAuthorityVoList(authorityVos);
+             //   List<AuthorityVo> authorityVos = authorityService.getAuthorityListByRoleId(role.getId());
+                String authName = authorityService.getAuthorityNamesByRoleId(role.getId());
+              //  vo.setAuthorityVoList(authorityVos);
+                vo.setAuthorityNames(authName);
                 roleVoList.add(vo);
             });
             page = page.setRecords(roleVoList);  //查出的list调用setRecords

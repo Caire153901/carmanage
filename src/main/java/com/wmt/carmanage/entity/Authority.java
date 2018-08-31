@@ -62,6 +62,7 @@ public class Authority implements Serializable {
     /**
      * 子菜单
      */
+    @TableField(exist = false)
     private List<Authority> childList;
 
     public String getUrl() {

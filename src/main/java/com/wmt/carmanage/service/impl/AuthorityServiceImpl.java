@@ -49,7 +49,7 @@ public class AuthorityServiceImpl extends ServiceImpl<AuthorityMapper, Authority
     @Override
     public Page<AuthorityVo> getAuthorityList(String authorityName, Integer parentId,Integer current, String sort, Boolean asc, Integer pageSize) throws Exception {
         if(null==sort){
-            sort = "authority_order";
+            sort = "authorityOrder";
         }
         if (null==asc){
             asc = true;

@@ -21,7 +21,7 @@ public interface UserInfoService extends IService<UserInfo> {
      * 用户列表
      * @param account
      * @param userName
-     * @param userInfoId
+     * @param roleId
      * @param current
      * @param sort
      * @param asc
@@ -29,7 +29,7 @@ public interface UserInfoService extends IService<UserInfo> {
      * @return
      * @throws Exception
      */
-    Page<UserInfoVo> getUserInfoList(String account,String userName,Integer userInfoId, Integer current, String sort, Boolean asc, Integer pageSize)throws Exception;
+    Page<UserInfoVo> getUserInfoList(String account,String userName,Integer roleId, Integer current, String sort, Boolean asc, Integer pageSize)throws Exception;
 
     /**
      * 新增

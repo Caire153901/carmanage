@@ -30,4 +30,8 @@ public class RoleVo {
      * 权限
      */
     private List<AuthorityVo> authorityVoList;
+    /**
+     * 权限名
+     */
+    private String authorityNames;
 }

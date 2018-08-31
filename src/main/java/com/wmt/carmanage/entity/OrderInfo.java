@@ -4,6 +4,8 @@ import java.math.BigDecimal;
 import java.util.Date;
 import com.baomidou.mybatisplus.annotations.TableField;
 import com.baomidou.mybatisplus.annotations.TableName;
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.io.Serializable;
 
 /**
@@ -47,6 +49,7 @@ public class OrderInfo implements Serializable {
      * 销售日期
      */
     @TableField("sales_date")
+    @JsonFormat(pattern = "yyyy-MM-dd",timezone = "GMT+8")
     private Date salesDate;
     /**
      * 订单状态,0未出库，1已出库，2在运，3已送达
@@ -57,6 +60,7 @@ public class OrderInfo implements Serializable {
      * 订单说明
      */
     @TableField("order_note")
+    @JsonFormat(pattern = "yyyy-MM-dd",timezone = "GMT+8")
     private String orderNote;
     /**
      * 数据状态，0启用，1禁用，2删除
@@ -67,11 +71,13 @@ public class OrderInfo implements Serializable {
      * 创建时间
      */
     @TableField("gmt_create")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
     private Date gmtCreate;
     /**
      * 修改时间
      */
     @TableField("gmt_modify")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
     private Date gmtModify;
 
 

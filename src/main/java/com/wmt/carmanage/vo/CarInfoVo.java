@@ -1,5 +1,6 @@
 package com.wmt.carmanage.vo;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.wmt.carmanage.entity.Manufacturer;
 import com.wmt.carmanage.entity.StoreInfo;
 import lombok.Data;
@@ -54,10 +55,12 @@ public class CarInfoVo {
     /**
      * 生产日期
      */
+    @JsonFormat(pattern = "yyyy-MM-dd",timezone = "GMT+8")
     private Date productionDate;
     /**
      * 入库日期
      */
+    @JsonFormat(pattern = "yyyy-MM-dd",timezone = "GMT+8")
     private Date storageDate;
     /**
      * 汽车描述

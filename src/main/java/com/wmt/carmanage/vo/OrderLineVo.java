@@ -1,5 +1,6 @@
 package com.wmt.carmanage.vo;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 
 import java.math.BigDecimal;
@@ -24,6 +25,7 @@ public class OrderLineVo {
     /**
      * 销售日期
      */
+    @JsonFormat(pattern = "yyyy-MM-dd",timezone = "GMT+8")
     private Date salesDate;
 
 }

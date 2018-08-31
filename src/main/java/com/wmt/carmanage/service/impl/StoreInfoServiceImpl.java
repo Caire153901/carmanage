@@ -58,7 +58,7 @@ public class StoreInfoServiceImpl extends ServiceImpl<StoreInfoMapper, StoreInfo
     @Override
     public Page<StoreInfoVo> getStoreInfoList(String storeName,Boolean isChoose, Integer current, String sort, Boolean asc, Integer pageSize) throws Exception {
         if(null==sort){
-            sort = "gmtModified";
+            sort = "gmtModify";
         }
         if(null==asc){
             asc = false;

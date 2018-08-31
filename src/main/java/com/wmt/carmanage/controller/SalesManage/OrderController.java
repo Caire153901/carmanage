@@ -41,7 +41,7 @@ public class OrderController {
             @RequestParam(value = "carModel",required = false) String carModel,
             @RequestParam(value = "carName",required = false) String carName,
             @RequestParam(value = "current",required = false,defaultValue = "1") Integer current,
-            @RequestParam(value = "sort",required = false,defaultValue = "orderCode") String sort,
+            @RequestParam(value = "sort",required = false,defaultValue = "a.order_code") String sort,
             @RequestParam(value = "asc",required = false) Boolean asc,
             @Max(value = 100,message = "每页条数不超过100") @RequestParam(value = "pageSize",required = false,defaultValue = "10") Integer pageSize)
             throws Exception{

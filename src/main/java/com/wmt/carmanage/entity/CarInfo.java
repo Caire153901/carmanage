@@ -3,6 +3,8 @@ package com.wmt.carmanage.entity;
 import java.util.Date;
 import com.baomidou.mybatisplus.annotations.TableField;
 import com.baomidou.mybatisplus.annotations.TableName;
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.io.Serializable;
 
 /**
@@ -68,11 +70,13 @@ public class CarInfo implements Serializable {
     /**
      * 生产日期
      */
+    @JsonFormat(pattern = "yyyy-MM-dd",timezone = "GMT+8")
     @TableField("production_date")
     private Date productionDate;
     /**
      * 入库日期
      */
+    @JsonFormat(pattern = "yyyy-MM-dd",timezone = "GMT+8")
     @TableField("storage_date")
     private Date storageDate;
     /**
@@ -93,11 +97,13 @@ public class CarInfo implements Serializable {
     /**
      * 创建时间
      */
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
     @TableField("gmt_create")
     private Date gmtCreate;
     /**
      * 修改时间
      */
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
     @TableField("gmt_modify")
     private Date gmtModify;
 

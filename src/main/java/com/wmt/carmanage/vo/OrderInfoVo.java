@@ -1,5 +1,6 @@
 package com.wmt.carmanage.vo;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.wmt.carmanage.entity.CarInfo;
 import com.wmt.carmanage.entity.Customer;
 import lombok.Data;
@@ -36,6 +37,7 @@ public class OrderInfoVo {
     /**
      * 销售日期
      */
+    @JsonFormat(pattern = "yyyy-MM-dd",timezone = "GMT+8")
     private Date salesDate;
     /**
      * 订单状态,0未出库，1已出库，2在运，3已送达

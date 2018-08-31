@@ -58,7 +58,7 @@ public class OrderInfoServiceImpl extends ServiceImpl<OrderInfoMapper, OrderInfo
     @Override
     public Page<OrderInfoVo> getVisitInfoList(String orderCode, String customerName, String customerCode, String carModel, String carName, Integer current, String sort, Boolean asc, Integer pageSize) throws Exception {
         if(null==sort){
-            sort="orderCode";
+            sort="a.order_code";
         }
         if(null==asc){
             asc = false;

@@ -27,7 +27,7 @@ public class CarInfoController {
      * @param storeId
      * @return
      */
-    @GetMapping("car_type_select")
+    @GetMapping("/car_type_select")
     public List<CarInfoVo> getCarTypeSelectByStoreId(Integer storeId){
         return carInfoService.getCarTypeSelectByStoreId(storeId);
     }
@@ -64,7 +64,7 @@ public class CarInfoController {
                                        @RequestParam(value = "storeInfoId",required = false) Integer storeInfoId,
                                        @RequestParam(value = "useStatus",required = false) Integer useStatus,
                                        @RequestParam(value = "current",required = false,defaultValue = "1") Integer current,
-                                       @RequestParam(value = "sort",required = false,defaultValue = "carCode") String sort,
+                                       @RequestParam(value = "sort",required = false,defaultValue = "a.car_code") String sort,
                                        @RequestParam(value = "asc",required = false) Boolean asc,
                                        @Max(value = 100,message = "每页条数不超过100") @RequestParam(value = "pageSize",required = false,defaultValue = "10") Integer pageSize)
             throws Exception{

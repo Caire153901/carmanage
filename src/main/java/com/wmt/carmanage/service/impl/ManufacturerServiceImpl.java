@@ -40,7 +40,7 @@ public class ManufacturerServiceImpl extends ServiceImpl<ManufacturerMapper, Man
     @Override
     public Page<ManufacturerVo> getManufacturerList(String manufacturerCode, String manufacturerName, Integer current, String sort, Boolean asc, Integer pageSize) throws Exception {
         if(null==sort){
-            sort ="gmtModified";
+            sort ="gmtModify";
         }
         if(null==asc){
             asc = false;

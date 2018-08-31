@@ -77,7 +77,7 @@ public class CarInfoServiceImpl extends ServiceImpl<CarInfoMapper, CarInfo> impl
     @Override
     public Page<CarInfoVo> getCarInfoVoList(String carCode, String carName, String carModel, String productionStartDate, String productionEndDate, String storageStartDate, String storageEndDate, Integer manufacturerId, Integer storeInfoId, Integer useStatus, Integer current, String sort, Boolean asc, Integer pageSize) throws Exception {
         if(null==sort){
-            sort = "carCode";
+            sort = "a.car_code";
         }
         if(null==asc){
             asc = false;

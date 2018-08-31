@@ -21,6 +21,7 @@
             <result column="store_name" property="storeName" jdbcType="VARCHAR"/>
             <result column="max_capacity" property="maxCapacity" jdbcType="INTEGER"/>
             <result column="capacity" property="capacity" jdbcType="INTEGER"/>
+            <result column="margin_capacity" property="marginCapacity" jdbcType="INTEGER"/>
             <result column="address" property="address" jdbcType="VARCHAR"/>
         </association>
         <association property="manufacturer" javaType="com.wmt.carmanage.entity.Manufacturer">
@@ -35,7 +36,7 @@
 
     <select id="getCarInfoVoList" parameterType="map" resultMap="CarInfoVoMap">
         SELECT a.id,a.car_code,a.car_name,a.car_color,a.car_model,a.car_note,a.engine_number,a.store_id,
-                a.flow,a.img_url,a.manufacturer_id,a.production_date,a.storage_date,a.use_status,a.yieldly,
+                a.flow,a.img_url,a.manufacturer_id,a.production_date,a.storage_date,a.use_status,a.yieldly,b.margin_capacity,
                 b.address,b.capacity,b.max_capacity,b.store_name,c.linkman,c.manufacturer_code,c.manufacturer_name,c.postcode,c.postcode,c.telphone
         FROM car_info a
         LEFT JOIN store_info b ON a.store_id = b.id
