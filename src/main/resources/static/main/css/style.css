@@ -154,7 +154,7 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(11, 15, 39, 0.83);
+  background-color: rgba(239,232,232,0.3);
 }
 .slide--1__letter {
   background: url("../image/car_1.jpg") center center no-repeat;
@@ -177,7 +177,7 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(11, 15, 39, 0.83);
+  background-color: rgba(239,232,232,0.3);
 }
 .slide--2__letter {
   background: url("../image/car_2.jpg") center center no-repeat;
@@ -200,7 +200,7 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(11, 15, 39, 0.83);
+  background-color: rgba(239,232,232,0.3);
 }
 .slide--3__letter {
   background: url("../image/car_3.jpg") center center no-repeat;
@@ -223,7 +223,7 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(11, 15, 39, 0.83);
+  background-color: rgba(239,232,232,0.3);
 }
 .slide--4__letter {
   background: url("../image/car_4.jpg") center center no-repeat;
@@ -246,7 +246,7 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(11, 15, 39, 0.83);
+  background-color: rgba(239,232,232,0.3);
 }
 .slide--5__letter {
   background: url("../image/car_5.jpg") center center no-repeat;

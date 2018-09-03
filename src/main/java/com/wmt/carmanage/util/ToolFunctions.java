@@ -30,23 +30,12 @@ import java.util.stream.Collectors;
 public class ToolFunctions {
 
     private static AuthorityMapper authorityMapper;
-    private static AuthorityService authorityService;
-    private static RoleAuthorityService roleAuthorityService;
-
-    @Autowired
-    public static void setAuthorityService(AuthorityService authorityService) {
-        ToolFunctions.authorityService = authorityService;
-    }
 
     @Autowired
     public void setAuthorityMapper(AuthorityMapper authorityMapper){
         ToolFunctions.authorityMapper = authorityMapper;
     }
 
-    @Autowired
-    public static void setRoleAuthorityService(RoleAuthorityService roleAuthorityService) {
-        ToolFunctions.roleAuthorityService = roleAuthorityService;
-    }
     public static String getPrintStack(Exception e){
         StringWriter writer = new StringWriter();
         PrintWriter printWriter = new PrintWriter(writer);
@@ -60,31 +49,54 @@ public class ToolFunctions {
      * @param resourceList
      * @return
      */
-     public static Set<Authority> getMenuTree(List<Authority> authorityList) {
-       Set<Authority> list = new LinkedHashSet<>();
-        LinkedList<Authority> linkedList = new LinkedList<>(authorityList);
-        while (!linkedList.isEmpty()) {
-            Authority pop = linkedList.pop();
-            if (pop.getParentId()==0) {
-                list.remove(pop);
-                list.add(pop);
-            } else {
-                Integer parentId = pop.getParentId();
-                Authority resource = new Authority();
-                resource.setId(parentId);
-                int i = authorityList.indexOf(resource);
-                if (i > -1) {
-                    resource = authorityList.get(i);
-                } else {
-                    resource = authorityMapper.selectById(parentId);
-                }
-                resource.getChildList().add(pop);
-                linkedList.add(resource);
+    public static Set<Authority> getMenuTree(List<Authority> resourceList) {
+        Set<Authority> result = new LinkedHashSet<>();
+        // 最后的结果
+        resourceList.stream().forEach(authority -> {
+            if(authority.getParentId()==0){
+                result.add(authority);
             }
+        });
+        // 为一级菜单设置子菜单，getChild是递归调用的
+        for (Authority menu : result) {
+            menu.setChildList(getChild(menu.getId(), resourceList));
         }
-        return list;
+        return result;
     }
 
+
+    /**
+     * 递归查找子菜单
+     *
+     * @param id
+     *            当前菜单id
+     * @param rootMenu
+     *            要查找的列表
+     * @return
+     */
+    private static Set<Authority> getChild(Integer id, List<Authority> rootMenu) {
+        // 子菜单
+        Set<Authority> childList = new LinkedHashSet<>();
+        for (Authority menu : rootMenu) {
+            // 遍历所有节点，将父菜单id与传过来的id比较
+            if (null!=menu.getParentId()) {
+                if (menu.getParentId().equals(id)) {
+                    childList.add(menu);
+                }
+            }
+        }
+        // 把子菜单的子菜单再循环一遍
+        for (Authority menu : childList) {// 没有url子菜单还有子菜单
+            if (StringUtils.isBlank(menu.getUrl())) {
+                // 递归
+                menu.setChildList(getChild(menu.getId(), rootMenu));
+            }
+        } // 递归退出条件
+        if (childList.size() == 0) {
+            return null;
+        }
+        return childList;
+    }
     /**
      * 判断字符串是否为空
      * @param str

@@ -4,8 +4,11 @@ import com.baomidou.mybatisplus.enums.IdType;
 import java.util.Date;
 import com.baomidou.mybatisplus.annotations.TableId;
 import com.baomidou.mybatisplus.annotations.TableField;
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.io.Serializable;
 import java.util.List;
+import java.util.Set;
 
 /**
  * <p>
@@ -38,11 +41,13 @@ public class Authority implements Serializable {
      * 创建时间
      */
     @TableField("gmt_create")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
     private Date gmtCreate;
     /**
      * 修改时间
      */
     @TableField("gmt_modified")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
     private Date gmtModified;
     /**
      * 父ID
@@ -60,26 +65,15 @@ public class Authority implements Serializable {
     @TableField("url")
     private String url;
     /**
+     * 图标
+     */
+    @TableField("icon")
+    private String icon;
+    /**
      * 子菜单
      */
     @TableField(exist = false)
-    private List<Authority> childList;
-
-    public String getUrl() {
-        return url;
-    }
-
-    public void setUrl(String url) {
-        this.url = url;
-    }
-
-    public List<Authority> getChildList() {
-        return childList;
-    }
-
-    public void setChildList(List<Authority> childList) {
-        this.childList = childList;
-    }
+    private Set<Authority> childList;
 
     public Integer getId() {
         return id;
@@ -137,16 +131,43 @@ public class Authority implements Serializable {
         this.authorityOrder = authorityOrder;
     }
 
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
+    public String getIcon() {
+        return icon;
+    }
+
+    public void setIcon(String icon) {
+        this.icon = icon;
+    }
+
+    public Set<Authority> getChildList() {
+        return childList;
+    }
+
+    public void setChildList(Set<Authority> childList) {
+        this.childList = childList;
+    }
+
     @Override
     public String toString() {
         return "Authority{" +
-        "id=" + id +
-        ", authorityName=" + authorityName +
-        ", useStatus=" + useStatus +
-        ", gmtCreate=" + gmtCreate +
-        ", gmtModified=" + gmtModified +
-        ", parentId=" + parentId +
-        ", authorityOrder=" + authorityOrder +
-        "}";
+                "id=" + id +
+                ", authorityName='" + authorityName + '\'' +
+                ", useStatus=" + useStatus +
+                ", gmtCreate=" + gmtCreate +
+                ", gmtModified=" + gmtModified +
+                ", parentId=" + parentId +
+                ", authorityOrder=" + authorityOrder +
+                ", url='" + url + '\'' +
+                ", icon='" + icon + '\'' +
+                ", childList=" + childList +
+                '}';
     }
 }

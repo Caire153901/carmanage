@@ -1,40 +1,40 @@
 /* 颜色统一修改 */
 /*主导航侧边栏*/
 .login-hd {
-    background: #5878A5;
+    background: #529ed0;
 }
 .login-hd .hd-inner .split {
-    background-color: #5878A5;
+    background-color: #529ed0;
 }
 .login-bd .bd-inner .inner-wrap .lg-zone .lg-box .lg-label h4 {
-    border-left: 4px solid #5878A5;
+    border-left: 4px solid #529ed0;
 }
 .login-bd .bd-inner .inner-wrap .lg-zone .lg-box .enter a.supplier {
-    background-color: #5878A5;
+    background-color: #529ed0;
 }
 #pf-hd{
-    background-color: #5878A5;
+    background-color: #529ed0;
 }
 #pf-hd .pf-nav-prev:hover, #pf-hd .pf-nav-next:hover {
-    color: #5878A5;
+    color: #529ed0;
 }
 #pf-bd #pf-sider .sider-nav>li.current{
-    background: #5878A5;
+    background: #529ed0;
 }
 #pf-bd #pf-page .easyui-tabs1 .tabs li.tabs-selected {
-    border-top: 3px solid #5878A5;
+    border-top: 3px solid #529ed0;
 }
 #pf-bd #pf-sider .sider-nav>li .sider-nav-s li.active a {
-    color: #5878A5;
+    color: #529ed0;
 }
 .opt-menu .opt-menu-item .iconfont {
-    color: #5878A5;
+    color: #529ed0;
 }
 .statement .info .section-outer h4 {
-    color: #5878A5;
+    color: #529ed0;
 }
 #pf-bd #pf-sider .pf-model-name .toggle-icon {
-    background: #5878A5;
+    background: #529ed0;
 }
 /*左右切换箭头*/
 #pf-bd #pf-sider .pf-model-name .toggle-icon:after{

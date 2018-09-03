@@ -98,6 +98,18 @@ public class PageController {
         return "/system/authority_list";
     }
     /**
+     * 角色管理
+     * @return
+     */
+    @RequestMapping(value = "/role")
+    public String roleList(HttpSession session) {
+        UserInfo userInfo = (UserInfo) session.getAttribute(Const.USER_KEY);
+        if(null==userInfo){
+            return "redirect:/login";
+        }
+        return "/system/role_list";
+    }
+    /**
      * 客户管理
      * @return
      */

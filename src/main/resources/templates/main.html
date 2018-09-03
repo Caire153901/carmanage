@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>汽车之家后台管理系统</title>
+    <title>后台管理系统</title>
     <link rel="stylesheet" href="../public/easyuitemplate/easyui.css">
     <link href="../public/css/base.css" rel="stylesheet">
     <link href="../public/css/platform.css" rel="stylesheet">
@@ -18,8 +18,8 @@
     <style>
         .pf-date{
             color: white;
-            font-size: medium;
-            text-align:center
+            font-size: 20px;
+            text-align:right;
         }
     </style>
 </head>
@@ -27,9 +27,16 @@
 <div class="container">
     <div id="pf-hd">
         <div class="pf-logo">
-            <span class="logo-title"></span>
+            <span class="logo-title">汽车管理系统</span>
         </div>
-        <div id="showDate" class="pf-date"></div>
+        <div class="pf-nav-wrap">
+            <div class="pf-nav-ww">
+                <ul class="pf-nav" id="top-level-container">
+                </ul>
+            </div>
+            <a href="javascript:;" class="pf-nav-prev disabled iconfont">&#xe606;</a>
+            <a href="javascript:;" class="pf-nav-next iconfont">&#xe607;</a>
+        </div>
         <div class="pf-user">
             <h4 class="pf-user-name ellipsis" th:text="${userInfo.account}"></h4>
             <i class="iconfont xiala">&#xe607;</i>
@@ -72,7 +79,7 @@
     <div id="pf-ft">
         <div class="system-name">
             <i class="iconfont">&#xe65e;</i>
-            <span>汽车之家后台管理系统&nbsp;v1.0</span>
+            <span>汽车后台管理系统&nbsp;v1.0</span>
         </div>
         <div class="copyright-name">
             <span>&copy;&nbsp;wmt&nbsp;版权所有&nbsp;&nbsp;&nbsp;&nbsp;</span>
