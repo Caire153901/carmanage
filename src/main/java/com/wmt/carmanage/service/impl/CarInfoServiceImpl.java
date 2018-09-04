@@ -75,14 +75,15 @@ public class CarInfoServiceImpl extends ServiceImpl<CarInfoMapper, CarInfo> impl
      * @throws Exception
      */
     @Override
-    public Page<CarInfoVo> getCarInfoVoList(String carCode, String carName, String carModel, String productionStartDate, String productionEndDate, String storageStartDate, String storageEndDate, Integer manufacturerId, Integer storeInfoId, Integer useStatus, Integer current, String sort, Boolean asc, Integer pageSize) throws Exception {
+    public Page<CarInfoVo> getCarInfoVoList(String carCode, String carName, String carModel, String productionStartDate, String productionEndDate, String storageStartDate, String storageEndDate, Integer manufacturerId, Integer storeInfoId, Integer useStatus, Integer current, String sort, String asc, Integer pageSize) throws Exception {
+        boolean orderSort = false;
         if(null==sort){
             sort = "a.car_code";
         }
-        if(null==asc){
-            asc = false;
+        if(null!=asc && asc.equals("asc")){
+            orderSort = true;
         }
-        Page page = new Page(current,pageSize,sort,asc);
+        Page page = new Page(current,pageSize,sort,orderSort);
         Map map = new HashMap();
         map.put("carCode",carCode);
         map.put("carName",carName);

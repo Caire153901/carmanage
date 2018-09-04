@@ -1,6 +1,7 @@
 package com.wmt.carmanage.controller.CustomerManage;
 
 import com.baomidou.mybatisplus.plugins.Page;
+import com.wmt.carmanage.constant.EUDataGridResult;
 import com.wmt.carmanage.entity.Customer;
 import com.wmt.carmanage.service.CustomerService;
 import com.wmt.carmanage.vo.CustomerVo;
@@ -31,15 +32,19 @@ public class CustomerController {
      * @throws Exception
      */
     @GetMapping("/list")
-    public Page<CustomerVo> getCustomerList(
+    public EUDataGridResult getCustomerList(
                                         @RequestParam(value = "customerName",required = false) String customerName,
                                         @RequestParam(value = "customerCode",required = false) String customerCode,
-                                        @RequestParam(value = "current",required = false,defaultValue = "1") Integer current,
+                                        @RequestParam(value = "page",required = false,defaultValue = "1") Integer current,
                                         @RequestParam(value = "sort",required = false,defaultValue = "gmtModify") String sort,
-                                        @RequestParam(value = "asc",required = false) Boolean asc,
-                                        @Max(value = 100,message = "每页条数不超过100") @RequestParam(value = "pageSize",required = false,defaultValue = "10") Integer pageSize)
+                                        @RequestParam(value = "order",required = false) String asc,
+                                        @Max(value = 100,message = "每页条数不超过100") @RequestParam(value = "rows",required = false,defaultValue = "10") Integer pageSize)
             throws Exception{
-        return customerService.getCustomerList(customerName, customerCode,current, sort, asc, pageSize);
+        Page<CustomerVo> page =  customerService.getCustomerList(customerName, customerCode,current, sort, asc, pageSize);
+        EUDataGridResult all = new EUDataGridResult();
+        all.setRows(page.getRecords());
+        all.setTotal(page.getTotal());
+        return all;
     }
 
     /**

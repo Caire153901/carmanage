@@ -1,6 +1,7 @@
 package com.wmt.carmanage.controller.SalesManage;
 
 import com.baomidou.mybatisplus.plugins.Page;
+import com.wmt.carmanage.constant.EUDataGridResult;
 import com.wmt.carmanage.entity.OrderInfo;
 import com.wmt.carmanage.service.OrderInfoService;
 import com.wmt.carmanage.vo.OrderInfoVo;
@@ -34,18 +35,23 @@ public class OrderController {
      * @throws Exception
      */
     @GetMapping("/list")
-    public Page<OrderInfoVo> getCustomerList(
+    public EUDataGridResult getCustomerList(
             @RequestParam(value = "orderCode",required = false) String orderCode,
             @RequestParam(value = "customerName",required = false) String customerName,
             @RequestParam(value = "customerCode",required = false) String customerCode,
             @RequestParam(value = "carModel",required = false) String carModel,
             @RequestParam(value = "carName",required = false) String carName,
-            @RequestParam(value = "current",required = false,defaultValue = "1") Integer current,
+            @RequestParam(value = "page",required = false,defaultValue = "1") Integer current,
             @RequestParam(value = "sort",required = false,defaultValue = "a.order_code") String sort,
-            @RequestParam(value = "asc",required = false) Boolean asc,
-            @Max(value = 100,message = "每页条数不超过100") @RequestParam(value = "pageSize",required = false,defaultValue = "10") Integer pageSize)
+            @RequestParam(value = "order",required = false) String asc,
+            @Max(value = 100,message = "每页条数不超过100") @RequestParam(value = "rows",required = false,defaultValue = "10") Integer pageSize)
             throws Exception{
-        return orderInfoService.getVisitInfoList(orderCode, customerName, customerCode, carName,carModel, current, sort, asc, pageSize);
+
+        Page<OrderInfoVo> page = orderInfoService.getVisitInfoList(orderCode, customerName, customerCode, carName,carModel, current, sort, asc, pageSize);
+        EUDataGridResult all = new EUDataGridResult();
+        all.setRows(page.getRecords());
+        all.setTotal(page.getTotal());
+        return all;
     }
 
 

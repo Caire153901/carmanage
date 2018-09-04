@@ -27,7 +27,7 @@ public interface SysSerialNumberService extends IService<SysSerialNumber> {
      * @return
      * @throws Exception
      */
-    Page<SysSerialNumberVo> getSerialNumberList(String authorityName, Integer current, String sort, Boolean asc, Integer pageSize) throws Exception;
+    Page<SysSerialNumberVo> getSerialNumberList(String authorityName, Integer current, String sort, String asc, Integer pageSize) throws Exception;
 
     /**
      * 新增

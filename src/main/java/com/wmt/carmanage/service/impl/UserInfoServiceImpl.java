@@ -53,14 +53,15 @@ public class UserInfoServiceImpl extends ServiceImpl<UserInfoMapper, UserInfo> i
      * @throws Exception
      */
     @Override
-    public Page<UserInfoVo> getUserInfoList(String account, String userName, Integer roleId, Integer current, String sort, Boolean asc, Integer pageSize) throws Exception {
+    public Page<UserInfoVo> getUserInfoList(String account, String userName, Integer roleId, Integer current, String sort, String asc, Integer pageSize) throws Exception {
+        Boolean orderSort = false;
         if(null==sort){
             sort ="gmtModified";
         }
-        if(null==asc){
-            asc = false;
-        }
-        Page page = new Page(current, pageSize, sort, asc);
+        if(null!=asc && asc.equals("asc")){
+                orderSort = true;
+       }
+        Page page = new Page(current, pageSize, sort, orderSort);
         EntityWrapper<UserInfo> wrapper = new EntityWrapper<>();
         if(null!=account && !account.equals("")){
             wrapper.like("account",account);
@@ -84,6 +85,7 @@ public class UserInfoServiceImpl extends ServiceImpl<UserInfoMapper, UserInfo> i
             });
             page = page.setRecords(userInfoVoList);
         }
+
         return page;
     }
 

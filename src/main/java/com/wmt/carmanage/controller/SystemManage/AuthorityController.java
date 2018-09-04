@@ -2,6 +2,7 @@ package com.wmt.carmanage.controller.SystemManage;
 
 
 import com.baomidou.mybatisplus.plugins.Page;
+import com.wmt.carmanage.constant.EUDataGridResult;
 import com.wmt.carmanage.entity.Authority;
 import com.wmt.carmanage.service.AuthorityService;
 import com.wmt.carmanage.vo.AuthorityVo;
@@ -32,14 +33,18 @@ public class AuthorityController {
      * @throws Exception
      */
     @GetMapping("/list")
-    public Page<AuthorityVo> getAuthorityList(
+    public EUDataGridResult getAuthorityList(
                                          @RequestParam(value = "authorityName",required = false) String authorityName,
-                                         @RequestParam(value = "current",required = false,defaultValue = "1") Integer current,
-                                         @RequestParam(value = "sort",required = false,defaultValue = "gmtModified") String sort,
-                                         @RequestParam(value = "asc",required = false) Boolean asc,
-                                         @Max(value = 100,message = "每页条数不超过100") @RequestParam(value = "pageSize",required = false,defaultValue = "10") Integer pageSize)
+                                         @RequestParam(value = "page",required = false,defaultValue = "1") Integer current,
+                                         @RequestParam(value = "sort",required = false,defaultValue = "authorityOrder") String sort,
+                                         @RequestParam(value = "order",required = false) String asc,
+                                         @Max(value = 100,message = "每页条数不超过100") @RequestParam(value = "rows",required = false,defaultValue = "10") Integer pageSize)
             throws Exception{
-        return authorityService.getAuthorityList(authorityName,0, current, sort, asc, pageSize);
+        Page<AuthorityVo> page = authorityService.getAuthorityList(authorityName,0, current, sort, asc, pageSize);
+        EUDataGridResult all = new EUDataGridResult();
+        all.setRows(page.getRecords());
+        all.setTotal(page.getTotal());
+        return all;
     }
 
     /**
@@ -53,17 +58,20 @@ public class AuthorityController {
      * @throws Exception
      */
     @GetMapping("/child_list")
-    public Page<AuthorityVo> getAuthorityListByParentId(
+    public EUDataGridResult getAuthorityListByParentId(
                         @RequestParam(value = "authorityName",required = false) String authorityName,
                         @RequestParam(value = "parentId",required = false) Integer parentId,
-                        @RequestParam(value = "current",required = false,defaultValue = "1") Integer current,
-                        @RequestParam(value = "sort",required = false,defaultValue = "gmtModified") String sort,
-                        @RequestParam(value = "asc",required = false) Boolean asc,
-                        @Max(value = 100,message = "每页条数不超过100") @RequestParam(value = "pageSize",required = false,defaultValue = "10") Integer pageSize)
+                        @RequestParam(value = "page",required = false,defaultValue = "1") Integer current,
+                        @RequestParam(value = "sort",required = false,defaultValue = "authorityOrder") String sort,
+                        @RequestParam(value = "order",required = false) String asc,
+                        @Max(value = 100,message = "每页条数不超过100") @RequestParam(value = "rows",required = false,defaultValue = "10") Integer pageSize)
             throws Exception{
-        return authorityService.getAuthorityList(authorityName,parentId, current, sort, asc, pageSize);
+        Page<AuthorityVo> page = authorityService.getAuthorityList(authorityName,parentId, current, sort, asc, pageSize);
+        EUDataGridResult all = new EUDataGridResult();
+        all.setRows(page.getRecords());
+        all.setTotal(page.getTotal());
+        return all;
     }
-
 
     /**
      * 添加

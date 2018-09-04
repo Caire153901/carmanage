@@ -2,6 +2,7 @@ package com.wmt.carmanage.controller.StoreManage;
 
 
 import com.baomidou.mybatisplus.plugins.Page;
+import com.wmt.carmanage.constant.EUDataGridResult;
 import com.wmt.carmanage.entity.CarInfo;
 import com.wmt.carmanage.service.CarInfoService;
 import com.wmt.carmanage.vo.CarInfoVo;
@@ -52,7 +53,7 @@ public class CarInfoController {
      * @throws Exception
      */
     @GetMapping("/list")
-    public Page<CarInfoVo> getCarInfoVoList(
+    public EUDataGridResult getCarInfoVoList(
                                        @RequestParam(value = "carCode",required = false) String carCode,
                                        @RequestParam(value = "carName",required = false) String carName,
                                        @RequestParam(value = "carModel",required = false) String carModel,
@@ -63,14 +64,17 @@ public class CarInfoController {
                                        @RequestParam(value = "manufacturerId",required = false) Integer manufacturerId,
                                        @RequestParam(value = "storeInfoId",required = false) Integer storeInfoId,
                                        @RequestParam(value = "useStatus",required = false) Integer useStatus,
-                                       @RequestParam(value = "current",required = false,defaultValue = "1") Integer current,
+                                       @RequestParam(value = "page",required = false,defaultValue = "1") Integer current,
                                        @RequestParam(value = "sort",required = false,defaultValue = "a.car_code") String sort,
-                                       @RequestParam(value = "asc",required = false) Boolean asc,
-                                       @Max(value = 100,message = "每页条数不超过100") @RequestParam(value = "pageSize",required = false,defaultValue = "10") Integer pageSize)
+                                       @RequestParam(value = "order",required = false) String asc,
+                                       @Max(value = 100,message = "每页条数不超过100") @RequestParam(value = "rows",required = false,defaultValue = "10") Integer pageSize)
             throws Exception{
-        return carInfoService.getCarInfoVoList(carCode,carName,carModel,productionStartDate,productionEndDate,storageStartDate,storageEndDate,manufacturerId,storeInfoId,useStatus,current,sort,asc,pageSize);
+        Page<CarInfoVo> page = carInfoService.getCarInfoVoList(carCode,carName,carModel,productionStartDate,productionEndDate,storageStartDate,storageEndDate,manufacturerId,storeInfoId,useStatus,current,sort,asc,pageSize);
+        EUDataGridResult all = new EUDataGridResult();
+        all.setRows(page.getRecords());
+        all.setTotal(page.getTotal());
+        return all;
     }
-
 
     /**
      * 新车入库

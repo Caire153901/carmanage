@@ -45,7 +45,7 @@ public interface CarInfoService extends IService<CarInfo> {
      */
     Page<CarInfoVo> getCarInfoVoList(String carCode,String carName,String carModel,String productionStartDate,String productionEndDate,
                                      String storageStartDate,String storageEndDate,Integer manufacturerId,Integer storeInfoId,Integer useStatus,
-                                     Integer current,String sort,Boolean asc,Integer pageSize) throws Exception;
+                                     Integer current,String sort,String asc,Integer pageSize) throws Exception;
 
     /**
      * 新车入库

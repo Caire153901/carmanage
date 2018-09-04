@@ -46,15 +46,16 @@ public class SysSerialNumberServiceImpl extends ServiceImpl<SysSerialNumberMappe
      * @throws Exception
      */
     @Override
-    public Page<SysSerialNumberVo> getSerialNumberList(String authorityName, Integer current, String sort, Boolean asc, Integer pageSize) throws Exception {
+    public Page<SysSerialNumberVo> getSerialNumberList(String authorityName, Integer current, String sort, String asc, Integer pageSize) throws Exception {
+        boolean orderSort = false;
         if (null == sort) {
             sort = "gmtModified";
         }
-        if (null == asc) {
-            asc = false;
+        if (null != asc && asc.equals("asc")) {
+            orderSort = true;
         }
         List<SysSerialNumberVo> list = new ArrayList<>();
-        Page page = new Page(current, pageSize, sort, asc);
+        Page page = new Page(current, pageSize, sort, orderSort);
         EntityWrapper<SysSerialNumber> wrapper = new EntityWrapper<>();
         Page<SysSerialNumber> sysSerialNumberPage = super.selectPage(page,wrapper);
         if(null!=sysSerialNumberPage.getRecords() && sysSerialNumberPage.getRecords().size()>0){

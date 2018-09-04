@@ -26,7 +26,7 @@ public interface CustomerService extends IService<Customer> {
      * @return
      * @throws Exception
      */
-    Page<CustomerVo> getCustomerList(String customerName,String customerCode, Integer current, String sort,Boolean asc,Integer pageSize) throws Exception;
+    Page<CustomerVo> getCustomerList(String customerName,String customerCode, Integer current, String sort,String asc,Integer pageSize) throws Exception;
 
     /**
      * 新增

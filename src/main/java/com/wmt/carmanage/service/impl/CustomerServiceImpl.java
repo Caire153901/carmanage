@@ -35,14 +35,15 @@ public class CustomerServiceImpl extends ServiceImpl<CustomerMapper, Customer> i
      * @throws Exception
      */
     @Override
-    public Page<CustomerVo> getCustomerList(String customerName,String customerCode, Integer current, String sort, Boolean asc, Integer pageSize) throws Exception {
+    public Page<CustomerVo> getCustomerList(String customerName,String customerCode, Integer current, String sort, String asc, Integer pageSize) throws Exception {
+        boolean orderSort = false;
         if(null==sort){
             sort = "gmtModify";
         }
-        if(null==asc){
-            asc = false;
+        if(null!=asc && asc.equals("asc")){
+            orderSort = true;
         }
-        Page page = new Page(current, pageSize, sort, asc);
+        Page page = new Page(current, pageSize, sort, orderSort);
         EntityWrapper<Customer> wrapper = new EntityWrapper<>();
         if(null!=customerName && !customerName.equals("")){
             wrapper.like("customer_name",customerName);

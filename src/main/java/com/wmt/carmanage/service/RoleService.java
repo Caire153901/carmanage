@@ -32,7 +32,7 @@ public interface RoleService extends IService<Role> {
      * @return
      * @throws Exception
      */
-    Page<RoleVo> getRoleList(String roleName,Integer current,String sort,Boolean asc,Integer pageSize)throws Exception;
+    Page<RoleVo> getRoleList(String roleName,Integer current,String sort,String asc,Integer pageSize)throws Exception;
 
     /**
      * 新增

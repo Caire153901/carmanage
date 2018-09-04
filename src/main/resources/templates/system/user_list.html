@@ -2,9 +2,101 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>用户管理</title>
-</head>
-<body>
+    <title>Tree Actions - jQuery EasyUI Demo</title>
+    <link rel="stylesheet" href="../public/easyuitemplate/easyui.css">
+    <link rel="stylesheet" href="../public/css/base.css">
+    <link rel="stylesheet" type="text/css" href="../public/easyuitemplate/icon.css">
+    <link rel="stylesheet" type="text/css" href="../public/fonts/iconfont.css">
+    <link rel="stylesheet" href="../public/css/custom.common.css">
+    <link rel="stylesheet" type="text/css" href="../sysManage/user_list.css">
+    <script type="text/javascript" src="../public/js/jquery.min.js"></script>
+    <script type="text/javascript" src="../public/easyui/jquery.easyui.min.js"></script>
+    <script type="text/javascript" src="../public/easyui/easyui-lang-zh_CN.js"></script>
+    <script type="text/javascript" src="../public/js/base.js"></script>
+    <script type="text/javascript" src="../sysManage/user_list.js"></script>
 
+</head>
+<body class="clearBorder">
+<!-- 主表 -->
+<div id="header" style="text-align:right;">
+    <span class="header-left">用户管理</span>
+    <div>
+        员工姓名： <input  id="realName" class="form-control form-control-inline" name="realname"  value="">
+        <a id="query" href="javascript:void(0)" class="easyui-linkbutton blue" iconCls="icon-search" onclick="checkInputQuery();">查询</a>
+        <a id="reset" href="javascript:void(0)" class="easyui-linkbutton blue" iconCls="icon-reload" onclick="reset();">重置查询</a>
+        <a id="user_add" href="javascript:void(0)" class="easyui-linkbutton white" iconCls="icon-add" onclick="addUser(${sessionScope.SESSION_USER_KEY.orgid});">新增</a>
+        <a id="user_edit" href="javascript:void(0)" class="easyui-linkbutton white" iconCls="icon-edit"  onclick="editUser();" disabled="disabled">修改</a>
+        <a id="user_start" href="javascript:void(0)" class="easyui-linkbutton white" iconCls="icon-ok" onclick="startUsing();" disabled="disabled">启用</a>
+        <a id="user_dis" href="javascript:void(0)" class="easyui-linkbutton white" iconCls="icon-lock" onclick="disableUsing();" disabled="disabled">禁用</a>
+    </div>
+</div>
+
+<div class="easyui-panel" data-options="header:'#header',maximized : true">
+    <table id="user_tab" style="width:100%;height:100%;">
+    </table>
+</div>
+
+<!--新增/编辑的模态框 -->
+<div id="user_data" class="easyui-dialog" style="width: 600px;height: 500px;" closed="true" cache="false" modal="true" buttons="#dlg-buttons">
+    <form id="userForm" method="post" style="padding:10px 20px 10px 40px;" action="/user/saveOrUpdateUser" >
+        <div class="userData">
+            <div class="userinfo">
+                <table id="user_info" class="user_info" border="0">
+                    <input type="hidden" name="id" />
+
+                    <tr>
+                        <td>*用户名:</td>
+                        <td>
+                            <input  class="easyui-validatebox form-control" id="user_username" name="account" required="required" />
+                        </td>
+                        <td>状态:</td>
+                        <td class="form-control-inner">
+                            <select id="user_state" class="easyui-combobox form-control" name="useStatus" >
+                                <option value="1">启用</option>
+                                <option value="0">禁用</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr id="password_tr">
+                        <td>*密码:</td>
+                        <td>
+                            <input type="password" class="easyui-validatebox form-control" id="user_userpwd" name="password" required="required" />
+                        </td>
+                        <td>*确认密码:</td>
+                        <td>
+                            <input  id="user_repwd" type="password" name="userpwds" class="easyui-validatebox form-control" required="required" validType='equals["#user_userpwd"]' />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>角色</td>
+                        <td class="form-control-inner">
+                            <input  id="role_id"  name="roleId" class="easyui-combobox" required="required" />
+                        </td>
+                        <td>*真实姓名:</td>
+                        <td>
+                            <input id="user_realname" name="userName" class="easyui-validatebox form-control" required="required" />
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <table id="role_tab" ></table>
+    </form>
+</div>
+
+<!--模态框按钮 -->
+<div id="dlg-buttons">
+    <table cellpadding="0" cellspacing="0" style="width:100%">
+        <tr>
+            <td style="text-align:right">
+                <a href="#" class="easyui-linkbutton blue" iconCls="icon-save" onclick="checkInputAdd();">确定</a>
+                <a href="#" class="easyui-linkbutton darkblue" iconCls="icon-cancel" onclick="javascript:$('#user_data').dialog('close')">关闭</a>
+            </td>
+        </tr>
+    </table>
+</div>
 </body>
+<script>
+
+</script>
 </html>

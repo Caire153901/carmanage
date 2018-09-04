@@ -47,14 +47,15 @@ public class AuthorityServiceImpl extends ServiceImpl<AuthorityMapper, Authority
      * @throws Exception
      */
     @Override
-    public Page<AuthorityVo> getAuthorityList(String authorityName, Integer parentId,Integer current, String sort, Boolean asc, Integer pageSize) throws Exception {
+    public Page<AuthorityVo> getAuthorityList(String authorityName, Integer parentId,Integer current, String sort, String asc, Integer pageSize) throws Exception {
+       boolean orderSort = true;
         if(null==sort){
             sort = "authorityOrder";
         }
-        if (null==asc){
-            asc = true;
+        if (null!=asc && asc.equals("desc")){
+            orderSort = false;
         }
-        Page page = new Page(current, pageSize, sort, asc);
+        Page page = new Page(current, pageSize, sort, orderSort);
         EntityWrapper<Authority> wrapper = new EntityWrapper<>();
         if(null!= authorityName && !authorityName.equals("")){
             wrapper.like("authority_name",authorityName);

@@ -2,6 +2,7 @@ package com.wmt.carmanage.controller.CustomerManage;
 
 
 import com.baomidou.mybatisplus.plugins.Page;
+import com.wmt.carmanage.constant.EUDataGridResult;
 import com.wmt.carmanage.entity.VisitInfo;
 import com.wmt.carmanage.service.VisitInfoService;
 import com.wmt.carmanage.vo.VisitInfoVo;
@@ -34,17 +35,20 @@ public class VisitInfoController {
      * @throws Exception
      */
     @GetMapping("/list")
-    public Page<VisitInfoVo> getCustomerList(
+    public EUDataGridResult getCustomerList(
             @RequestParam(value = "customerName",required = false) String customerName,
             @RequestParam(value = "orderCode",required = false) String orderCode,
-            @RequestParam(value = "current",required = false,defaultValue = "1") Integer current,
+            @RequestParam(value = "page",required = false,defaultValue = "1") Integer current,
             @RequestParam(value = "sort",required = false,defaultValue = "visitDate") String sort,
-            @RequestParam(value = "asc",required = false) Boolean asc,
-            @Max(value = 100,message = "每页条数不超过100") @RequestParam(value = "pageSize",required = false,defaultValue = "10") Integer pageSize)
+            @RequestParam(value = "order",required = false) String asc,
+            @Max(value = 100,message = "每页条数不超过100") @RequestParam(value = "rows",required = false,defaultValue = "10") Integer pageSize)
             throws Exception{
-        return visitInfoService.getVisitInfoList(customerName, orderCode,current, sort, asc, pageSize);
+        Page<VisitInfoVo> page = visitInfoService.getVisitInfoList(customerName, orderCode,current, sort, asc, pageSize);
+        EUDataGridResult all = new EUDataGridResult();
+        all.setRows(page.getRecords());
+        all.setTotal(page.getTotal());
+        return all;
     }
-
 
     /**
      * 添加

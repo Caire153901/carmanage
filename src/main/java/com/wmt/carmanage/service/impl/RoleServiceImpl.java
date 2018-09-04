@@ -66,14 +66,15 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements Ro
      * @throws Exception
      */
     @Override
-    public Page<RoleVo> getRoleList(String roleName, Integer current, String sort, Boolean asc, Integer pageSize) throws Exception {
+    public Page<RoleVo> getRoleList(String roleName, Integer current, String sort, String asc, Integer pageSize) throws Exception {
+        boolean orderSort = false;
         if (null == sort) {
             sort = "gmtModified";
         }
-        if (null == asc) {
-            asc = false;
+        if (null != asc && asc.equals("asc")) {
+            orderSort = true;
         }
-        Page page = new Page(current, pageSize, sort, asc);
+        Page page = new Page(current, pageSize, sort, orderSort);
         EntityWrapper<Role> wrapper = new EntityWrapper<>();
         if (null != roleName && !roleName.equals("")) {
             wrapper.like("role_name", roleName);

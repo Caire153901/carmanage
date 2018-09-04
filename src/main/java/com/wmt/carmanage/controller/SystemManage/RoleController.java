@@ -1,6 +1,7 @@
 package com.wmt.carmanage.controller.SystemManage;
 
 import com.baomidou.mybatisplus.plugins.Page;
+import com.wmt.carmanage.constant.EUDataGridResult;
 import com.wmt.carmanage.entity.Role;
 import com.wmt.carmanage.service.RoleService;
 import com.wmt.carmanage.vo.RoleVo;
@@ -40,13 +41,17 @@ public class RoleController {
      * @throws Exception
      */
     @GetMapping("/list")
-    public Page<RoleVo> getRoleList(@RequestParam(value = "roleName",required = false) String roleName,
-                                    @RequestParam(value = "current",required = false,defaultValue = "1") Integer current,
+    public EUDataGridResult getRoleList(@RequestParam(value = "roleName",required = false) String roleName,
+                                    @RequestParam(value = "page",required = false,defaultValue = "1") Integer current,
                                     @RequestParam(value = "sort",required = false,defaultValue = "gmtModified") String sort,
-                                    @RequestParam(value = "asc",required = false) Boolean asc,
-                                    @Max(value = 100,message = "每页条数不超过100") @RequestParam(value = "pageSize",required = false,defaultValue = "10") Integer pageSize)
+                                    @RequestParam(value = "order",required = false) String asc,
+                                    @Max(value = 100,message = "每页条数不超过100") @RequestParam(value = "rows",required = false,defaultValue = "10") Integer pageSize)
             throws Exception{
-        return roleService.getRoleList(roleName, current, sort, asc, pageSize);
+        Page<RoleVo> page = roleService.getRoleList(roleName, current, sort, asc, pageSize);
+        EUDataGridResult all = new EUDataGridResult();
+        all.setRows(page.getRecords());
+        all.setTotal(page.getTotal());
+        return all;
     }
 
     /**

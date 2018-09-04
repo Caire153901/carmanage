@@ -34,7 +34,7 @@ public interface StoreInfoService extends IService<StoreInfo> {
      * @return
      * @throws Exception
      */
-    Page<StoreInfoVo> getStoreInfoList(String storeName, Boolean isChoose,Integer current, String sort, Boolean asc, Integer pageSize)throws Exception;
+    Page<StoreInfoVo> getStoreInfoList(String storeName, Boolean isChoose,Integer current, String sort, String asc, Integer pageSize)throws Exception;
 
     /**
      * 新增

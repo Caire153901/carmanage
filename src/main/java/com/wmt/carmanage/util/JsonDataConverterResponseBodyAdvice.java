@@ -1,5 +1,6 @@
 package com.wmt.carmanage.util;
 
+import com.wmt.carmanage.constant.EUDataGridResult;
 import com.wmt.carmanage.constant.ResponseCode;
 import com.wmt.carmanage.exception.BaseException;
 import lombok.extern.slf4j.Slf4j;
@@ -13,11 +14,9 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice;
 
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
+import java.util.List;
 import java.util.Set;
 
-/**
- * 结果返回处理
- */
 @Slf4j
 @ControllerAdvice
 public class JsonDataConverterResponseBodyAdvice implements ResponseBodyAdvice<Object> {
@@ -61,7 +60,13 @@ public class JsonDataConverterResponseBodyAdvice implements ResponseBodyAdvice<O
             jsonData.setErrorCode(errorCode);
             jsonData.setErrorMsg(errorMsg);
         } else {
-            jsonData.setData(o);
+            if(o instanceof EUDataGridResult){
+                EUDataGridResult eud =(EUDataGridResult)o;
+                jsonData.setRows(eud.getRows());
+                jsonData.setTotal(eud.getTotal());
+            }else{
+                jsonData.setData(o);
+            }
             jsonData.setErrorCode(0);
             jsonData.setErrorMsg("success");
         }

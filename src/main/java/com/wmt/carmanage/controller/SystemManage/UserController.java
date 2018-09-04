@@ -2,6 +2,7 @@ package com.wmt.carmanage.controller.SystemManage;
 
 
 import com.baomidou.mybatisplus.plugins.Page;
+import com.wmt.carmanage.constant.EUDataGridResult;
 import com.wmt.carmanage.entity.UserInfo;
 import com.wmt.carmanage.service.UserInfoService;
 import com.wmt.carmanage.vo.UserInfoVo;
@@ -34,16 +35,20 @@ public class UserController {
      * @throws Exception
      */
     @GetMapping("/list")
-    public Page<UserInfoVo> getSerialNumberList(
+    public EUDataGridResult getSerialNumberList(
             @RequestParam(value = "account",required = false) String account,
             @RequestParam(value = "userName",required = false) String userName,
             @RequestParam(value = "roleId",required = false) Integer roleId,
-            @RequestParam(value = "current",required = false,defaultValue = "1") Integer current,
+            @RequestParam(value = "page",required = false,defaultValue = "1") Integer current,
             @RequestParam(value = "sort",required = false,defaultValue = "gmtModified") String sort,
-            @RequestParam(value = "asc",required = false) Boolean asc,
-            @Max(value = 100,message = "每页条数不超过100") @RequestParam(value = "pageSize",required = false,defaultValue = "10") Integer pageSize)
+            @RequestParam(value = "order",required = false) String asc,
+            @Max(value = 100,message = "每页条数不超过100") @RequestParam(value = "rows",required = false,defaultValue = "10") Integer pageSize)
             throws Exception{
-        return userInfoService.getUserInfoList(account, userName, roleId, current, sort, asc, pageSize);
+        Page<UserInfoVo> page= userInfoService.getUserInfoList(account, userName, roleId, current, sort, asc, pageSize);
+        EUDataGridResult all = new EUDataGridResult();
+        all.setRows(page.getRecords());
+        all.setTotal(page.getTotal());
+        return all;
     }
 
     /**
@@ -52,20 +57,13 @@ public class UserController {
      * @return
      * @throws Exception
      */
-    @PostMapping("/add")
-    public boolean saveUserInfo(@Validated UserInfo userInfo) throws Exception{
-        return userInfoService.saveUserInfo(userInfo);
-    }
-
-    /**
-     * 修改
-     * @param userInfo
-     * @return
-     * @throws Exception
-     */
-    @PostMapping("/edit")
-    public boolean updateUserInfo(@Validated UserInfo userInfo) throws Exception{
-        return userInfoService.editUserInfo(userInfo);
+    @PostMapping("/saveOrUpdateUser")
+    public boolean saveOrUpdateUserInfo(@Validated UserInfo userInfo) throws Exception{
+        if(null!=userInfo.getId() && !userInfo.getId().equals("")){
+            return userInfoService.saveUserInfo(userInfo);
+        }else{
+            return userInfoService.editUserInfo(userInfo);
+        }
     }
 
 

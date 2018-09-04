@@ -46,14 +46,15 @@ public class VisitInfoServiceImpl extends ServiceImpl<VisitInfoMapper, VisitInfo
      * @throws Exception
      */
     @Override
-    public Page<VisitInfoVo> getVisitInfoList(String customerName, String orderCode, Integer current, String sort, Boolean asc, Integer pageSize) throws Exception {
+    public Page<VisitInfoVo> getVisitInfoList(String customerName, String orderCode, Integer current, String sort, String asc, Integer pageSize) throws Exception {
+        boolean orderSort = false;
         if(null==sort){
             sort = "visitDate";
         }
-        if(null==asc){
-            asc = false;
+        if(null!=asc && asc.equals("asc")){
+            orderSort = true;
         }
-        Page page = new Page(current,pageSize,sort,asc);
+        Page page = new Page(current,pageSize,sort,orderSort);
 
         EntityWrapper<VisitInfo> wrapper = new EntityWrapper<>();
         Page<VisitInfo> visitInfoPage = super.selectPage(page,wrapper);

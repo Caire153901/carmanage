@@ -27,7 +27,7 @@ public interface AuthorityService extends IService<Authority> {
      * @return
      * @throws Exception
      */
-    Page<AuthorityVo> getAuthorityList(String authorityName, Integer parentId,Integer current, String sort, Boolean asc, Integer pageSize) throws Exception;
+    Page<AuthorityVo> getAuthorityList(String authorityName, Integer parentId,Integer current, String sort, String asc, Integer pageSize) throws Exception;
 
     /**
      * 新增

@@ -56,14 +56,15 @@ public class StoreInfoServiceImpl extends ServiceImpl<StoreInfoMapper, StoreInfo
      * @throws Exception
      */
     @Override
-    public Page<StoreInfoVo> getStoreInfoList(String storeName,Boolean isChoose, Integer current, String sort, Boolean asc, Integer pageSize) throws Exception {
+    public Page<StoreInfoVo> getStoreInfoList(String storeName,Boolean isChoose, Integer current, String sort, String asc, Integer pageSize) throws Exception {
+        boolean orderSort = false;
         if(null==sort){
             sort = "gmtModify";
         }
-        if(null==asc){
-            asc = false;
+        if(null!=asc && asc.equals("asc")){
+            orderSort = true;
         }
-        Page page = new Page(current,pageSize,sort,asc);
+        Page page = new Page(current,pageSize,sort,orderSort);
         EntityWrapper<StoreInfo> wrapper = new EntityWrapper<>();
         if(null!=storeName && !storeName.equals("")){
             wrapper.eq("store_name",storeName);

@@ -38,14 +38,15 @@ public class ManufacturerServiceImpl extends ServiceImpl<ManufacturerMapper, Man
      * @throws Exception
      */
     @Override
-    public Page<ManufacturerVo> getManufacturerList(String manufacturerCode, String manufacturerName, Integer current, String sort, Boolean asc, Integer pageSize) throws Exception {
+    public Page<ManufacturerVo> getManufacturerList(String manufacturerCode, String manufacturerName, Integer current, String sort, String asc, Integer pageSize) throws Exception {
+        boolean orderSort = false;
         if(null==sort){
             sort ="gmtModify";
         }
-        if(null==asc){
-            asc = false;
+        if(null!=asc && asc.equals("asc")){
+            orderSort = true;
         }
-        Page page = new Page(current,pageSize,sort,asc);
+        Page page = new Page(current,pageSize,sort,orderSort);
         EntityWrapper<Manufacturer> wrapper = new EntityWrapper<>();
         if(null!=manufacturerCode && !manufacturerCode.equals("")){
             wrapper.like("manufacturer_code",manufacturerCode);

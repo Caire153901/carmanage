@@ -2,6 +2,7 @@ package com.wmt.carmanage.controller.CustomerManage;
 
 
 import com.baomidou.mybatisplus.plugins.Page;
+import com.wmt.carmanage.constant.EUDataGridResult;
 import com.wmt.carmanage.entity.Manufacturer;
 import com.wmt.carmanage.service.ManufacturerService;
 import com.wmt.carmanage.vo.CustomerVo;
@@ -34,17 +35,20 @@ public class ManufacturerController {
      * @throws Exception
      */
     @GetMapping("/list")
-    public Page<ManufacturerVo> getCustomerList(
+    public EUDataGridResult getCustomerList(
             @RequestParam(value = "manufacturerCode",required = false) String manufacturerCode,
             @RequestParam(value = "manufacturerName",required = false) String manufacturerName,
-            @RequestParam(value = "current",required = false,defaultValue = "1") Integer current,
+            @RequestParam(value = "page",required = false,defaultValue = "1") Integer current,
             @RequestParam(value = "sort",required = false,defaultValue = "gmtModify") String sort,
-            @RequestParam(value = "asc",required = false) Boolean asc,
-            @Max(value = 100,message = "每页条数不超过100") @RequestParam(value = "pageSize",required = false,defaultValue = "10") Integer pageSize)
+            @RequestParam(value = "order",required = false) String asc,
+            @Max(value = 100,message = "每页条数不超过100") @RequestParam(value = "rows",required = false,defaultValue = "10") Integer pageSize)
             throws Exception{
-        return manufacturerService.getManufacturerList(manufacturerCode, manufacturerName,current, sort, asc, pageSize);
+        Page<ManufacturerVo> page = manufacturerService.getManufacturerList(manufacturerCode, manufacturerName,current, sort, asc, pageSize);
+        EUDataGridResult all = new EUDataGridResult();
+        all.setRows(page.getRecords());
+        all.setTotal(page.getTotal());
+        return all;
     }
-
 
     /**
      * 添加

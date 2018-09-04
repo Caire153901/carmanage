@@ -1,6 +1,7 @@
 package com.wmt.carmanage.controller.StoreManage;
 
 import com.baomidou.mybatisplus.plugins.Page;
+import com.wmt.carmanage.constant.EUDataGridResult;
 import com.wmt.carmanage.entity.StoreInfo;
 import com.wmt.carmanage.service.StoreInfoService;
 import com.wmt.carmanage.vo.StoreInfoVo;
@@ -40,17 +41,20 @@ public class StoreInfoController {
      * @throws Exception
      */
     @GetMapping("/list")
-    public Page<StoreInfoVo> getStoreInfoList(
+    public EUDataGridResult getStoreInfoList(
                                          @RequestParam(value = "storeName",required = false) String storeName,
                                          @RequestParam(value = "isChoose",required = false) Boolean isChoose,
-                                         @RequestParam(value = "current",required = false,defaultValue = "1") Integer current,
+                                         @RequestParam(value = "page",required = false,defaultValue = "1") Integer current,
                                          @RequestParam(value = "sort",required = false,defaultValue = "gmtModify") String sort,
-                                         @RequestParam(value = "asc",required = false) Boolean asc,
-                                         @Max(value = 100,message = "每页条数不超过100") @RequestParam(value = "pageSize",required = false,defaultValue = "10") Integer pageSize)
+                                         @RequestParam(value = "order",required = false) String asc,
+                                         @Max(value = 100,message = "每页条数不超过100") @RequestParam(value = "rows",required = false,defaultValue = "10") Integer pageSize)
             throws Exception{
-        return storeInfoService.getStoreInfoList(storeName, isChoose,current, sort, asc, pageSize);
+        Page<StoreInfoVo> page = storeInfoService.getStoreInfoList(storeName, isChoose,current, sort, asc, pageSize);
+        EUDataGridResult all = new EUDataGridResult();
+        all.setRows(page.getRecords());
+        all.setTotal(page.getTotal());
+        return all;
     }
-
 
     /**
      * 添加

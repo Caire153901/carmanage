@@ -26,7 +26,7 @@ public interface ManufacturerService extends IService<Manufacturer> {
      * @return
      * @throws Exception
      */
-    Page<ManufacturerVo> getManufacturerList(String manufacturerCode, String manufacturerName, Integer current, String sort, Boolean asc, Integer pageSize) throws Exception;
+    Page<ManufacturerVo> getManufacturerList(String manufacturerCode, String manufacturerName, Integer current, String sort, String asc, Integer pageSize) throws Exception;
 
     /**
      * 新增

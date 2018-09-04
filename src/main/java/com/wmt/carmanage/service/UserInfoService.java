@@ -29,7 +29,7 @@ public interface UserInfoService extends IService<UserInfo> {
      * @return
      * @throws Exception
      */
-    Page<UserInfoVo> getUserInfoList(String account,String userName,Integer roleId, Integer current, String sort, Boolean asc, Integer pageSize)throws Exception;
+    Page<UserInfoVo> getUserInfoList(String account,String userName,Integer roleId, Integer current, String sort, String asc, Integer pageSize)throws Exception;
 
     /**
      * 新增
