@@ -24,7 +24,7 @@
         员工姓名： <input  id="realName" class="form-control form-control-inline" name="realname"  value="">
         <a id="query" href="javascript:void(0)" class="easyui-linkbutton blue" iconCls="icon-search" onclick="checkInputQuery();">查询</a>
         <a id="reset" href="javascript:void(0)" class="easyui-linkbutton blue" iconCls="icon-reload" onclick="reset();">重置查询</a>
-        <a id="user_add" href="javascript:void(0)" class="easyui-linkbutton white" iconCls="icon-add" onclick="addUser(${sessionScope.SESSION_USER_KEY.orgid});">新增</a>
+        <a id="user_add" href="javascript:void(0)" class="easyui-linkbutton white" iconCls="icon-add" onclick="addUser();">新增</a>
         <a id="user_edit" href="javascript:void(0)" class="easyui-linkbutton white" iconCls="icon-edit"  onclick="editUser();" disabled="disabled">修改</a>
         <a id="user_start" href="javascript:void(0)" class="easyui-linkbutton white" iconCls="icon-ok" onclick="startUsing();" disabled="disabled">启用</a>
         <a id="user_dis" href="javascript:void(0)" class="easyui-linkbutton white" iconCls="icon-lock" onclick="disableUsing();" disabled="disabled">禁用</a>
@@ -43,7 +43,6 @@
             <div class="userinfo">
                 <table id="user_info" class="user_info" border="0">
                     <input type="hidden" name="id" />
-
                     <tr>
                         <td>*用户名:</td>
                         <td>
@@ -68,7 +67,7 @@
                         </td>
                     </tr>
                     <tr>
-                        <td>角色</td>
+                        <td>*角色:</td>
                         <td class="form-control-inner">
                             <input  id="role_id"  name="roleId" class="easyui-combobox" required="required" />
                         </td>

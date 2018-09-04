@@ -6,8 +6,6 @@ import java.util.List;
 
 /**
  * Description: 统一结果返回对象
- * CreateBy: yu
- * CreateTime: 2018-01-25  11:35
  */
 @Data
 public class JsonData {

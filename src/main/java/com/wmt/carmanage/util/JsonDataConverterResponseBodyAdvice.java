@@ -14,9 +14,11 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice;
 
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
-import java.util.List;
 import java.util.Set;
 
+/**
+ * 控制层返回数据前进行数据处理
+ */
 @Slf4j
 @ControllerAdvice
 public class JsonDataConverterResponseBodyAdvice implements ResponseBodyAdvice<Object> {

@@ -6,6 +6,7 @@ import com.wmt.carmanage.constant.EUDataGridResult;
 import com.wmt.carmanage.entity.UserInfo;
 import com.wmt.carmanage.service.UserInfoService;
 import com.wmt.carmanage.vo.UserInfoVo;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -35,7 +36,7 @@ public class UserController {
      * @throws Exception
      */
     @GetMapping("/list")
-    public EUDataGridResult getSerialNumberList(
+    public EUDataGridResult getUserInfoVOList(
             @RequestParam(value = "account",required = false) String account,
             @RequestParam(value = "userName",required = false) String userName,
             @RequestParam(value = "roleId",required = false) Integer roleId,
@@ -51,6 +52,19 @@ public class UserController {
         return all;
     }
 
+    /**
+     * 根据ID获取用户信息
+     * @param userId
+     * @return
+     * @throws Exception
+     */
+    @GetMapping("/getUser")
+    public UserInfoVo getUserInfoVoById(@RequestParam(value = "id",required = true) Integer userId)throws Exception{
+         UserInfo userInfo = userInfoService.selectById(userId);
+         UserInfoVo vo = new UserInfoVo();
+        BeanUtils.copyProperties(userInfo,vo);
+        return vo;
+    }
     /**
      * 添加
      * @param userInfo

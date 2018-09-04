@@ -1,15 +1,8 @@
 package com.wmt.carmanage.util;
 
-import com.baomidou.mybatisplus.mapper.EntityWrapper;
-import com.baomidou.mybatisplus.mapper.Wrapper;
 import com.wmt.carmanage.entity.Authority;
-import com.wmt.carmanage.entity.RoleAuthority;
 import com.wmt.carmanage.mapper.AuthorityMapper;
-import com.wmt.carmanage.service.AuthorityService;
-import com.wmt.carmanage.service.RoleAuthorityService;
-import com.wmt.carmanage.vo.AuthorityVo;
 import org.apache.commons.lang.StringUtils;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -18,12 +11,9 @@ import java.io.StringWriter;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import java.util.stream.Collectors;
 
 /**
- * @author qiuyj
- * @date 2017/10/10
- * @description 类描述
+ * 工具类
  */
 @SuppressWarnings("all")
 @Component
