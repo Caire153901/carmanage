@@ -1,0 +1,4 @@
+#serialNumber_info tr{height:35px;}
+#serialNumber_info td th{text-align:right;}
+#serialNumber_info input{width:150px;}
+#serialNumber_info select{width:200px;}

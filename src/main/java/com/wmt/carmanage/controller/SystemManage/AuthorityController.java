@@ -1,16 +1,21 @@
 package com.wmt.carmanage.controller.SystemManage;
 
 
+import com.baomidou.mybatisplus.mapper.EntityWrapper;
+import com.baomidou.mybatisplus.mapper.Wrapper;
 import com.baomidou.mybatisplus.plugins.Page;
 import com.wmt.carmanage.constant.EUDataGridResult;
 import com.wmt.carmanage.entity.Authority;
 import com.wmt.carmanage.service.AuthorityService;
 import com.wmt.carmanage.vo.AuthorityVo;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.constraints.Max;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 权限管理控制层
@@ -21,6 +26,23 @@ public class AuthorityController {
 
     @Autowired
     AuthorityService authorityService;
+
+    /**
+     * 菜单的下拉列表
+     * @return
+     */
+    @GetMapping("/authority_select")
+    public List<AuthorityVo> getAuthoritySelect(){
+        List<AuthorityVo> voList = new ArrayList<>();
+        Wrapper<Authority> wrapper = new EntityWrapper<>();
+        List<Authority> list = authorityService.selectList(wrapper);
+        list.stream().forEach(authority -> {
+            AuthorityVo vo = new AuthorityVo();
+            BeanUtils.copyProperties(authority,vo);
+            voList.add(vo);
+        });
+        return voList;
+    }
 
     /**
      * 权限列表父表

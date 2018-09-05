@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>库存统计</title>
+    <link rel="stylesheet" href="../public/easyuitemplate/easyui.css">
+    <link rel="stylesheet" href="../public/bootstrap/bootstrap-3.3.7-dist/css/dropdown.css">
+    <link rel="stylesheet" href="../public/css/base.css">
+    <link rel="stylesheet" href="../public/css/custom.common.css">
+    <link rel="stylesheet" href="../public/bootstrap/bootstrap-datetimepicker-master/css/bootstrap-datetimepicker.min.css">
+    <script type="text/javascript" src="../public/js/jquery.min.js"></script>
+    <script type="text/javascript" src="../public/easyui/jquery.easyui.min.js"></script>
+    <script type="text/javascript" src="../public/easyui/easyui-lang-zh_CN.js"></script>
+    <script type="text/javascript" src="../public/bootstrap/bootstrap-3.3.7-dist/js/bootstrap.js"></script>
+    <script type="text/javascript" src="../public/bootstrap/bootstrap-datetimepicker-master/js/bootstrap-datetimepicker.min.js"></script>
+    <script type="text/javascript" src="../public/bootstrap/bootstrap-datetimepicker-master/js/locales/bootstrap-datetimepicker.zh-CN.js"></script>
+    <script type="text/javascript" src="../public/echarts/echarts.js"></script>
+    <script type="text/javascript" src="../public/js/base.js"></script>
+    <script type="text/javascript" src="../carmanage/statisticalManage/statistics_store.js"></script>
+    <script type="text/javascript" src="../public/js/custom.common.js"></script>
+</head>
+<body>
+<div class="top-container">
+    <div class="top-header">
+        <div class="top-header-title">库存统计</div>
+        <div class="top-header-tools">
+            <div class="group-input">
+                <div class="group-input-abdon">仓库: &nbsp</div>
+                <div class="group-input-abdon"><input  id="storeSelect"  name="storeId" class="easyui-combobox"  editable="false" value=""/></div>
+            </div>
+        </div>
+    </div>
+    <div class="top-body">
+        <div id="store_pie" style="width: 50%;height: 500px;align:center"></div>
+        <div class="table-wrapper">
+            <table id="store_pie_table" class="easyui-datagrid" style="width:100%;height:250px"
+                   data-options="
+	                    fitColumns : true,
+	                    columns:[[
+	                        {field:'name',title:'车辆名称',width:100},
+	                        {field:'value',title:'车辆数量',width:100},
+	                    ]]">
+            </table>
+        </div>
+    </div>
+</div>
+</body>
+</html>

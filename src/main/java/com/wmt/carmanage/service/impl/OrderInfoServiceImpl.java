@@ -176,11 +176,13 @@ public class OrderInfoServiceImpl extends ServiceImpl<OrderInfoMapper, OrderInfo
                 y.set(h,value.get(j));
             }
             kmap.put("data", y);
+            kmap.put("type","line");
             data.add(kmap);
         });
         map.put("xAxisData",xAxisData);
         map.put("legendData",legendData);
         map.put("seriesData",data);
+        map.put("list",list);
         return map;
     }
 }

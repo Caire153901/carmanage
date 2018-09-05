@@ -1,11 +1,9 @@
 package com.wmt.carmanage.service;
 
 import com.baomidou.mybatisplus.plugins.Page;
-import com.wmt.carmanage.entity.SysSerialNumber;
 import com.baomidou.mybatisplus.service.IService;
+import com.wmt.carmanage.entity.SysSerialNumber;
 import com.wmt.carmanage.vo.SysSerialNumberVo;
-
-import java.util.List;
 
 /**
  * <p>
@@ -31,19 +29,19 @@ public interface SysSerialNumberService extends IService<SysSerialNumber> {
 
     /**
      * 新增
-     * @param sysSerialNumberVo
+     * @param sysSerialNumber
      * @return
      * @throws Exception
      */
-    boolean saveSysSerialNumber(SysSerialNumberVo sysSerialNumberVo) throws Exception;
+    boolean saveSysSerialNumber(SysSerialNumber sysSerialNumber) throws Exception;
 
     /**
      * 修改
-     * @param sysSerialNumberVo
+     * @param sysSerialNumber
      * @return
      * @throws Exception
      */
-    boolean editSysSerialNumber(SysSerialNumberVo sysSerialNumberVo) throws Exception;
+    boolean editSysSerialNumber(SysSerialNumber sysSerialNumber) throws Exception;
 
     /**
      * 删除

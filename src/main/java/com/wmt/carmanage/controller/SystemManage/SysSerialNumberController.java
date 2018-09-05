@@ -2,6 +2,7 @@ package com.wmt.carmanage.controller.SystemManage;
 
 import com.baomidou.mybatisplus.plugins.Page;
 import com.wmt.carmanage.constant.EUDataGridResult;
+import com.wmt.carmanage.entity.SysSerialNumber;
 import com.wmt.carmanage.service.SysSerialNumberService;
 import com.wmt.carmanage.vo.SysSerialNumberVo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,25 +49,19 @@ public class SysSerialNumberController {
     }
 
     /**
-     * 添加
-     * @param sysSerialNumberVo
+     * 添加或修改
+     * @param sysSerialNumber
      * @return
      * @throws Exception
      */
-    @PostMapping("/add")
-    public boolean saveSerialNumber(@Validated SysSerialNumberVo sysSerialNumberVo) throws Exception{
-        return sysSerialNumberService.saveSysSerialNumber(sysSerialNumberVo);
-    }
-
-    /**
-     * 修改
-     * @param sysSerialNumberVo
-     * @return
-     * @throws Exception
-     */
-    @PostMapping("/edit")
-    public boolean updateSerialNumber(@Validated SysSerialNumberVo sysSerialNumberVo) throws Exception{
-        return sysSerialNumberService.editSysSerialNumber(sysSerialNumberVo);
+    @PostMapping("/saveOrUpdateSerialNumber")
+    public boolean addOrUpdateSerialNumber(@Validated SysSerialNumber sysSerialNumber) throws Exception{
+        if(null!=sysSerialNumber.getId() && !sysSerialNumber.getId().equals("")){
+            return sysSerialNumberService.editSysSerialNumber(sysSerialNumber);
+        }else {
+            sysSerialNumber.setCurrutSerial(0);
+            return sysSerialNumberService.saveSysSerialNumber(sysSerialNumber);
+        }
     }
 
 

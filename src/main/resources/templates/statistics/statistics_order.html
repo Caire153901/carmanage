@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>趋势分析</title>
+    <link rel="stylesheet" href="../public/easyuitemplate/easyui.css">
+    <link rel="stylesheet" href="../public/bootstrap/bootstrap-3.3.7-dist/css/dropdown.css">
+    <link rel="stylesheet" href="../public/css/base.css">
+    <link rel="stylesheet" href="../public/css/custom.common.css">
+    <link rel="stylesheet" href="../public/bootstrap/bootstrap-datetimepicker-master/css/bootstrap-datetimepicker.min.css">
+    <script type="text/javascript" src="../public/js/jquery.min.js"></script>
+    <script type="text/javascript" src="../public/easyui/jquery.easyui.min.js"></script>
+    <script type="text/javascript" src="../public/easyui/easyui-lang-zh_CN.js"></script>
+    <script type="text/javascript" src="../public/bootstrap/bootstrap-3.3.7-dist/js/bootstrap.js"></script>
+    <script type="text/javascript" src="../public/bootstrap/bootstrap-datetimepicker-master/js/bootstrap-datetimepicker.min.js"></script>
+    <script type="text/javascript" src="../public/bootstrap/bootstrap-datetimepicker-master/js/locales/bootstrap-datetimepicker.zh-CN.js"></script>
+    <script type="text/javascript" src="../public/echarts/echarts.js"></script>
+    <script type="text/javascript" src="../public/js/base.js"></script>
+    <script type="text/javascript" src="../carmanage/statisticalManage/statistics_order.js"></script>
+    <script type="text/javascript" src="../public/js/custom.common.js"></script>
+</head>
+<script>
+
+    $(function () {
+        //top-body高度
+        $.initHeight();
+        getDateSelect(new Date().getFullYear());
+        var $datetimepicker = $('#datetimepicker');
+        $datetimepicker.val(new Date().getFullYear());
+        $datetimepicker.datetimepicker({
+            format: 'yyyy',
+            language: "zh-CN",
+            startView: "decade",
+            minView: "decade",
+        });
+        $datetimepicker.datetimepicker().on('changeDate', function (ev) {
+            console.log(ev.date.getFullYear())
+            $('#datetimepicker').datetimepicker('hide');
+            getDateSelect(ev.date.getFullYear());
+
+        });
+    });
+</script>
+<body>
+<div class="top-container">
+    <div class="top-header">
+        <div class="top-header-title">趋势分析</div>
+        <div class="top-header-tools">
+            <div class="group-input">
+                <div class="group-input-abdon">年份: &nbsp</div>
+                <div class="group-input-abdon"> <input type="text" class="form-control"  id="datetimepicker" readonly></div>
+            </div>
+        </div>
+    </div>
+    <div class="top-body">
+        <div id="order_line" style="width: 100%;height: 700px"></div>
+        <div class="table-wrapper">
+            <table id="order_line_table" class="easyui-datagrid" style="width:100%;height:250px"
+                   data-options="
+	                    fitColumns : true,
+	                    columns:[[
+	                        {field:'salesDate',title:'销售日',width:100},
+	                        {field:'orderCode',title:'订单号',width:100},
+	                    ]]">
+            </table>
+        </div>
+    </div>
+</div>
+</body>
+</html>

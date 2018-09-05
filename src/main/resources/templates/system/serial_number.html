@@ -2,9 +2,89 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>流水号管理</title>
-</head>
-<body>
+    <link rel="stylesheet" href="../public/easyuitemplate/easyui.css">
+    <link rel="stylesheet" href="../public/css/base.css">
+    <link rel="stylesheet" type="text/css" href="../public/easyuitemplate/icon.css">
+    <link rel="stylesheet" type="text/css" href="../public/fonts/iconfont.css">
+    <link rel="stylesheet" href="../public/css/custom.common.css">
+    <link rel="stylesheet" type="text/css" href="../carmanage/sysManage/serial_number.css">
+    <script type="text/javascript" src="../public/js/jquery.min.js"></script>
+    <script type="text/javascript" src="../public/easyui/jquery.easyui.min.js"></script>
+    <script type="text/javascript" src="../public/easyui/easyui-lang-zh_CN.js"></script>
+    <script type="text/javascript" src="../public/js/base.js"></script>
+    <script type="text/javascript" src="../carmanage/sysManage/serial_number.js"></script>
 
+</head>
+<body class="clearBorder">
+<!-- 主表 -->
+<div id="header" style="text-align:right;">
+    <span class="header-left">流水号管理</span>
+    <div>
+        权限名：<input  id="authorityName" class="form-control form-control-inline" name="authorityName"  value="">
+        <a id="query" href="javascript:void(0)" class="easyui-linkbutton blue" iconCls="icon-search" onclick="checkInputQuery();">查询</a>
+        <a id="reset" href="javascript:void(0)" class="easyui-linkbutton blue" iconCls="icon-reload" onclick="reset();">重置查询</a>
+        <a id="SerialNumber_add" href="javascript:void(0)" class="easyui-linkbutton white" iconCls="icon-add" onclick="addSerialNumber();">新增</a>
+        <a id="SerialNumber_edit" href="javascript:void(0)" class="easyui-linkbutton white" iconCls="icon-edit"  onclick="editSerialNumber();" disabled="disabled">修改</a>
+        <a id="SerialNumber_start" href="javascript:void(0)" class="easyui-linkbutton white" iconCls="icon-ok" onclick="startUsing();" disabled="disabled">启用</a>
+        <a id="SerialNumber_dis" href="javascript:void(0)" class="easyui-linkbutton white" iconCls="icon-lock" onclick="disableUsing();" disabled="disabled">禁用</a>
+    </div>
+</div>
+
+<div class="easyui-panel" data-options="header:'#header',maximized : true">
+    <table id="serialnumber_tab" style="width:100%;height:100%;">
+    </table>
+</div>
+
+<!--新增/编辑的模态框 -->
+<div id="serialNumber_data" class="easyui-dialog" style="width: 600px;height: 500px;" closed="true" cache="false" modal="true" buttons="#dlg-buttons">
+    <form id="serialNumberForm" method="post" style="padding:10px 20px 10px 40px;" action="/serial_number/saveOrUpdateSerialNumber" >
+        <div class="serialNumberData">
+            <div class="serialNumberInfo">
+                <table id="serialNumber_info" class="serialNumber_info" border="0">
+                    <input type="hidden" name="id" />
+                    <tr>
+                        <td>*菜单:</td>
+                        <td class="form-control-inner">
+                            <input  id="authority_id"  name="authorityId" class="easyui-combobox" required="required" editable="false"/>
+                        </td>
+                        <td>状态:</td>
+                        <td class="form-control-inner">
+                            <select id="user_state" class="easyui-combobox form-control" name="useStatus" >
+                                <option value="0">启用</option>
+                                <option value="1">禁用</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr id="password_tr">
+                        <td>*序列号模板:</td>
+                        <td>
+                            <input  class="easyui-validatebox form-control"  name="configTemplet" required="required" />
+                        </td>
+                        <td>*最大位数:</td>
+                        <td>
+                            <input  name="maxSerial" class="easyui-numberbox form-control" required="required" data-options="min:1,precision:0"/>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <table id="role_tab" ></table>
+    </form>
+</div>
+
+<!--模态框按钮 -->
+<div id="dlg-buttons">
+    <table cellpadding="0" cellspacing="0" style="width:100%">
+        <tr>
+            <td style="text-align:right">
+                <a href="#" class="easyui-linkbutton blue" iconCls="icon-save" onclick="checkInputAdd();">确定</a>
+                <a href="#" class="easyui-linkbutton darkblue" iconCls="icon-cancel" onclick="javascript:$('#serialNumber_data').dialog('close')">关闭</a>
+            </td>
+        </tr>
+    </table>
+</div>
 </body>
+<script>
+
+</script>
 </html>

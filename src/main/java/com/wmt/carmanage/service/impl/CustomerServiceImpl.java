@@ -147,11 +147,11 @@ public class CustomerServiceImpl extends ServiceImpl<CustomerMapper, Customer> i
         Map map = new HashMap();
         Set<String> legendData = new LinkedHashSet<>();
         List<Map<String,Object>> data = new ArrayList<>();
-        Map<String,Object> valueMap = new HashMap<>();
         EntityWrapper<Customer> wrapper = new EntityWrapper<>();
         List<Customer> list = super.selectList(wrapper);
         Map<String, Long> collects = list.stream().collect(Collectors.groupingBy(Customer::getProvincial, Collectors.counting()));
         collects.forEach((key,value)->{
+            Map<String,Object> valueMap = new HashMap<>();
             legendData.add(key);
             valueMap.put("name",key);
             valueMap.put("value",value);

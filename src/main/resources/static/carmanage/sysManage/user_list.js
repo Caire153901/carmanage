@@ -131,12 +131,9 @@ function editUser() {
         var state=0;//状态参数初始化，默认为禁用
         var roleId=selectRows[0].roleId;
         if(!selectRows[0].state){
-            state=1;//启用
+            state=0;//启用
         }
-
         $('#userForm').form('load', selectRows[0]);//表单加载
-        $('#userForm').form('load', getRootPath__() + '/user/getUser?id=' + id);//表单加载
-
         $('#user_state').combobox('setValue',state);//状态下拉框赋值
         getUseRole();//用户类型初始化
         $('#role_id').combobox('select',roleId);//用户类型下拉框赋值
@@ -162,7 +159,7 @@ function checkInputAdd(){
             },
             success: function (result) {
                 var re = JSON.parse(result);
-                if (re.data) {
+                if (re.errorCode==0) {
                     msg("提交成功！");
                     $("#user_tab").datagrid("load");
                     $("#user_data").dialog("close");

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>客户统计</title>
+    <link rel="stylesheet" href="../public/easyuitemplate/easyui.css">
+    <link rel="stylesheet" href="../public/bootstrap/bootstrap-3.3.7-dist/css/dropdown.css">
+    <link rel="stylesheet" href="../public/css/base.css">
+    <link rel="stylesheet" href="../public/css/custom.common.css">
+    <link rel="stylesheet" href="../public/bootstrap/bootstrap-datetimepicker-master/css/bootstrap-datetimepicker.min.css">
+    <script type="text/javascript" src="../public/js/jquery.min.js"></script>
+    <script type="text/javascript" src="../public/easyui/jquery.easyui.min.js"></script>
+    <script type="text/javascript" src="../public/easyui/easyui-lang-zh_CN.js"></script>
+    <script type="text/javascript" src="../public/bootstrap/bootstrap-3.3.7-dist/js/bootstrap.js"></script>
+    <script type="text/javascript" src="../public/bootstrap/bootstrap-datetimepicker-master/js/bootstrap-datetimepicker.min.js"></script>
+    <script type="text/javascript" src="../public/bootstrap/bootstrap-datetimepicker-master/js/locales/bootstrap-datetimepicker.zh-CN.js"></script>
+    <script type="text/javascript" src="../public/echarts/echarts.js"></script>
+    <script type="text/javascript" src="../public/js/base.js"></script>
+    <script type="text/javascript" src="../carmanage/statisticalManage/statistics_customer.js"></script>
+    <script type="text/javascript" src="../public/js/custom.common.js"></script>
+</head>
+<body>
+<div class="top-container">
+    <div class="top-header">
+        <div class="top-header-title">客户统计</div>
+        <div class="top-header-tools">
+        </div>
+    </div>
+    <div class="top-body">
+        <div id="customer_pie" style="width: 50%;height: 500px;align:center"></div>
+        <div class="table-wrapper">
+            <table id="customer_pie_table" class="easyui-datagrid" style="width:100%;height:250px"
+                   data-options="
+	                    fitColumns : true,
+	                    columns:[[
+	                        {field:'name',title:'客户所在省会',width:100},
+	                        {field:'value',title:'客户数量',width:100},
+	                    ]]">
+            </table>
+        </div>
+    </div>
+</div>
+</body>
+</html>

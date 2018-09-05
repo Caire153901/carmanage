@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.mapper.Wrapper;
 import com.baomidou.mybatisplus.plugins.Page;
 import com.wmt.carmanage.entity.Authority;
 import com.wmt.carmanage.entity.SysSerialNumber;
+import com.wmt.carmanage.exception.BaseException;
 import com.wmt.carmanage.mapper.SysSerialNumberMapper;
 import com.wmt.carmanage.service.AuthorityService;
 import com.wmt.carmanage.service.SysSerialNumberService;
@@ -85,10 +86,16 @@ public class SysSerialNumberServiceImpl extends ServiceImpl<SysSerialNumberMappe
      * @throws Exception
      */
     @Override
-    public boolean saveSysSerialNumber(SysSerialNumberVo sysSerialNumberVo) throws Exception {
-        SysSerialNumber sysSerialNumber = new SysSerialNumber();
-        BeanUtils.copyProperties(sysSerialNumberVo,sysSerialNumber);
-        return super.insert(sysSerialNumber);
+    public boolean saveSysSerialNumber(SysSerialNumber sysSerialNumber) throws Exception {
+        Wrapper<SysSerialNumber> wrapper = new EntityWrapper<>();
+        wrapper.eq("config_templet",sysSerialNumber.getConfigTemplet());
+        wrapper.notIn("use_status","1,2");
+        List<SysSerialNumber> list = super.selectList(wrapper);
+        if(list.size()>0){
+           throw new BaseException("流水号模板：【"+sysSerialNumber.getConfigTemplet()+"】已存在");
+        }else{
+            return super.insert(sysSerialNumber);
+        }
     }
 
     /**
@@ -98,10 +105,21 @@ public class SysSerialNumberServiceImpl extends ServiceImpl<SysSerialNumberMappe
      * @throws Exception
      */
     @Override
-    public boolean editSysSerialNumber(SysSerialNumberVo sysSerialNumberVo) throws Exception {
-        SysSerialNumber sysSerialNumber = new SysSerialNumber();
-        BeanUtils.copyProperties(sysSerialNumberVo,sysSerialNumber);
-        return super.updateById(sysSerialNumber);
+    public boolean editSysSerialNumber(SysSerialNumber sysSerialNumber) throws Exception {
+        SysSerialNumber old = super.selectById(sysSerialNumber.getId());
+        if(!old.getConfigTemplet().equals(sysSerialNumber.getConfigTemplet())){
+            Wrapper<SysSerialNumber> wrapper = new EntityWrapper<>();
+            wrapper.eq("config_templet",sysSerialNumber.getConfigTemplet());
+            wrapper.notIn("use_status","1,2");
+            List<SysSerialNumber> list = super.selectList(wrapper);
+            if(list.size()>0){
+                throw new BaseException("流水号模板：【"+sysSerialNumber.getConfigTemplet()+"】已存在");
+            }else{
+                return super.updateById(sysSerialNumber);
+            }
+        }else{
+            return super.updateById(sysSerialNumber);
+        }
     }
 
     /**

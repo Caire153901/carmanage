@@ -11,6 +11,7 @@ import java.util.Date;
 @Data
 public class SysSerialNumberVo {
 
+    private Integer id;
     /**
      * 权限ID
      */

@@ -1,6 +1,5 @@
 package com.wmt.carmanage.controller.StatisticalManage;
 
-import com.wmt.carmanage.entity.OrderInfo;
 import com.wmt.carmanage.service.CarInfoService;
 import com.wmt.carmanage.service.CustomerService;
 import com.wmt.carmanage.service.OrderInfoService;

@@ -154,12 +154,12 @@ public class CarInfoServiceImpl extends ServiceImpl<CarInfoMapper, CarInfo> impl
         Map map = new HashMap();
         Set<String> legendData = new LinkedHashSet<>();
         List<Map<String,Object>> data = new ArrayList<>();
-        Map<String,Object> valueMap = new HashMap<>();
         EntityWrapper<CarInfo> wrapper = new EntityWrapper<>();
         wrapper.eq("store_id",storeId);
         List<CarInfo> list = super.selectList(wrapper);
         Map<String, Long> collect = list.stream().collect(Collectors.groupingBy(CarInfo::getCarName, Collectors.counting()));
         collect.forEach((key,value)->{
+            Map<String,Object> valueMap = new HashMap<>();
             legendData.add(key);
             valueMap.put("name",key);
             valueMap.put("value",value);
