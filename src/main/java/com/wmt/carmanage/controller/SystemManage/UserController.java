@@ -74,9 +74,9 @@ public class UserController {
     @PostMapping("/saveOrUpdateUser")
     public boolean saveOrUpdateUserInfo(@Validated UserInfo userInfo) throws Exception{
         if(null!=userInfo.getId() && !userInfo.getId().equals("")){
-            return userInfoService.saveUserInfo(userInfo);
-        }else{
             return userInfoService.editUserInfo(userInfo);
+        }else{
+            return userInfoService.saveUserInfo(userInfo);
         }
     }
 

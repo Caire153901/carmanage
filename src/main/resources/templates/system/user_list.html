@@ -21,7 +21,9 @@
 <div id="header" style="text-align:right;">
     <span class="header-left">用户管理</span>
     <div>
-        员工姓名： <input  id="realName" class="form-control form-control-inline" name="realname"  value="">
+        真实姓名： <input  id="userName" class="form-control form-control-inline" name="userName"  value="">
+        用户名： <input  id="account" class="form-control form-control-inline" name="account"  value="">
+        角色:<input  id="roleSelect"  name="roleId" class="easyui-combobox"  editable="false" value=""/>
         <a id="query" href="javascript:void(0)" class="easyui-linkbutton blue" iconCls="icon-search" onclick="checkInputQuery();">查询</a>
         <a id="reset" href="javascript:void(0)" class="easyui-linkbutton blue" iconCls="icon-reload" onclick="reset();">重置查询</a>
         <a id="user_add" href="javascript:void(0)" class="easyui-linkbutton white" iconCls="icon-add" onclick="addUser();">新增</a>
@@ -51,8 +53,8 @@
                         <td>状态:</td>
                         <td class="form-control-inner">
                             <select id="user_state" class="easyui-combobox form-control" name="useStatus" >
-                                <option value="1">启用</option>
-                                <option value="0">禁用</option>
+                                <option value="0">启用</option>
+                                <option value="1">禁用</option>
                             </select>
                         </td>
                     </tr>
@@ -69,7 +71,7 @@
                     <tr>
                         <td>*角色:</td>
                         <td class="form-control-inner">
-                            <input  id="role_id"  name="roleId" class="easyui-combobox" required="required" />
+                            <input  id="role_id"  name="roleId" class="easyui-combobox" required="required" editable="false"/>
                         </td>
                         <td>*真实姓名:</td>
                         <td>

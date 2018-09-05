@@ -13,7 +13,7 @@ $(function(){
         method:'get',
         pageList : [10,20,30],
         sortName : 'gmtModified',//默认传参 sort
-        sortOrder : 'desc',//默认传参 order吧
+        sortOrder : 'asc',//默认传参 order吧
         rownumbers:true,
         onSelect:function(index, row){
             selectUser(row);
@@ -43,6 +43,7 @@ $(function(){
             }
         ]]
     });
+    getUseRole();
 
 });
 //选中后按钮状态
@@ -68,21 +69,28 @@ function buttonDisble(){
 
 /** 查询数据条件 */
 function checkInputQuery(){
-    var realName = $('#realName').val(); //用户真实姓名
-    $('#user_tab').datagrid('options').url=getRootPath__()+'/sys_manage/user_manage/getUserLists';
+    var userName = $('#userName').val(); //用户真实姓名
+    var account = $('#account').val(); //用户真实姓名
+    var roleId = $('#roleSelect').val(); //用户真实姓名
+    $('#user_tab').datagrid('options').url=getRootPath__()+'/user/list';
     $('#user_tab').datagrid('reload',{
-        realname:realName,
+        userName:userName,
+        account:account,
+        roleId:roleId,
     });
 }
+/** 重置 **/
 function reset(){
-    $('#realName').val("");
+    $('#userName').val("");
+    $('#account').val("");
+    $('#roleSelect').combobox('setValue', '');
     $('#user_tab').datagrid('load',{});
 }
 /** 新增初始化 */
 function addUser(){
     $('#password_tr').show();
     $('#userForm').form('clear');
-    $('#user_state').combobox('setValue','1');
+    $('#user_state').combobox('setValue','0');
     $('#user_state').combobox('disable');
     getUseRole();
     $("#user_data").dialog("setTitle","添加用户信息").dialog("open");
@@ -101,6 +109,12 @@ function getUseRole(){
                     valueField:'id',
                     textField:'roleName',
                 });
+                $('#roleSelect').combobox({
+                    data:roleData,
+                    valueField:'id',
+                    textField:'roleName',
+                });
+
             }
         }
     });
@@ -119,6 +133,8 @@ function editUser() {
         if(!selectRows[0].state){
             state=1;//启用
         }
+
+        $('#userForm').form('load', selectRows[0]);//表单加载
         $('#userForm').form('load', getRootPath__() + '/user/getUser?id=' + id);//表单加载
 
         $('#user_state').combobox('setValue',state);//状态下拉框赋值
@@ -145,15 +161,16 @@ function checkInputAdd(){
                 return $(this).form("validate");
             },
             success: function (result) {
-                if (result == "success") {
+                var re = JSON.parse(result);
+                if (re.data) {
                     msg("提交成功！");
                     $("#user_tab").datagrid("load");
                     $("#user_data").dialog("close");
                     buttonDisble();
-                }else if(result == "repeated"){
-                    $.messager.alert("提示信息", "用户名已存在", 'warning');
+                }else if(re.data==="异常"){
+                    $.messager.alert("提示信息", re.errorMsg, 'warning');
                 }else{
-                    msg("保存数据失败！");
+                    msg("保存数据失败！+,"+re.errorMsg);
                 }
             }
         });
