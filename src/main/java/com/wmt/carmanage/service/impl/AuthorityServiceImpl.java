@@ -18,7 +18,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
@@ -72,6 +74,28 @@ public class AuthorityServiceImpl extends ServiceImpl<AuthorityMapper, Authority
             page = page.setRecords(authorityVoList);  //查出的list调用setRecords
         }
         return page;
+    }
+
+    /**
+     *  菜单
+     * @return
+     * @throws Exception
+     */
+    @Override
+    public Set<AuthorityVo> getAuthorityList() throws Exception {
+        Set<AuthorityVo> voSet = new LinkedHashSet<>();
+        EntityWrapper<Authority> wrapper = new EntityWrapper<>();
+        wrapper.eq("use_status",0);
+        List<Authority> list = super.selectList(wrapper);
+        Set<Authority> set = ToolFunctions.getMenuTree(list);
+        set.stream().forEach(authority -> {
+            AuthorityVo vo = new AuthorityVo();
+            BeanUtils.copyProperties(authority,vo);
+            Authority au = super.selectById(authority.getParentId());
+            vo.setParentName(au.getAuthorityName());
+            voSet.add(vo);
+        });
+        return voSet;
     }
 
     /**

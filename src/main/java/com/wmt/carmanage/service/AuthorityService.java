@@ -6,6 +6,7 @@ import com.wmt.carmanage.entity.Authority;
 import com.wmt.carmanage.vo.AuthorityVo;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * <p>
@@ -28,6 +29,12 @@ public interface AuthorityService extends IService<Authority> {
      * @throws Exception
      */
     Page<AuthorityVo> getAuthorityList(String authorityName, Integer parentId,Integer current, String sort, String asc, Integer pageSize) throws Exception;
+
+    /**
+     * 获取权限
+     * @throws Exception
+     */
+    Set<AuthorityVo> getAuthorityList() throws Exception;
 
     /**
      * 新增

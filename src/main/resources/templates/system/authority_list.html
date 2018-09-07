@@ -1,10 +1,152 @@
 <!DOCTYPE html>
-<html lang="en">
+<html style="width:100%;height:100%" lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>权限管理</title>
+    <link rel="stylesheet" href="../public/easyuitemplate/easyui.css">
+    <link rel="stylesheet" type="text/css" href="../public/easyuitemplate/icon.css">
+    <link rel="stylesheet" type="text/css" href="../public/fonts/iconfont.css">
+    <link rel="stylesheet" href="../public/css/base.css">
+    <link rel="stylesheet" href="../public/css/custom.common.css">
+
+    <script type="text/javascript" src="../public/js/jquery.min.js"></script>
+    <script type="text/javascript" src="../public/easyui/jquery.easyui.min.js"></script>
+    <script type="text/javascript" src="../public/js/base.js"></script>
+    <script type="text/javascript" src="../carmanage/sysManage/authority_list.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            // 初始化下拉树
+            $("#selectId").combotree({
+                url:'/authority/list',
+                required:true,
+                loadFilter:function(data){
+                    data = recursiveModify(data,'authorityName','text');
+                    console.log(data);
+                    data.push({
+                        id : 'root',
+                        text:'root',
+                    });
+                    return data;
+                },
+                onChange: function (e) {
+                    $("#parentId").val(e);
+                    $("#parentName").val($("#selectId").combotree("getText"));
+                }
+            });
+
+//        初始化弹出层
+            $("#dlg").dialog({
+                title: 'My Dialog',
+                width: 450,
+                height: 340,
+                closed: true,
+                cache: false,
+                modal: true,
+                buttons: [{ //设置下方按钮数组
+                    text: '保存',
+                    iconCls: 'icon-ok',
+                    handler: function () {
+                        $('#fid').form('submit', {
+                            success: function () {
+                                $("#dlg").dialog('close');
+                                window.location.reload();
+                            }
+                        }); // 提交表单
+
+                    }
+                }, {
+                    text: '取消',
+                    handler: function () {
+                        $("#dlg").dialog('close');
+                    }
+                }]
+            });
+            // 居中
+            $('#dlg').dialog('center');
+
+            // iframe绑定点击事件，点击icon后隐藏iframe，赋值给隐藏域
+            var $iframe = $("#iconsFrame");
+            $iframe.on("load", function () {
+                $iframe.contents().find('li').on('click', function (e) {
+                    var code = $(this).find(".fontclass").html().replace("\.", '');
+                    $iframe.hide();
+                    var $iconSpan = $('#iconSpan');
+                    $iconSpan.find('input').val(code);
+                    $iconSpan.attr('class', '').addClass('iconfont').addClass('icon-' + code);
+                });
+            });
+
+            // 初始化树形表格
+            $('#tt').treegrid({
+                url: getRootPath__() + '/authority/list',
+                idField: 'id',
+                fit : true,
+                treeField: 'authorityName',
+                iconCls: 'icon-ok',
+                fitColumns : true,
+                animate: true,
+                collapsible: true,
+                checkbox: true,
+                columns: [[
+                    {title: 'id', field: 'id', width: 180,  hidden: 'true'},
+                    {title: '资源名称', field: 'authorityName', width: 180 },
+                    {title: '资源路径', field: 'url', width: 180 },
+                    {title: '父节点', field: 'parentName', width: 180 },
+                    {title: '图标', field: 'icon', width: 180},
+                ]],
+                loadFilter: function (data) {
+                    return recursiveModify(data,"icon","icon",function (oldProperty) {
+                        return "<span class='iconfont icon-" + oldProperty + "'></span>";
+                    });
+                }
+            });
+        });
+    </script>
 </head>
-<body>
+<body style="width:100%;height:100%;" class="clearBorderOnly">
+<div id="header" style="text-align: right;">
+    <span class="header-left">权限管理</span>
+    <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-add" onclick="createResource()">新增</a>
+    <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-edit" onclick="editResource()">编辑</a>
+    <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-remove" onclick="removeResource()">删除</a>
+</div>
+
+<div class="easyui-panel" data-options="header:'#header',maximized : true">
+    <ul id="tt"></ul>
+</div>
+
+<div id="dlg" class="easyui-dialog" title="Basic Dialog">
+    <form id="fid" action="/authority/saveOrUpdateAuthority" method="post" class="padding-10">
+        <input type="hidden" name="id" >
+        <ul class="li-horizontal">
+            <li>
+                <span class="text-center">*资源名称: </span>
+                <div><input class="easyui-validatebox form-control borderbox" type="text" name="resourceName" data-options="required:true"></div>
+            </li>
+            <li>
+                <span class="text-center">*资源路径: </span>
+                <div><input class="easyui-validatebox form-control borderbox" type="text" name="url" data-options="required:true"></div>
+            </li>
+            <li>
+                <span class="text-center">父节点: </span>
+                <div>
+                    <input type="hidden" name="parentName" id="parentName">
+                    <input type="hidden" name="parentId" id="parentId">
+                    <select id="selectId" style="width: 200px"></select>
+                </div>
+            </li>
+            <li>
+                <span class="text-center">icon: </span>
+                <div >
+		    			 <span id="iconSpan" class="iconfont">
+				            <input type="hidden" name="icon">
+				            <a href='javascript:;' onclick='$("#iconsFrame").show()'>选择图标</a>
+	        			 </span>
+                </div>
+            </li>
+        </ul>
+    </form>
+    <iframe id="iconsFrame" src="../public/fonts/demo.html" border="0" style="width: 100%;height: 200px;display: none"></iframe>
+</div>
 
 </body>
 </html>

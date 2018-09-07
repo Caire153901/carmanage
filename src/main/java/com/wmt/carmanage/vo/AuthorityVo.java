@@ -27,6 +27,10 @@ public class AuthorityVo {
      */
     private Integer parentId;
     /**
+     * 父名称
+     */
+    private String parentName;
+    /**
      * 排序
      */
     private Integer authorityOrder;
@@ -35,7 +39,11 @@ public class AuthorityVo {
      */
     private String url;
     /**
-     *
+     * 子菜单
      */
     private List<AuthorityVo> childList;
+    /**
+     * 图标
+     */
+    private String icon;
 }
