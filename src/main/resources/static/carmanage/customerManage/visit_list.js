@@ -60,37 +60,27 @@ function selectVisit(row){
     var state=row.useStatus;
     $('#visit_edit').linkbutton('enable');//修改按钮可用
     $('#visit_remove').linkbutton('enable');//删除按钮可用
-    if(state==1){
-        $('#visit_start').linkbutton('enable');//启用按钮可用
-        $('#visit_dis').linkbutton('disable');//禁用按钮禁用
-    }else if(state==0){
-        $('#visit_dis').linkbutton('enable');//禁用按钮可用
-        $('#visit_start').linkbutton('disable');//启用按钮禁用
-    }
 }
 //按钮禁用初始化
 function buttonDisble(){
     $('#visit_edit').linkbutton('disable');//修改按钮
     $('#visit_remove').linkbutton('disable');//删除按钮
-    $('#visit_start').linkbutton('disable');//启用按钮
-    $('#visit_dis').linkbutton('disable');//禁用按钮
 }
 
 /** 查询数据条件 */
 function checkInputQuery(){
-    var visitName = $('#visitName').val(); //客户名
-    var visitCode = $('#visitCode').val(); //用户真实姓名
+    var customerName = $('#customerName').val(); //客户名
+    var orderCode = $('#orderCode').val(); //用户真实姓名
     $('#visit_tab').datagrid('options').url=getRootPath__()+'/visit/list';
     $('#visit_tab').datagrid('reload',{
-        visitName:visitName,
-        visitCode:visitCode,
+        customerName:customerName,
+        orderCode:orderCode,
     });
 }
 /** 重置 **/
 function reset(){
-    $('#visitName').val("");
-    $('#visitCode').val("");
-    $('#provincialSelect').combobox('setValue', '');
+    $('#customerName').val("");
+    $('#orderCode').val("");
     $('#visit_tab').datagrid('load',{});
 }
 function getCustomerSelect() {
@@ -184,76 +174,4 @@ function deleteVisit() {
         $.messager.alert("提示", "请选择要删除的行！", 'info');
     }
 
-}
-/**启用*/
-function startUsing(){
-    var selectRows = $("#visit_tab").datagrid("getSelections");
-    if(selectRows.length > 1){
-        $.messager.alert("提示", "只能选择一行！", 'info');
-    }else if(selectRows.length >0) {
-        $.messager.confirm("提示", "确定要启用吗？", function (isTrue) {
-            if (isTrue) {
-                var id = selectRows[0].id;
-                $.ajax({
-                    async: true,
-                    type: 'post',
-                    url: getRootPath__()+'/visit/enable',
-                    data: {
-                        id: id,
-                        type:0,
-                    },
-                    complete:function(data){
-                        if(data.status=="200"){
-                            msg("启用成功！");
-                            $('#visit_tab').datagrid('load');
-                            buttonDisble();
-                        }else{
-                            msg("启用失败！")
-                            $('#visit_tab').datagrid('load');
-                            buttonDisble();
-                        }
-                    }
-                });
-
-            }
-        });
-    } else {
-        $.messager.alert("提示", "请选择要启用的行！", 'info');
-    }
-}
-/**禁用*/
-function disableUsing(){
-    var selectRows = $("#visit_tab").datagrid("getSelections");
-    if(selectRows.length > 1){
-        $.messager.alert("提示", "只能选择一行！", 'info');
-    }else if(selectRows.length >0)  {
-        $.messager.confirm("提示", "确定要禁用吗？", function (isTrue) {
-            if (isTrue) {
-                var id = selectRows[0].id;
-                $.ajax({
-                    type: 'post',
-                    async: true,
-                    url: getRootPath__()+'/visit/enable',
-                    data: {
-                        id: id,
-                        type:1
-                    },
-                    complete:function(data){
-                        if(data.status=="200"){
-                            msg("禁用成功！");
-                            $('#visit_tab').datagrid('load');
-                            buttonDisble();
-                        }else{
-                            msg("禁用失败！");
-                            $('#visit_tab').datagrid('load');
-                            buttonDisble();
-                        }
-                    }
-
-                }) ;
-            }
-        });
-    } else {
-        $.messager.alert("提示", "请选择要禁用的行！", 'info');
-    }
 }
