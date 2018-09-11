@@ -54,6 +54,14 @@ if ($.fn.validatebox){
             },
             message: '身份证号码格式不正确'
         },
+        //国内邮编验证
+        zipcode: {
+            validator: function (value) {
+				var reg = /^[1-9]\d{5}$/;
+				return reg.test(value);
+             },
+             message: '邮编必须长短0开端的6位数字'
+        },
 	});
 }
 if ($.fn.calendar){

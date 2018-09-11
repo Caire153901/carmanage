@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.plugins.Page;
 import com.wmt.carmanage.constant.EUDataGridResult;
 import com.wmt.carmanage.entity.Manufacturer;
 import com.wmt.carmanage.service.ManufacturerService;
+import com.wmt.carmanage.service.SysSerialNumberService;
 import com.wmt.carmanage.vo.CustomerVo;
 import com.wmt.carmanage.vo.ManufacturerVo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +13,8 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.constraints.Max;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * 厂商管理
@@ -22,6 +25,8 @@ public class ManufacturerController {
 
     @Autowired
     ManufacturerService manufacturerService;
+    @Autowired
+    SysSerialNumberService sysSerialNumberService;
 
     /**
      * 厂商信息列表
@@ -88,4 +93,17 @@ public class ManufacturerController {
     public boolean enableManufacturer(@RequestParam Integer id,@RequestParam byte type) throws Exception{
         return manufacturerService.enableManufacturer(id,type);
     }
+
+    /**
+     * 根据config_templet获取流水号
+     * @return
+     */
+    @GetMapping("/manufacturer_code")
+    public Map getManufacturerCode(String config) throws Exception{
+        Map map = new HashMap();
+        String code= sysSerialNumberService.getSerialNumberByConfigTemplet(config);
+        map.put("manufacturerCode",code);
+        return map;
+    }
+
 }

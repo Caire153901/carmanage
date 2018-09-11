@@ -2,9 +2,106 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>厂商管理</title>
-</head>
-<body>
+    <link rel="stylesheet" href="../public/easyuitemplate/easyui.css">
+    <link rel="stylesheet" href="../public/css/base.css">
+    <link rel="stylesheet" type="text/css" href="../public/easyuitemplate/icon.css">
+    <link rel="stylesheet" type="text/css" href="../public/fonts/iconfont.css">
+    <link rel="stylesheet" href="../public/css/custom.common.css">
+    <link rel="stylesheet" type="text/css" href="../carmanage/customerManage/manufacturer_list.css">
+    <script type="text/javascript" src="../public/js/jquery.min.js"></script>
+    <script type="text/javascript" src="../public/easyui/jquery.easyui.min.js"></script>
+    <script type="text/javascript" src="../public/easyui/easyui-lang-zh_CN.js"></script>
+    <script type="text/javascript" src="../public/js/base.js"></script>
+    <script type="text/javascript" src="../carmanage/customerManage/manufacturer_list.js"></script>
 
+</head>
+<body class="clearBorder">
+<!-- 主表 -->
+<div id="header" style="text-align:right;">
+    <span class="header-left">厂商管理</span>
+    <div>
+        厂商号： <input  id="manufacturerCode" class="form-control form-control-inline" name="manufacturerCode"  value="">
+        厂商名： <input  id="manufacturerName" class="form-control form-control-inline" name="manufacturerName"  value="">
+        <a id="query" href="javascript:void(0)" class="easyui-linkbutton blue" iconCls="icon-search" onclick="checkInputQuery();">查询</a>
+        <a id="reset" href="javascript:void(0)" class="easyui-linkbutton blue" iconCls="icon-reload" onclick="reset();">重置查询</a>
+        <a id="manufacturer_add" href="javascript:void(0)" class="easyui-linkbutton white" iconCls="icon-add" onclick="addManufacturer();">新增</a>
+        <a id="manufacturer_edit" href="javascript:void(0)" class="easyui-linkbutton white" iconCls="icon-edit"  onclick="editManufacturer();" disabled="disabled">修改</a>
+        <a id="manufacturer_remove" href="javascript:void(0)" class="easyui-linkbutton white" iconCls="icon-remove"  onclick="deleteManufacturer();" disabled="disabled">删除</a>
+        <a id="manufacturer_start" href="javascript:void(0)" class="easyui-linkbutton white" iconCls="icon-ok" onclick="startUsing();" disabled="disabled">启用</a>
+        <a id="manufacturer_dis" href="javascript:void(0)" class="easyui-linkbutton white" iconCls="icon-lock" onclick="disableUsing();" disabled="disabled">禁用</a>
+    </div>
+</div>
+
+<div class="easyui-panel" data-options="header:'#header',maximized : true">
+    <table id="manufacturer_tab" style="width:100%;height:100%;">
+    </table>
+</div>
+
+<!--新增/编辑的模态框 -->
+<div id="manufacturer_data" class="easyui-dialog" style="width: 600px;height: 500px;" closed="true" cache="false" modal="true" buttons="#dlg-buttons">
+    <form id="manufacturerForm" method="post" style="padding:10px 20px 10px 40px;" action="/manufacturer/saveOrUpdateManufacturer" >
+        <div class="manufacturerData">
+            <div class="manufacturerinfo">
+                <table id="manufacturer_info" class="manufacturer_info" border="0">
+                    <input type="hidden" name="id" />
+                    <tr>
+                        <td>*厂商号:</td>
+                        <td>
+                            <input  class="easyui-validatebox form-control" id="manufacturer_code" name="manufacturerCode" required="required" editable="false"/>
+                        </td>
+                        <td>状态:</td>
+                        <td class="form-control-inner">
+                            <select id="manufacturer_state" class="easyui-combobox form-control" name="useStatus" >
+                                <option value="0">启用</option>
+                                <option value="1">禁用</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>*厂商名:</td>
+                        <td>
+                            <input type="text" class="easyui-validatebox form-control" id="manufacturer_name" name="manufacturerName" required="required" />
+                        </td>
+                        <td>*邮编:</td>
+                        <td>
+                            <input id="post_code" name="postcode" class="easyui-validatebox form-control" data-options="required:true,validType:'zipcode'"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>*联系电话:</td>
+                        <td class="form-control-inner">
+                            <input  id="manufacturer_telphone"  name="telphone" class="easyui-validatebox form-control" data-options="required:true,validType:'telNum'"/>
+                        </td>
+                        <td>*联系人:</td>
+                        <td>
+                            <input id="link_man" name="linkman" class="easyui-validatebox form-control" data-options="required:true"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>*具体地址:</td>
+                        <td>
+                            <input id="manufacturer_address" name="address" class="easyui-validatebox form-control" required="required" />
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </form>
+</div>
+
+<!--模态框按钮 -->
+<div id="dlg-buttons">
+    <table cellpadding="0" cellspacing="0" style="width:100%">
+        <tr>
+            <td style="text-align:right">
+                <a href="#" class="easyui-linkbutton blue" iconCls="icon-save" onclick="checkInputAdd();">确定</a>
+                <a href="#" class="easyui-linkbutton darkblue" iconCls="icon-cancel" onclick="javascript:$('#manufacturer_data').dialog('close')">关闭</a>
+            </td>
+        </tr>
+    </table>
+</div>
 </body>
+<script>
+
+</script>
 </html>

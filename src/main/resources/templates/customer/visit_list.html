@@ -2,9 +2,102 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>回访信息管理</title>
-</head>
-<body>
+    <link rel="stylesheet" href="../public/easyuitemplate/easyui.css">
+    <link rel="stylesheet" href="../public/css/base.css">
+    <link rel="stylesheet" type="text/css" href="../public/easyuitemplate/icon.css">
+    <link rel="stylesheet" type="text/css" href="../public/fonts/iconfont.css">
+    <link rel="stylesheet" href="../public/css/custom.common.css">
+    <link rel="stylesheet" type="text/css" href="../carmanage/customerManage/visit_list.css">
+    <script type="text/javascript" src="../public/js/jquery.min.js"></script>
+    <script type="text/javascript" src="../public/easyui/jquery.easyui.min.js"></script>
+    <script type="text/javascript" src="../public/easyui/easyui-lang-zh_CN.js"></script>
+    <script type="text/javascript" src="../public/js/base.js"></script>
+    <script type="text/javascript" src="../carmanage/customerManage/visit_list.js"></script>
 
+</head>
+<body class="clearBorder">
+<!-- 主表 -->
+<div id="header" style="text-align:right;">
+    <span class="header-left">回访信息管理</span>
+    <div>
+        客户名： <input  id="customerName" class="form-control form-control-inline" name="customerName"  value="">
+        订单号： <input  id="orderCode" class="form-control form-control-inline" name="orderCode"  value="">
+        <a id="query" href="javascript:void(0)" class="easyui-linkbutton blue" iconCls="icon-search" onclick="checkInputQuery();">查询</a>
+        <a id="reset" href="javascript:void(0)" class="easyui-linkbutton blue" iconCls="icon-reload" onclick="reset();">重置查询</a>
+        <a id="visit_add" href="javascript:void(0)" class="easyui-linkbutton white" iconCls="icon-add" onclick="addVisit();">新增</a>
+        <a id="visit_edit" href="javascript:void(0)" class="easyui-linkbutton white" iconCls="icon-edit"  onclick="editVisit();" disabled="disabled">修改</a>
+        <a id="visit_remove" href="javascript:void(0)" class="easyui-linkbutton white" iconCls="icon-remove"  onclick="deleteVisit();" disabled="disabled">删除</a>
+        <a id="visit_start" href="javascript:void(0)" class="easyui-linkbutton white" iconCls="icon-ok" onclick="startUsing();" disabled="disabled">启用</a>
+        <a id="visit_dis" href="javascript:void(0)" class="easyui-linkbutton white" iconCls="icon-lock" onclick="disableUsing();" disabled="disabled">禁用</a>
+    </div>
+</div>
+
+<div class="easyui-panel" data-options="header:'#header',maximized : true">
+    <table id="visit_tab" style="width:100%;height:100%;">
+    </table>
+</div>
+
+<!--新增/编辑的模态框 -->
+<div id="visit_data" class="easyui-dialog" style="width: 600px;height: 500px;" closed="true" cache="false" modal="true" buttons="#dlg-buttons">
+    <form id="visitForm" method="post" style="padding:10px 20px 10px 40px;" action="/visit/saveOrUpdateVisit" >
+        <div class="visitData">
+            <div class="visitinfo">
+                <table id="visit_info" class="visit_info" border="0">
+                    <input type="hidden" name="id" />
+                    <tr>
+                        <td>*客户:</td>
+                        <td class="form-control-inner">
+                            <input  id="customer_id"  name="customerId" class="easyui-combobox" required="required" editable="false"/>
+                        </td>
+                        <td>*订单:</td>
+                        <td class="form-control-inner">
+                            <input  id="order_id"  name="orderId" class="easyui-combobox" required="required" editable="false"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>*回访日期:</td>
+                        <td>
+                            <input id="visit_date" name="visitDate" type="text" class="easyui-datebox" required="required">
+                        </td>
+                        <td>状态:</td>
+                        <td class="form-control-inner">
+                            <select id="visit_state" class="easyui-combobox form-control" name="useStatus" >
+                                <option value="0">启用</option>
+                                <option value="1">禁用</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr colspan="3">
+                        <td>*回访事件:</td>
+                        <td class="form-control-inner" colspan="3">
+                            <input  id="visit_events"  name="visitEvents" class="easyui-validatebox form-control" data-options="required:true"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>*回访记录:</td>
+                        <td>
+                            <textarea id="visit_record" name="visitRecord"   style="width:400px; height:40px;"></textarea>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </form>
+</div>
+
+<!--模态框按钮 -->
+<div id="dlg-buttons">
+    <table cellpadding="0" cellspacing="0" style="width:100%">
+        <tr>
+            <td style="text-align:right">
+                <a href="#" class="easyui-linkbutton blue" iconCls="icon-save" onclick="checkInputAdd();">确定</a>
+                <a href="#" class="easyui-linkbutton darkblue" iconCls="icon-cancel" onclick="javascript:$('#visit_data').dialog('close')">关闭</a>
+            </td>
+        </tr>
+    </table>
+</div>
 </body>
+<script>
+
+</script>
 </html>
