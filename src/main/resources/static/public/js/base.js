@@ -2,12 +2,13 @@
 function getRootPath__() {
     var pathName = window.location.pathname.substring(1);
     var webName = pathName == '' ? '' : pathName.substring(0, pathName.indexOf('/'));
-    if (webName !== 'carmanage') {
+    if (webName !== 'distribute-station') {
         webName = '';
     }
     if (webName == "") {
         return window.location.protocol + '//' + window.location.host;
-    }else {
+    }
+    else {
         return window.location.protocol + '//' + window.location.host + '/' + webName;
     }
 }

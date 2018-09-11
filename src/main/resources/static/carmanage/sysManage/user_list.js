@@ -44,7 +44,6 @@ $(function(){
         ]]
     });
     getUseRole();
-
 });
 //选中后按钮状态
 function selectUser(row){

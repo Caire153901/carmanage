@@ -60,22 +60,14 @@ public class RoleController {
      * @return
      * @throws Exception
      */
-    @PostMapping("/add")
-    public boolean saveRole(@Validated Role role) throws Exception{
-        return roleService.saveRole(role);
+    @PostMapping("/addOrUpdateRole")
+    public boolean addOrUpdateRole(@Validated Role role) throws Exception{
+        if(null==role.getId()){
+            return roleService.saveRole(role);
+        }else{
+            return roleService.editRole(role);
+        }
     }
-
-    /**
-     * 修改
-     * @param role
-     * @return
-     * @throws Exception
-     */
-    @PostMapping("/edit")
-    public boolean updateRole(@Validated Role role) throws Exception{
-        return roleService.editRole(role);
-    }
-
 
     /**
      * 删除
@@ -99,5 +91,16 @@ public class RoleController {
     public boolean enableRole(@RequestParam Integer id,@RequestParam byte type) throws Exception{
         return roleService.enableRole(id,type);
     }
-    
+
+    /**
+     * 保存用户与权限的关系
+     * @param id
+     * @param resourceIds
+     * @return
+     * @throws Exception
+     */
+    @PostMapping("/saveRoleResource")
+    public boolean saveRoleResource(@RequestParam Integer id,@RequestParam("resourcesIds[]") Integer[] resourceIds) throws Exception {
+        return roleService.saveRoleResource(id,resourceIds);
+    }
 }

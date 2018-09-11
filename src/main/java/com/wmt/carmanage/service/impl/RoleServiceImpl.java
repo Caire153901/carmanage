@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.mapper.Wrapper;
 import com.baomidou.mybatisplus.plugins.Page;
 import com.google.common.collect.Lists;
+import com.google.common.primitives.Ints;
 import com.wmt.carmanage.entity.Authority;
 import com.wmt.carmanage.entity.Role;
 import com.wmt.carmanage.entity.RoleAuthority;
@@ -16,11 +17,15 @@ import com.baomidou.mybatisplus.service.impl.ServiceImpl;
 import com.wmt.carmanage.util.ToolFunctions;
 import com.wmt.carmanage.vo.AuthorityVo;
 import com.wmt.carmanage.vo.RoleVo;
+import org.apache.ibatis.javassist.expr.NewArray;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -36,6 +41,8 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements Ro
 
     @Autowired
     AuthorityService authorityService;
+    @Autowired
+    RoleAuthorityService roleAuthorityService;
 
     /**
      * 获取角色的下拉列表
@@ -167,5 +174,26 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements Ro
             role.setUseStatus(1);
         }
         return super.updateById(role);
+    }
+
+    /**
+     * 保存角色与权限的关系
+     * @param id
+     * @param resourceIds
+     * @return
+     * @throws Exception
+     */
+    @Override
+    public boolean saveRoleResource(Integer id, Integer[] resourceIds) throws Exception {
+        Wrapper<RoleAuthority> wrapper = new EntityWrapper<>();
+        wrapper.eq("role_id",id);
+        roleAuthorityService.delete(wrapper);
+        for(Integer resourceId:resourceIds){
+            RoleAuthority roleAuthority = new RoleAuthority();
+            roleAuthority.setRoleId(id);
+            roleAuthority.setAuthorityId(resourceId);
+            roleAuthorityService.insert(roleAuthority);
+        }
+        return true;
     }
 }

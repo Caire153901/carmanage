@@ -41,9 +41,11 @@ public class AuthorityVo {
     /**
      * 子菜单
      */
-    private List<AuthorityVo> childList;
+    private List<AuthorityVo> children;
     /**
      * 图标
      */
     private String icon;
+
+    private Boolean leaf;
 }

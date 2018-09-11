@@ -2,6 +2,8 @@ package com.wmt.carmanage.entity;
 
 import java.util.Date;
 import com.baomidou.mybatisplus.annotations.TableField;
+import com.baomidou.mybatisplus.annotations.TableId;
+import com.baomidou.mybatisplus.enums.IdType;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import java.io.Serializable;
@@ -21,6 +23,7 @@ public class Role implements Serializable {
     /**
      * 角色ID
      */
+    @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
     /**
      * 角色名

@@ -34,9 +34,12 @@ public class AuthorityController {
      * @return
      */
     @GetMapping("/authority_select")
-    public List<AuthorityVo> getAuthoritySelect(){
+    public List<AuthorityVo> getAuthoritySelect(Integer parentId){
         List<AuthorityVo> voList = new ArrayList<>();
         Wrapper<Authority> wrapper = new EntityWrapper<>();
+        if(null!=parentId){
+            wrapper.eq("parent_id",parentId);
+        }
         List<Authority> list = authorityService.selectList(wrapper);
         list.stream().forEach(authority -> {
             AuthorityVo vo = new AuthorityVo();
@@ -55,6 +58,33 @@ public class AuthorityController {
         return authorityService.getAuthorityList();
     }
 
+    /**
+     * 根据角色ID获取用户权限ID
+     * @param roleId
+     * @return
+     * @throws Exception
+     */
+    @GetMapping("/list/by_roleId")
+    public List<AuthorityVo> getAuthorityListByRoleId(@RequestParam(value = "roleId",required = true) Integer roleId) throws Exception{
+       return authorityService.getAuthorityByRoleId(roleId);
+    }
+    /**
+     * 权限表
+     * @return
+     */
+    @GetMapping("/detail")
+    public AuthorityVo getAuthorityById( @RequestParam(value = "id",required = false) Integer id)throws Exception{
+        Authority authority = authorityService.selectById(id);
+        AuthorityVo vo = new AuthorityVo();
+        BeanUtils.copyProperties(authority,vo);
+        if(authority.getParentId()!=0){
+            Authority parent = authorityService.selectById(authority.getParentId());
+            vo.setParentName(parent.getAuthorityName());
+        }else{
+            vo.setParentName("root");
+        }
+        return vo;
+    }
     /**
      * 权限列表子表
      * @param parentId

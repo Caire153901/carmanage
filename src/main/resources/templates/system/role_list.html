@@ -2,9 +2,96 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>角色列表</title>
-</head>
-<body>
+    <link rel="stylesheet" href="../public/css/base.css">
+    <link rel="stylesheet" href="../public/easyuitemplate/easyui.css">
+    <link rel="stylesheet" type="text/css" href="../public/easyuitemplate/icon.css">
+    <link rel="stylesheet" type="text/css" href="../public/fonts/iconfont.css">
+    <link rel="stylesheet" href="../public/css/custom.common.css">
+    <link rel="stylesheet" type="text/css" href="../carmanage/sysManage/role_list.css">
+    <script type="text/javascript" src="../public/js/jquery.min.js"></script>
+    <script type="text/javascript" src="../public/easyui/jquery.easyui.min.js"></script>
+    <script type="text/javascript" src="../public/easyui/easyui-lang-zh_CN.js"></script>
+    <script type="text/javascript" src="../public/js/base.js"></script>
+    <script type="text/javascript" src="../carmanage/sysManage/role_list.js"></script>
 
+
+</head>
+<body class="clearBorder">
+<!-- 主表 -->
+<div id="header" style="text-align: right;">
+    <span class="header-left">角色管理</span>
+    <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-add" onclick="createRole()" id="role_add">新增</a>
+    <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-edit" onclick="editRole()" id="role_edit">编辑</a>
+    <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-remove" onclick="removeRole()" id="role_del">删除</a>
+    <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-ok" onclick="startRole()" id="role_start" disabled="disabled">启用</a>
+    <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-lock" onclick="disableRole()" id="role_dis" disabled="disabled">禁用</a>
+</div>
+<div id="header1" style="text-align: right;">
+    <span class="header-left">角色资源</span>
+    <a id="saveRoleResource" href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-save"
+       onclick="saveRoleResource()" disabled="disabled">保存授予资源</a>
+</div>
+
+<div style="height:1000px;width: 50%;float: left">
+    <div class="easyui-panel" data-options="header:'#header',maximized : true">
+        <table id="role_tab" style="height:100%;">
+        </table>
+    </div>
+</div>
+<div style="height:1000px;width: 50%;float: left">
+    <div class="easyui-panel" data-options="header:'#header1',maximized:true">
+        <table id="tt" style="height: 100%;">
+        </table>
+    </div>
+</div>
+
+<!--新增/编辑的模态框 -->
+<div id="role_data" class="easyui-dialog" style="width: 500px;height: 400px;" closed="true" cache="false" modal="true" buttons="#dlg-buttons">
+    <form id="roleForm" method="post" style="padding:10px 20px 10px 40px;" action="/role/addOrUpdateRole" >
+        <div class="roleData">
+            <div class="roleinfo">
+                <table id="role_info" class="role_info" border="0">
+                    <input type="hidden" name="id" />
+                    <tr>
+                        <td>*角色名:</td>
+                        <td>
+                            <input  class="easyui-validatebox form-control" id="role_name" name="roleName" required="required" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>状态:</td>
+                        <td class="form-control-inner">
+                            <select id="role_state" class="easyui-combobox form-control" name="useStatus" >
+                                <option value="0">启用</option>
+                                <option value="1">禁用</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td rowspan="3">描述:</td>
+                        <td colspan="3" rowspan="3">
+                            <input type="text"  style="width:100%;height: 100%" id="role_note" name="roleNote" required="required" />
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </form>
+</div>
+
+<!--模态框按钮 -->
+<div id="dlg-buttons">
+    <table cellpadding="0" cellspacing="0" style="width:100%">
+        <tr>
+            <td style="text-align:right">
+                <a href="#" class="easyui-linkbutton blue" iconCls="icon-save" onclick="checkInputAdd();">确定</a>
+                <a href="#" class="easyui-linkbutton darkblue" iconCls="icon-cancel" onclick="javascript:$('#role_data').dialog('close')">关闭</a>
+            </td>
+        </tr>
+    </table>
+</div>
 </body>
+<script>
+
+</script>
 </html>

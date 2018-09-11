@@ -37,6 +37,14 @@ public interface AuthorityService extends IService<Authority> {
     Set<AuthorityVo> getAuthorityList() throws Exception;
 
     /**
+     * 根据角色ID获取权限
+     * @param roleId
+     * @return
+     * @throws Exception
+     */
+    List<AuthorityVo> getAuthorityByRoleId(Integer roleId) throws Exception;
+
+    /**
      * 新增
      * @param authority
      * @return

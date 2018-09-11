@@ -91,8 +91,26 @@ public class AuthorityServiceImpl extends ServiceImpl<AuthorityMapper, Authority
         set.stream().forEach(authority -> {
             AuthorityVo vo = new AuthorityVo();
             BeanUtils.copyProperties(authority,vo);
-            Authority au = super.selectById(authority.getParentId());
-            vo.setParentName(au.getAuthorityName());
+            List<AuthorityVo> voList = new ArrayList<>();
+            List<Authority> childList = new ArrayList<>(authority.getChildList());
+            childList.stream().forEach(child->{
+                List<AuthorityVo> voArrayList = new ArrayList<>();
+                AuthorityVo vos = new AuthorityVo();
+                BeanUtils.copyProperties(child,vos);
+                Authority aus = super.selectById(child.getParentId());
+                vos.setParentName(aus.getAuthorityName());
+                vos.setChildren(voArrayList);
+                vos.setLeaf(false);
+                voList.add(vos);
+            });
+            vo.setChildren(voList);
+            vo.setLeaf(true);
+            if(authority.getParentId()!=0){
+                Authority au = super.selectById(authority.getParentId());
+                vo.setParentName(au.getAuthorityName());
+            }else{
+                vo.setParentName("root");
+            }
             voSet.add(vo);
         });
         return voSet;
@@ -170,6 +188,28 @@ public class AuthorityServiceImpl extends ServiceImpl<AuthorityMapper, Authority
     }
 
     /**
+     *
+     * @param roleId
+     * @return
+     * @throws Exception
+     */
+    @Override
+    public List<AuthorityVo> getAuthorityByRoleId(Integer roleId) throws Exception {
+        EntityWrapper<RoleAuthority> roleAuthorityWrapper = new EntityWrapper<>();
+        roleAuthorityWrapper.eq("role_id", roleId);
+        List<RoleAuthority> roleAuthorityList = roleAuthorityService.selectList(roleAuthorityWrapper);
+        // 原始的数据
+        List<AuthorityVo> authorityVoList = new ArrayList<>();
+        roleAuthorityList.stream().forEach(roleAuthority -> {
+            AuthorityVo authorityVo = new AuthorityVo();
+            Authority authority = super.selectById(roleAuthority.getAuthorityId());
+            BeanUtils.copyProperties(authority, authorityVo);
+            authorityVoList.add(authorityVo);
+        });
+        return authorityVoList;
+    }
+
+    /**
      * 根据角色ID获取菜单
      * @param roleId
      * @return
@@ -192,7 +232,7 @@ public class AuthorityServiceImpl extends ServiceImpl<AuthorityMapper, Authority
         //父级菜单
         List<AuthorityVo> parentList = authorityVoList.stream().filter(authorityVo -> authorityVo.getParentId() == 0).collect(Collectors.toList());
         parentList.stream().forEach(menu -> {
-            menu.setChildList(getChild(menu.getId(), authorityVoList));
+            menu.setChildren(getChild(menu.getId(), authorityVoList));
             list.add(menu);
         });
         return list;
@@ -222,7 +262,7 @@ public class AuthorityServiceImpl extends ServiceImpl<AuthorityMapper, Authority
         for (AuthorityVo menu : childList) {// 没有url子菜单还有子菜单
             if (StringUtils.isBlank(menu.getUrl())) {
                 // 递归
-                menu.setChildList(getChild(menu.getId(),rootMenu));
+                menu.setChildren(getChild(menu.getId(),rootMenu));
             }
         } // 递归退出条件
         if (childList.size() == 0) {

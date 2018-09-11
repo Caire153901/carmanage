@@ -66,4 +66,13 @@ public interface RoleService extends IService<Role> {
      */
     boolean enableRole(Integer id,byte type) throws Exception;
 
+    /**
+     * 保存角色与权限的关系
+     * @param id
+     * @param resourceIds
+     * @return
+     * @throws Exception
+     */
+    boolean saveRoleResource(Integer id,Integer[] resourceIds) throws Exception;
+
 }
