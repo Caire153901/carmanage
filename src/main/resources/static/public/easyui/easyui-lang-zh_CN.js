@@ -48,7 +48,12 @@ if ($.fn.validatebox){
 	         },    
 	         message: '请输入正确的电话号码。' 
 	    },
-
+        idcard: {// 验证身份证
+            validator: function (value) {
+                return /^\d{15}(\d{2}[A-Za-z0-9])?$/i.test(value);
+            },
+            message: '身份证号码格式不正确'
+        },
 	});
 }
 if ($.fn.calendar){

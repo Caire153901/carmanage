@@ -62,23 +62,15 @@ public class StoreInfoController {
      * @return
      * @throws Exception
      */
-    @PostMapping("/add")
-    public boolean saveStoreInfo(@Validated StoreInfo storeInfo) throws Exception{
-        return storeInfoService.saveStoreInfo(storeInfo);
+    @PostMapping("/saveOrUpdateStoreInfo")
+    public boolean saveOrUpdateStoreInfo(@Validated StoreInfo storeInfo) throws Exception{
+        if(null==storeInfo.getId()){
+            return storeInfoService.saveStoreInfo(storeInfo);
+        }else {
+            return storeInfoService.editStoreInfo(storeInfo);
+        }
     }
-
-    /**
-     * 修改
-     * @param storeInfo
-     * @return
-     * @throws Exception
-     */
-    @PostMapping("/edit")
-    public boolean updateStoreInfo(@Validated StoreInfo storeInfo) throws Exception{
-        return storeInfoService.editStoreInfo(storeInfo);
-    }
-
-
+    
     /**
      * 删除
      * @param id

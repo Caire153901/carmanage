@@ -1,0 +1,4 @@
+#customer_info tr{height:35px;}
+#customer_info td th{text-align:right;}
+#customer_info input{width:150px;}
+#customer_info select{width:200px;}

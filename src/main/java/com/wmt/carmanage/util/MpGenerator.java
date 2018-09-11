@@ -19,7 +19,7 @@ public class MpGenerator {
 
         // 全局配置
         GlobalConfig gc = new GlobalConfig();
-        gc.setOutputDir("F:\\ideas-workspace\\autohome\\src\\main\\java\\");
+        gc.setOutputDir("F:\\ideas-workspace\\carmanage\\src\\main\\java\\");
         gc.setFileOverride(true);
         gc.setActiveRecord(false);// 不需要ActiveRecord特性的请改为false
         gc.setEnableCache(false);// XML 二级缓存
@@ -60,7 +60,7 @@ public class MpGenerator {
        // strategy.setTablePrefix(new String[]{"tb"});// 此处可以修改为您的表前缀
         //strategy.setInclude("tbgprs");
         strategy.setNaming(NamingStrategy.underline_to_camel);// 表名生成策略
-         strategy.setInclude(new String[] { "user" }); // 需要生成的表
+         strategy.setInclude(new String[] { "provincial" }); // 需要生成的表
         // strategy.setExclude(new String[]{"test"}); // 排除生成的表
         // 自定义实体父类
         // strategy.setSuperEntityClass("com.baomidou.demo.TestEntity");

@@ -67,5 +67,13 @@ public interface SysSerialNumberService extends IService<SysSerialNumber> {
      */
     String getSerialNumberByAuthorityId(Integer authoryityId) throws Exception;
 
+    /**
+     * 根据config_templet生成新的序列号
+     * @param config
+     * @return
+     * @throws Exception
+     */
+    String getSerialNumberByConfigTemplet(String config) throws Exception;
+
 
 }

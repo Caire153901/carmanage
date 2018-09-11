@@ -1,14 +1,18 @@
 package com.wmt.carmanage.service.impl;
 
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
+import com.baomidou.mybatisplus.mapper.Wrapper;
 import com.baomidou.mybatisplus.plugins.Page;
 import com.wmt.carmanage.entity.Customer;
+import com.wmt.carmanage.entity.Provincial;
 import com.wmt.carmanage.exception.BaseException;
 import com.wmt.carmanage.mapper.CustomerMapper;
 import com.wmt.carmanage.service.CustomerService;
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
+import com.wmt.carmanage.service.ProvincialService;
 import com.wmt.carmanage.vo.CustomerVo;
 import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -24,6 +28,9 @@ import java.util.stream.Collectors;
  */
 @Service
 public class CustomerServiceImpl extends ServiceImpl<CustomerMapper, Customer> implements CustomerService {
+
+    @Autowired
+    ProvincialService provincialService;
     /**
      * 客户信息列表
      * @param customerName
@@ -35,7 +42,7 @@ public class CustomerServiceImpl extends ServiceImpl<CustomerMapper, Customer> i
      * @throws Exception
      */
     @Override
-    public Page<CustomerVo> getCustomerList(String customerName,String customerCode, Integer current, String sort, String asc, Integer pageSize) throws Exception {
+    public Page<CustomerVo> getCustomerList(String customerName,String customerCode, Integer provincialId,Integer current, String sort, String asc, Integer pageSize) throws Exception {
         boolean orderSort = false;
         if(null==sort){
             sort = "gmtModify";
@@ -51,13 +58,18 @@ public class CustomerServiceImpl extends ServiceImpl<CustomerMapper, Customer> i
         if(null!=customerCode && !customerCode.equals("")){
             wrapper.like("customer_code",customerCode);
         }
+        if(null!=provincialId && !provincialId.equals("")){
+            wrapper.eq("provincial_id",provincialId);
+        }
         Page<Customer> customerPage = super.selectPage(page,wrapper);
         if(null!=customerPage.getRecords() && customerPage.getRecords().size()>0){
             List<CustomerVo> customerVoList = new ArrayList<>();
             customerPage.getRecords().stream().forEach(customer -> {
-                CustomerVo vo = new CustomerVo();
-                BeanUtils.copyProperties(customer,vo);
-                customerVoList.add(vo);
+                CustomerVo vos = new CustomerVo();
+                BeanUtils.copyProperties(customer,vos);
+                Provincial provincial = provincialService.selectById(customer.getProvincialId());
+                vos.setProvincialName(provincial.getName());
+                customerVoList.add(vos);
             });
             page = page.setRecords(customerVoList);
         }
@@ -100,11 +112,9 @@ public class CustomerServiceImpl extends ServiceImpl<CustomerMapper, Customer> i
             List<Customer> list = super.selectList(wrapper);
             if(list.size()>0){
                 throw new BaseException("客户编号【"+customer.getCustomerCode()+"】已存在");
-            }else {
-                return super.insert(customer);
             }
         }
-        return true;
+        return super.updateById(customer);
     }
 
     /**
@@ -149,8 +159,16 @@ public class CustomerServiceImpl extends ServiceImpl<CustomerMapper, Customer> i
         List<Map<String,Object>> data = new ArrayList<>();
         EntityWrapper<Customer> wrapper = new EntityWrapper<>();
         List<Customer> list = super.selectList(wrapper);
-        Map<String, Long> collects = list.stream().collect(Collectors.groupingBy(Customer::getProvincial, Collectors.counting()));
-        collects.forEach((key,value)->{
+        List<CustomerVo> voList = new ArrayList<>();
+        list.stream().forEach(customer -> {
+           CustomerVo vo = new CustomerVo();
+           BeanUtils.copyProperties(customer,vo);
+            Provincial provincial = provincialService.selectById(customer.getProvincialId());
+            vo.setProvincialName(provincial.getName());
+            voList.add(vo);
+        });
+        Map<String, Long> collect = voList.stream().collect(Collectors.groupingBy(CustomerVo::getProvincialName, Collectors.counting()));
+        collect.forEach((key,value)->{
             Map<String,Object> valueMap = new HashMap<>();
             legendData.add(key);
             valueMap.put("name",key);

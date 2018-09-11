@@ -61,22 +61,14 @@ public class OrderController {
      * @return
      * @throws Exception
      */
-    @PostMapping("/add")
-    public boolean saveOrderInfo(@Validated OrderInfo orderInfo) throws Exception{
-        return orderInfoService.saveOrderInfo(orderInfo);
+    @PostMapping("/saveOrUpdateOrderInfo")
+    public boolean saveOrUpdateOrderInfo(@Validated OrderInfo orderInfo) throws Exception{
+        if(null==orderInfo.getId()){
+            return orderInfoService.saveOrderInfo(orderInfo);
+        }else {
+            return orderInfoService.editOrderInfo(orderInfo);
+        }
     }
-
-    /**
-     * 修改
-     * @param orderInfo
-     * @return
-     * @throws Exception
-     */
-    @PostMapping("/edit")
-    public boolean updateOrderInfo(@Validated OrderInfo orderInfo) throws Exception{
-        return orderInfoService.editOrderInfo(orderInfo);
-    }
-
 
     /**
      * 删除

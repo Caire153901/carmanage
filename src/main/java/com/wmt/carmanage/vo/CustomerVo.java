@@ -36,7 +36,9 @@ public class CustomerVo {
     /**
      * 省
      */
-    private String provincial;
+    private Integer provincialId;
+
+    private String provincialName;
     /**
      * 数据状态,0启用，1禁用，2删除
      */

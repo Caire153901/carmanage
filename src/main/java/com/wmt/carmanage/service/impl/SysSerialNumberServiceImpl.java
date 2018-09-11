@@ -187,4 +187,37 @@ public class SysSerialNumberServiceImpl extends ServiceImpl<SysSerialNumberMappe
         return code;
     }
 
+    /**
+     * 根据config_templet生成新的序列号
+     * @param config
+     * @return
+     * @throws Exception
+     */
+    @Override
+    public String getSerialNumberByConfigTemplet(String config) throws Exception {
+        String code = "";
+        Wrapper<SysSerialNumber> sysSerialNumberWrapper = new EntityWrapper<>();
+        sysSerialNumberWrapper.eq("config_templet",config);
+        SysSerialNumber sysSerialNumber = super.selectOne(sysSerialNumberWrapper);
+        Integer currutSerial =sysSerialNumber.getCurrutSerial();
+        String modifiedDate = DateUtils.formatDate(sysSerialNumber.getGmtModified());
+        String nowDate = DateUtils.getDate();
+        if(modifiedDate.equals(nowDate)){
+            currutSerial = currutSerial+1;
+        }else{
+            currutSerial = 1;
+        }
+        sysSerialNumber.setCurrutSerial(currutSerial);
+        super.updateById(sysSerialNumber);
+        Integer length =sysSerialNumber.getMaxSerial() - String.valueOf(currutSerial).length();
+        String valueLength = "0";
+        for(int i=0;i<length;i++){
+            valueLength = valueLength + "0";
+        }
+        String configs = sysSerialNumber.getConfigTemplet();
+        String date = DateUtils.formatDate(new Date(),"yyyyMMdd");
+        code = configs + date + valueLength +currutSerial;
+
+        return code;
+    }
 }

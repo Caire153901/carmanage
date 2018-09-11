@@ -56,20 +56,13 @@ public class VisitInfoController {
      * @return
      * @throws Exception
      */
-    @PostMapping("/add")
-    public boolean saveVisitInfo(@Validated VisitInfo visitInfo) throws Exception{
-        return visitInfoService.saveVisitInfo(visitInfo);
-    }
-
-    /**
-     * 修改
-     * @param visitInfo
-     * @return
-     * @throws Exception
-     */
-    @PostMapping("/edit")
-    public boolean updateVisitInfo(@Validated VisitInfo visitInfo) throws Exception{
-        return visitInfoService.editVisitInfo(visitInfo);
+    @PostMapping("/saveOrUpdateVisitInfo")
+    public boolean saveOrUpdateVisitInfo(@Validated VisitInfo visitInfo) throws Exception{
+        if(null==visitInfo.getId()){
+            return visitInfoService.saveVisitInfo(visitInfo);
+        }else {
+            return visitInfoService.editVisitInfo(visitInfo);
+        }
     }
 
 

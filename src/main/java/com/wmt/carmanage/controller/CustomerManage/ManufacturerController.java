@@ -56,22 +56,15 @@ public class ManufacturerController {
      * @return
      * @throws Exception
      */
-    @PostMapping("/add")
-    public boolean saveManufacturer(@Validated Manufacturer manufacturer) throws Exception{
-        return manufacturerService.saveManufacturer(manufacturer);
-    }
+    @PostMapping("/saveOrUpdateManufacturer")
+    public boolean saveOrUpdateManufacturer(@Validated Manufacturer manufacturer) throws Exception{
+        if(null==manufacturer.getId()){
+            return manufacturerService.saveManufacturer(manufacturer);
+        }else {
+            return manufacturerService.editManufacturer(manufacturer);
+        }
 
-    /**
-     * 修改
-     * @param manufacturer
-     * @return
-     * @throws Exception
-     */
-    @PostMapping("/edit")
-    public boolean updateManufacturer(@Validated Manufacturer manufacturer) throws Exception{
-        return manufacturerService.editManufacturer(manufacturer);
     }
-
 
     /**
      * 删除

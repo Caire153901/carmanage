@@ -55,7 +55,8 @@ public class Customer implements Serializable {
     /**
      * 省
      */
-    private String provincial;
+    @TableField("provincial_id")
+    private Integer provincialId;
     /**
      * 数据状态,0启用，1禁用，2删除
      */
@@ -75,12 +76,12 @@ public class Customer implements Serializable {
     private Date gmtModify;
 
 
-    public String getProvincial() {
-        return provincial;
+    public Integer getProvincialId() {
+        return provincialId;
     }
 
-    public void setProvincial(String provincial) {
-        this.provincial = provincial;
+    public void setProvincialId(Integer provincialId) {
+        this.provincialId = provincialId;
     }
 
     public Integer getId() {
@@ -166,16 +167,17 @@ public class Customer implements Serializable {
     @Override
     public String toString() {
         return "Customer{" +
-        "id=" + id +
-        ", customerCode=" + customerCode +
-        ", customerName=" + customerName +
-        ", sex=" + sex +
-        ", telphone=" + telphone +
-        ", identityCard=" + identityCard +
-        ", address=" + address +
-        ", useStatus=" + useStatus +
-        ", gmtCreate=" + gmtCreate +
-        ", gmtModify=" + gmtModify +
-        "}";
+                "id=" + id +
+                ", customerCode='" + customerCode + '\'' +
+                ", customerName='" + customerName + '\'' +
+                ", sex=" + sex +
+                ", telphone='" + telphone + '\'' +
+                ", identityCard='" + identityCard + '\'' +
+                ", address='" + address + '\'' +
+                ", provincialId=" + provincialId +
+                ", useStatus=" + useStatus +
+                ", gmtCreate=" + gmtCreate +
+                ", gmtModify=" + gmtModify +
+                '}';
     }
 }
