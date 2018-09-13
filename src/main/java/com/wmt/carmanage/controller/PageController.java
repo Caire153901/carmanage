@@ -176,8 +176,8 @@ public class PageController {
      * 汽车列表管理
      * @return
      */
-    @RequestMapping(value = "/cars")
-    public String carsList(HttpSession session) {
+    @RequestMapping(value = "/cars_detail")
+    public String carsDetailList(HttpSession session) {
         UserInfo userInfo = (UserInfo) session.getAttribute(Const.USER_KEY);
         if(null==userInfo){
             return "redirect:/login";
@@ -207,6 +207,18 @@ public class PageController {
             return "redirect:/login";
         }
         return "/store/stock_list";
+    }
+    /**
+     * 汽车列表管理
+     * @return
+     */
+    @RequestMapping(value = "/cars")
+    public String carsList(HttpSession session) {
+        UserInfo userInfo = (UserInfo) session.getAttribute(Const.USER_KEY);
+        if(null==userInfo){
+            return "redirect:/login";
+        }
+        return "/store/cars_list";
     }
 
     /**

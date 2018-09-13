@@ -2,9 +2,86 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>仓库管理</title>
-</head>
-<body>
+    <link rel="stylesheet" href="../public/easyuitemplate/easyui.css">
+    <link rel="stylesheet" href="../public/css/base.css">
+    <link rel="stylesheet" type="text/css" href="../public/easyuitemplate/icon.css">
+    <link rel="stylesheet" type="text/css" href="../public/fonts/iconfont.css">
+    <link rel="stylesheet" href="../public/css/custom.common.css">
+    <link rel="stylesheet" type="text/css" href="../carmanage/storeManage/store_list.css">
+    <script type="text/javascript" src="../public/js/jquery.min.js"></script>
+    <script type="text/javascript" src="../public/easyui/jquery.easyui.min.js"></script>
+    <script type="text/javascript" src="../public/easyui/easyui-lang-zh_CN.js"></script>
+    <script type="text/javascript" src="../public/js/base.js"></script>
+    <script type="text/javascript" src="../carmanage/storeManage/store_list.js"></script>
 
+</head>
+<body class="clearBorder">
+<!-- 主表 -->
+<div id="header" style="text-align:right;">
+    <span class="header-left">仓库管理</span>
+    <div>
+        仓库名： <input  id="storeName" class="form-control form-control-inline" name="storeName"  value="">
+        <a id="query" href="javascript:void(0)" class="easyui-linkbutton blue" iconCls="icon-search" onclick="checkInputQuery();">查询</a>
+        <a id="reset" href="javascript:void(0)" class="easyui-linkbutton blue" iconCls="icon-reload" onclick="reset();">重置查询</a>
+        <a id="store_add" href="javascript:void(0)" class="easyui-linkbutton white" iconCls="icon-add" onclick="addStore();">新增</a>
+        <a id="store_edit" href="javascript:void(0)" class="easyui-linkbutton white" iconCls="icon-edit"  onclick="editStore();" disabled="disabled">修改</a>
+        <a id="store_remove" href="javascript:void(0)" class="easyui-linkbutton white" iconCls="icon-remove"  onclick="removeStore();" disabled="disabled">删除</a>
+        <a id="store_start" href="javascript:void(0)" class="easyui-linkbutton white" iconCls="icon-ok" onclick="startUsing();" disabled="disabled">启用</a>
+        <a id="store_dis" href="javascript:void(0)" class="easyui-linkbutton white" iconCls="icon-lock" onclick="disableUsing();" disabled="disabled">禁用</a>
+    </div>
+</div>
+
+<div class="easyui-panel" data-options="header:'#header',maximized : true">
+    <table id="store_tab" style="width:100%;height:100%;">
+    </table>
+</div>
+<!--新增/编辑的模态框 -->
+<div id="store_data" class="easyui-dialog" style="width: 600px;height: 500px;" closed="true" cache="false" modal="true" buttons="#dlg-buttons">
+    <form id="storeForm" method="post" style="padding:10px 20px 10px 40px;" action="/store/saveOrUpdateStoreInfo" >
+        <div class="storeData">
+            <div class="storeinfo">
+                <table id="store_info" class="store_info" border="0">
+                    <input type="hidden" name="id" />
+                    <input type="hidden" name="useStatus" id="use_status" value="0"/>
+                    <input type="hidden" name="marginCapacity" id="margin_capacity" value="0"/>
+                    <input type="hidden" name="capacity" id="store_capacity" value="0"/>
+                    <tr>
+                        <td>*仓库名:</td>
+                        <td>
+                            <input  class="easyui-validatebox form-control" id="store_name" name="storeName" required="required" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>*最大库容量:</td>
+                        <td class="form-control-inner">
+                            <input  name="maxCapacity" class="easyui-numberbox" min="1"  precision="0" required="true" missingMessage="必须填写大于0之间的整数"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>*仓库地址:</td>
+                        <td >
+                            <textarea d="store_address" name="address" class="easyui-validatebox form-control" required="required" rows="3" cols="40"></textarea>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </form>
+</div>
+
+<!--模态框按钮 -->
+<div id="dlg-buttons">
+    <table cellpadding="0" cellspacing="0" style="width:100%">
+        <tr>
+            <td style="text-align:right">
+                <a href="#" class="easyui-linkbutton blue" iconCls="icon-save" onclick="checkInputAdd();">确定</a>
+                <a href="#" class="easyui-linkbutton darkblue" iconCls="icon-cancel" onclick="javascript:$('#store_data').dialog('close')">关闭</a>
+            </td>
+        </tr>
+    </table>
+</div>
 </body>
+<script>
+
+</script>
 </html>

@@ -60,14 +60,45 @@
             <if test="useStatus != null and useStatus !=''">
                 and  a.use_status =#{useStatus}
             </if>
-            <if test="storageStartDate!=null and storageStartDate!='' and storageEndDate!=null and storageEndDate!=''">
+            <if test="storageStartDate!=null and storageStartDate!=''">
                 AND date_format(a.storage_date,'%Y-%m-%d') <![CDATA[ >= ]]> #{storageStartDate}
+            </if>
+            <if test="storageEndDate!=null and storageEndDate!=''">
                 AND date_format(a.storage_date,'%Y-%m-%d') <![CDATA[ <= ]]> #{storageEndDate}
             </if>
-            <if test="productionStartDate!=null and productionStartDate!='' and productionEndDate!=null and productionEndDate!=''">
+            <if test="productionStartDate!=null and productionStartDate!=''">
                 AND date_format(a.production_date,'%Y-%m-%d') <![CDATA[ >= ]]> #{productionStartDate}
+            </if>
+            <if test="productionEndDate!=null and productionEndDate!=''">
                 AND date_format(a.production_date,'%Y-%m-%d') <![CDATA[ <= ]]> #{productionEndDate}
             </if>
         </where>
     </select>
+
+    <resultMap id="CarByStoreMap" type="com.wmt.carmanage.vo.StoreVo">
+        <result column="car_id"  property="carId" jdbcType="INTEGER"/>
+        <result column="car_name"  property="carName" jdbcType="VARCHAR"  />
+        <result column="car_model"  property="carModel" jdbcType="VARCHAR"  />
+        <result column="car_count"  property="carCount" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <select id="getCarListByStore" parameterType="map" resultMap="CarByStoreMap">
+        SELECT a.id as car_id,a.car_name,a.car_model,COUNT(DISTINCT a.id) as car_count
+        FROM car_info a
+        <where>
+               a.use_status =0
+            <if test="carName != null and carName !=''">
+                and a.car_name=#{carName}
+            </if>
+            <if test="carModel != null and carModel !=''">
+                and  a.car_model LIKE CONCAT('%',#{carModel},'%')
+            </if>
+            <if test="storeId != null and storeId !=''">
+                and  a.store_id =#{storeId}
+            </if>
+        </where>
+        GROUP BY a.car_name,a.car_model
+    </select>
+
+
 </mapper>

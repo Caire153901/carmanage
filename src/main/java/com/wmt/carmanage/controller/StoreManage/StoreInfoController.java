@@ -5,6 +5,7 @@ import com.wmt.carmanage.constant.EUDataGridResult;
 import com.wmt.carmanage.entity.StoreInfo;
 import com.wmt.carmanage.service.StoreInfoService;
 import com.wmt.carmanage.vo.StoreInfoVo;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -92,6 +93,19 @@ public class StoreInfoController {
     @PostMapping("/enable")
     public boolean enableStoreInfo(@RequestParam Integer id,@RequestParam byte type) throws Exception{
         return storeInfoService.enableStoreInfo(id,type);
+    }
+
+    /**
+     * 根据ID获取仓库信息
+     * @param id
+     * @return
+     */
+    @GetMapping("/detail")
+    public StoreInfoVo getStoreInfoVoById(@RequestParam Integer id){
+        StoreInfoVo vo = new StoreInfoVo();
+        StoreInfo storeInfo = storeInfoService.selectById(id);
+        BeanUtils.copyProperties(storeInfo,vo);
+        return vo;
     }
 
 }

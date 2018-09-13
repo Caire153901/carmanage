@@ -6,8 +6,11 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.PostConstruct;
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 /**
  * 文件工具类
@@ -49,5 +52,35 @@ public class FileUtils {
         File file = new File(upload_file_save_path, fileName);
         logoImage.transferTo(file);
         return file.getAbsolutePath();
+    }
+
+    /**
+     * 读取文件
+     * @param imgName
+     * @return
+     * @throws IOException
+     */
+    public static  String IoReadImage(String imgName) throws IOException {
+        OutputStream ops = null;
+        InputStream ips = null;
+        try {
+            //获取图片存放路径
+            File file  = new File(imgName);
+            Path p1    = file.toPath();
+            ops = Files.newOutputStream(p1);
+            //读取文件流
+            int len = 0;
+            byte[] buffer = new byte[1024 * 10];
+            while ((len = ips.read(buffer)) != -1){
+                ops.write(buffer,0,len);
+            }
+            ops.flush();
+        }catch (Exception e){
+            e.printStackTrace();
+        }finally {
+            ops.close();
+            ips.close();
+        }
+        return null;
     }
 }

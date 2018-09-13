@@ -87,6 +87,7 @@ function getTime(arguments) {
     // 可根据需要在这里定义时间格式  
     return y + '-' + (m < 10 ? '0' + m : m) + '-' + (d < 10 ? '0' + d : d) + ' ' + (h < 10 ? '0' + h : h) + ':' + (i < 10 ? '0' + i : i) + ':' + (s < 10 ? '0' + s : s);
 }
+
 /**
  * 前台对比日期大小
  * @param checkStartDate 开始时间

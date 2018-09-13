@@ -5,6 +5,8 @@ import com.wmt.carmanage.entity.Manufacturer;
 import com.baomidou.mybatisplus.service.IService;
 import com.wmt.carmanage.vo.ManufacturerVo;
 
+import java.util.List;
+
 /**
  * <p>
  * 厂商信息 服务类
@@ -15,6 +17,8 @@ import com.wmt.carmanage.vo.ManufacturerVo;
  */
 public interface ManufacturerService extends IService<Manufacturer> {
 
+
+    List<ManufacturerVo> getSelect();
     /**
      * 厂商信息列表
      * @param manufacturerCode

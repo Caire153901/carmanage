@@ -27,6 +27,24 @@ import java.util.List;
 @Service
 public class ManufacturerServiceImpl extends ServiceImpl<ManufacturerMapper, Manufacturer> implements ManufacturerService {
     /**
+     * 获取厂商下拉列表
+     * @return
+     */
+    @Override
+    public List<ManufacturerVo> getSelect() {
+        List<ManufacturerVo> list = new ArrayList<>();
+        Wrapper<Manufacturer> wrapper = new EntityWrapper<>();
+        wrapper.eq("use_status",0);
+        List<Manufacturer> manufacturerList = super.selectList(wrapper);
+        manufacturerList.stream().forEach(manufacturer -> {
+            ManufacturerVo vo = new ManufacturerVo();
+            BeanUtils.copyProperties(manufacturer,vo);
+            list.add(vo);
+        });
+        return list;
+    }
+
+    /**
      * 厂商信息列表
      * @param manufacturerCode
      * @param manufacturerName

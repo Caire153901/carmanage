@@ -10,7 +10,9 @@ import com.wmt.carmanage.mapper.CarInfoMapper;
 import com.wmt.carmanage.service.CarInfoService;
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
 import com.wmt.carmanage.service.StoreInfoService;
+import com.wmt.carmanage.util.DateUtils;
 import com.wmt.carmanage.vo.CarInfoVo;
+import com.wmt.carmanage.vo.StoreVo;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -47,7 +49,8 @@ public class CarInfoServiceImpl extends ServiceImpl<CarInfoMapper, CarInfo> impl
         wrapper.eq("store_id",storeId);
         wrapper.eq("use_status",0);
         List<CarInfo> carInfoList = super.selectList(wrapper);
-        carInfoList.stream().forEach(carInfo -> {
+        List<CarInfo> carInfos = carInfoList.stream().filter(CarInfo.distinctByKey(CarInfo::getCarName)).collect(Collectors.toList());
+        carInfos.stream().forEach(carInfo -> {
             CarInfoVo vo = new CarInfoVo();
             BeanUtils.copyProperties(carInfo,vo);
             list.add(vo);
@@ -100,6 +103,24 @@ public class CarInfoServiceImpl extends ServiceImpl<CarInfoMapper, CarInfo> impl
         return page;
     }
 
+    @Override
+    public Page<StoreVo> getCarInfoByStore(Integer storeId,String carName,String carModel,Integer current, String sort, String asc, Integer pageSize) throws Exception {
+        boolean orderSort = false;
+        if(null==sort){
+            sort = "a.car_code";
+        }
+        if(null!=asc && asc.equals("asc")){
+            orderSort = true;
+        }
+        Page page = new Page(current,pageSize,sort,orderSort);
+        Map map = new HashMap();
+        map.put("storeId",storeId);
+        map.put("carName",carName);
+        map.put("carModel",carModel);
+        List<StoreVo> list = carInfoMapper.getCarListByStore(page,map);
+        page = page.setRecords(list);
+        return page;
+    }
     /**
      * 新车入库
      * @param carInfo
@@ -119,8 +140,30 @@ public class CarInfoServiceImpl extends ServiceImpl<CarInfoMapper, CarInfo> impl
             storeInfo.setCapacity(capacity + 1);
             storeInfo.setMarginCapacity(storeInfo.getMaxCapacity()-capacity-1);
             storeInfoService.updateById(storeInfo);
+            carInfo.setStorageDate(new Date());
+            carInfo.setProductionDate(DateUtils.parseDate(carInfo.getProductionDates()));
             return super.insert(carInfo);
         }
+    }
+
+    /**
+     * 修改
+     * @param carInfo
+     * @return
+     */
+    @Override
+    public boolean editCarInfo(CarInfo carInfo) {
+        CarInfo old = super.selectById(carInfo.getId());
+        if(!old.getEngineNumber().equals(carInfo.getEngineNumber())){
+            EntityWrapper<CarInfo> wrapper = new EntityWrapper<>();
+            wrapper.eq("engine_number",carInfo.getEngineNumber());
+            List<CarInfo> list = super.selectList(wrapper);
+            if(list.size()>0){
+                throw new BaseException("发动机编号【"+carInfo.getEngineNumber()+"】或汽车编号【"+carInfo.getCarCode()+"】已存在");
+            }
+        }
+        carInfo.setProductionDate(DateUtils.parseDate(carInfo.getProductionDates()));
+        return super.updateById(carInfo);
     }
 
     /**

@@ -1,0 +1,10 @@
+#store_info_vo tr{height:35px;}
+#store_info_vo td{width: 160px;text-align:right;}
+#store_info_vo td th{width: 160px;text-align:right;}
+#store_info_vo input{
+    width:160px;
+    outline:none;
+    background:transparent;
+    border:none;
+    outline:medium;
+}

@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.plugins.Page;
 import com.wmt.carmanage.entity.CarInfo;
 import com.baomidou.mybatisplus.service.IService;
 import com.wmt.carmanage.vo.CarInfoVo;
+import com.wmt.carmanage.vo.StoreVo;
 
 import java.util.List;
 import java.util.Map;
@@ -48,11 +49,32 @@ public interface CarInfoService extends IService<CarInfo> {
                                      Integer current,String sort,String asc,Integer pageSize) throws Exception;
 
     /**
+     * 库存信息
+     * @param storeId
+     * @param carName
+     * @param carModel
+     * @param current
+     * @param sort
+     * @param asc
+     * @param pageSize
+     * @return
+     * @throws Exception
+     */
+    Page<StoreVo> getCarInfoByStore(Integer storeId, String carName, String carModel, Integer current, String sort, String asc, Integer pageSize) throws Exception;
+
+    /**
      * 新车入库
      * @param carInfo
      * @return
      */
     boolean saveCarInfoInStore(CarInfo carInfo);
+
+    /**
+     * 修改
+     * @param carInfo
+     * @return
+     */
+    boolean editCarInfo(CarInfo carInfo);
 
     /**
      * 移库

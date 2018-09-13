@@ -21,7 +21,7 @@ public class StoreManageTest extends BaseTest{
      */
     @Test
     public void getCarList() {
-        String url = "/car_info/list";
+        String url = "/car/list";
         Map<String,String> params = Maps.newHashMap();
         doGet(url, params);
     }
@@ -30,7 +30,15 @@ public class StoreManageTest extends BaseTest{
      */
     @Test
     public void getCarSelectList() {
-        String url = "/car_info/car_type_select";
+        String url = "/car/car_type_select";
+        Map<String,String> params = Maps.newHashMap();
+        params.put("storeId","1");
+        doGet(url, params);
+    }
+
+    @Test
+    public void getCarInfoByStore() {
+        String url = "/car/store/list";
         Map<String,String> params = Maps.newHashMap();
         params.put("storeId","1");
         doGet(url, params);

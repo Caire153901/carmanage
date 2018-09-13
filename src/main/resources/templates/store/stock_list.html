@@ -2,9 +2,68 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>库存管理</title>
+    <link rel="stylesheet" href="../public/easyuitemplate/easyui.css">
+    <link rel="stylesheet" href="../public/css/base.css">
+    <link rel="stylesheet" type="text/css" href="../public/easyuitemplate/icon.css">
+    <link rel="stylesheet" type="text/css" href="../public/fonts/iconfont.css">
+    <link rel="stylesheet" href="../public/css/custom.common.css">
+    <link rel="stylesheet" type="text/css" href="../carmanage/storeManage/stock_list.css">
+    <script type="text/javascript" src="../public/js/jquery.min.js"></script>
+    <script type="text/javascript" src="../public/easyui/jquery.easyui.min.js"></script>
+    <script type="text/javascript" src="../public/easyui/easyui-lang-zh_CN.js"></script>
+    <script type="text/javascript" src="../public/js/base.js"></script>
+    <script type="text/javascript" src="../carmanage/storeManage/stock_list.js"></script>
+
 </head>
-<body>
+<body class="clearBorder">
+<!-- 主表 -->
+<div id="header" style="text-align:right;">
+    <span class="header-left">库存管理</span>
+    <div>
+        仓库名： <input  id="storeSelect"  name="storeId" class="easyui-combobox"  editable="false" value=""/>
+        汽车名： <input  id="carSelect"  name="carName" class="easyui-combobox"  editable="false" value=""/>
+        汽车型号： <input  id="carModel" class="form-control form-control-inline" name="carModel"  value="">
+        <a id="query" href="javascript:void(0)" class="easyui-linkbutton blue" iconCls="icon-search" onclick="checkInputQuery();">查询</a>
+        <a id="reset" href="javascript:void(0)" class="easyui-linkbutton blue" iconCls="icon-reload" onclick="reset();">重置查询</a>
+    </div>
+</div>
+
+<div class="easyui-panel" data-options="header:'#header',maximized : true">
+    <br>
+        <table id="store_info_vo">
+            <tr>
+                <td><strong>仓库名：</strong></td>
+                <td>
+                    <input type="text" id="store_name"/>
+                </td>
+                <td><strong>仓库地址：</strong></td>
+                <td >
+                    <input type="text" id="store_address"/>
+                </td>
+            </tr>
+            <tr>
+                <td><strong>仓库最大容量：</strong></td>
+                <td >
+                    <input type="text" id="max_capacity"/>
+                </td>
+                <td><strong>仓库现有存量：</strong></td>
+                <td >
+                    <input type="text" id="capacity"/>
+                </td>
+                <td><strong>仓库现有余量：</strong></td>
+                <td >
+                    <input type="text" id="margin_capacity"/>
+                </td>
+            </tr>
+        </table>
+    <br>
+    <br>
+    <table id="car_store_table" style="width:100%;height:100%;">
+    </table>
+</div>
 
 </body>
+<script>
+
+</script>
 </html>

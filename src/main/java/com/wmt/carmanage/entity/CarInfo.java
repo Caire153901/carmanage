@@ -2,10 +2,16 @@ package com.wmt.carmanage.entity;
 
 import java.util.Date;
 import com.baomidou.mybatisplus.annotations.TableField;
+import com.baomidou.mybatisplus.annotations.TableId;
 import com.baomidou.mybatisplus.annotations.TableName;
+import com.baomidou.mybatisplus.enums.IdType;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import java.io.Serializable;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.function.Function;
+import java.util.function.Predicate;
 
 /**
  * <p>
@@ -23,6 +29,7 @@ public class CarInfo implements Serializable {
     /**
      * ID
      */
+    @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
     /**
      * 汽车编号
@@ -73,6 +80,9 @@ public class CarInfo implements Serializable {
     @JsonFormat(pattern = "yyyy-MM-dd",timezone = "GMT+8")
     @TableField("production_date")
     private Date productionDate;
+
+    @TableField(exist = false)
+    private String productionDates;
     /**
      * 入库日期
      */
@@ -244,6 +254,18 @@ public class CarInfo implements Serializable {
         this.gmtModify = gmtModify;
     }
 
+    public String getProductionDates() {
+        return productionDates;
+    }
+
+    public void setProductionDates(String productionDates) {
+        this.productionDates = productionDates;
+    }
+
+    public static <T> Predicate<T> distinctByKey(Function<? super T, Object> keyExtractor) {
+        Map<Object, Boolean> seen = new ConcurrentHashMap<>();
+        return object ->     seen.putIfAbsent(keyExtractor.apply(object), true) == null;
+    }
     @Override
     public String toString() {
         return "CarInfo{" +

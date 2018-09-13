@@ -84,7 +84,7 @@ function getCustomerProvincial(){
         }
     });
 }
-
+/** 获取客户编号 **/
 function getCustomerCode() {
     var Code="CK";
     $.ajax({
@@ -98,7 +98,6 @@ function getCustomerCode() {
             }
         }
     });
-    
 }
 //选中后按钮状态
 function selectCustomer(row){

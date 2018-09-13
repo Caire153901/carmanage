@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.plugins.Page;
 import com.wmt.carmanage.entity.CarInfo;
 import com.baomidou.mybatisplus.mapper.BaseMapper;
 import com.wmt.carmanage.vo.CarInfoVo;
+import com.wmt.carmanage.vo.StoreVo;
 
 import java.util.List;
 import java.util.Map;
@@ -19,5 +20,7 @@ import java.util.Map;
 public interface CarInfoMapper extends BaseMapper<CarInfo> {
 
     List<CarInfoVo> getCarInfoVoList(Page page, Map map);
+
+    List<StoreVo> getCarListByStore(Page page,Map map);
 
 }

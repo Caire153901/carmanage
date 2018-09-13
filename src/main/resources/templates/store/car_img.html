@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="../public/easyuitemplate/easyui.css">
+    <link rel="stylesheet" href="../public/css/base.css">
+    <link rel="stylesheet" type="text/css" href="../public/easyuitemplate/icon.css">
+    <link rel="stylesheet" type="text/css" href="../public/fonts/iconfont.css">
+    <link rel="stylesheet" href="../public/css/custom.common.css">
+    <link rel="stylesheet" type="text/css" href="../carmanage/storeManage/car_list.css">
+    <script type="text/javascript" src="../public/js/jquery.min.js"></script>
+    <script type="text/javascript" src="../public/easyui/jquery.easyui.min.js"></script>
+    <script type="text/javascript" src="../public/easyui/easyui-lang-zh_CN.js"></script>
+    <script type="text/javascript" src="../public/js/base.js"></script>
+    <script type="text/javascript" src="../carmanage/storeManage/car_list.js"></script>
+</head>
+<body class="clearBorder">
+<!-- 主表 -->
+<div id="header" style="text-align:right;height: 80px">
+    <div style="float:left;margin-left: 20px;">
+        <a id="car_add" href="javascript:void(0)" class="easyui-linkbutton white" iconCls="icon-add" onclick="addCar();">新增</a>
+        <a id="car_edit" href="javascript:void(0)" class="easyui-linkbutton white" iconCls="icon-edit"  onclick="editCar();" disabled="disabled">修改</a>
+        <a id="car_remove" href="javascript:void(0)" class="easyui-linkbutton white" iconCls="icon-remove"  onclick="removeCar();" disabled="disabled">删除</a>
+    </div>
+</div>
+
+<div class="easyui-panel" data-options="header:'#header',maximized : true">
+    <table id="car_tab" style="width:100%;height:100%;">
+    </table>
+</div>
+
+<div id="win">
+    <img id="stationImg" style="width:100%;height:100%;"/>
+</div>
+
+<!--新增/编辑的模态框 -->
+<div id="car_data" class="easyui-dialog" style="width: 800px;height: 500px;" closed="true" cache="false" modal="true" buttons="#dlg-buttons">
+    <form id="carForm" method="post" style="padding:10px 20px 10px 40px;" action="/car/saveOrUpdateCar" >
+        <div class="carData">
+            <div class="carinfo">
+                <table id="car_info" class="car_info" border="0">
+                    <input type="hidden" name="id" />
+                    <input type="hidden" id="iconcls" name="iconcls" />
+                    <tr>
+                        <td>*汽车型号:</td>
+                        <td class="form-control-inner">
+                            <input  id="store_id"  name="storeId" class="easyui-combobox" required="required" editable="false"/>
+                        </td>
+                        <td>*汽车颜色:</td>
+                        <td class="form-control-inner">
+                            <input  id="manufacturer_id"  name="manufacturerId" class="easyui-combobox" required="required" editable="false"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>*描述:</td>
+                        <td colspan="4" >
+                            <input class="easyui-textbox" data-options="multiline:true" style="height:60px;width: 500px;" id="car_note" name="carNote"  required="required">
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </form>
+    <!-- 上传汽车照片 -->
+    <form id="uploadCarPic" name="uploadCarPic" method="post" enctype="multipart/form-data" style="padding: 0 20px 0 20px;">
+        <input id="file" name="file" type="file" title="上传" placeholder="请选择汽车图片">
+    </form>
+</div>
+<!--模态框按钮 -->
+<div id="dlg-buttons">
+    <table cellpadding="0" cellspacing="0" style="width:100%">
+        <tr>
+            <td style="text-align:right">
+                <a href="#" class="easyui-linkbutton blue" iconCls="icon-save" onclick="checkInputAdd();">确定</a>
+                <a href="#" class="easyui-linkbutton darkblue" iconCls="icon-cancel" onclick="javascript:$('#car_data').dialog('close')">关闭</a>
+            </td>
+        </tr>
+    </table>
+</div>
+</body>
+<script>
+
+</script>
+</html>

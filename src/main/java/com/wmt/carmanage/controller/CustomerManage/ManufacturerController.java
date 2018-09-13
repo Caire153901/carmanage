@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.constraints.Max;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -28,6 +29,16 @@ public class ManufacturerController {
     @Autowired
     SysSerialNumberService sysSerialNumberService;
 
+
+
+    /**
+     * 获取厂商下拉列表
+     * @return
+     */
+    @GetMapping("/select_list")
+    public List<ManufacturerVo> getManufacturerSelect(){
+        return manufacturerService.getSelect();
+    }
     /**
      * 厂商信息列表
      * @param manufacturerCode
