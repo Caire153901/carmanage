@@ -60,12 +60,15 @@ public class FileUtils {
      * @return
      * @throws IOException
      */
-    public static  String IoReadImage(String imgName) throws IOException {
+    public static  String IoReadImage(String imgName,String imgPath) throws IOException {
         OutputStream ops = null;
         InputStream ips = null;
         try {
             //获取图片存放路径
-            File file  = new File(imgName);
+            if(null==imgPath){
+                imgPath = upload_file_save_path+imgName;
+            }
+            File file  = new File(imgPath);
             Path p1    = file.toPath();
             ops = Files.newOutputStream(p1);
             //读取文件流

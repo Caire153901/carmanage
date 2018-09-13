@@ -65,11 +65,14 @@ public class MainController extends BaseController {
     }
 
     /**
-     * logo图片
+     * 获取图片
      * @return
      */
     @GetMapping("/show/img")
-    public String logo(@RequestParam String imgUrl)throws Exception{
-        return FileUtils.IoReadImage(imgUrl);
+    public String logo(
+            @RequestParam(value = "imgUrl",required = false) String imgUrl,
+            @RequestParam(value = "imgName",required = false) String imgName)throws Exception{
+        return FileUtils.IoReadImage(imgName,imgUrl);
     }
+
 }

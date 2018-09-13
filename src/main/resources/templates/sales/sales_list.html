@@ -2,9 +2,118 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>销售信息管理</title>
-</head>
-<body>
+    <link rel="stylesheet" href="../public/easyuitemplate/easyui.css">
+    <link rel="stylesheet" href="../public/css/base.css">
+    <link rel="stylesheet" type="text/css" href="../public/easyuitemplate/icon.css">
+    <link rel="stylesheet" type="text/css" href="../public/fonts/iconfont.css">
+    <link rel="stylesheet" href="../public/css/custom.common.css">
+    <link rel="stylesheet" type="text/css" href="../carmanage/salesManage/sales_list.css">
+    <script type="text/javascript" src="../public/js/jquery.min.js"></script>
+    <script type="text/javascript" src="../public/easyui/jquery.easyui.min.js"></script>
+    <script type="text/javascript" src="../public/easyui/easyui-lang-zh_CN.js"></script>
+    <script type="text/javascript" src="../public/js/base.js"></script>
+    <script type="text/javascript" src="../carmanage/salesManage/sales_list.js"></script>
 
+</head>
+<body class="clearBorder">
+<!-- 主表 -->
+<div id="header" style="text-align:right;">
+    <span class="header-left">销售信息管理</span>
+    <div>
+        订单号： <input  id="salesCode" class="form-control form-control-inline" name="salesCode"  value="">
+        销售日期：<input id="productionStartDate" name="productionStartDate" type="text" class="easyui-datebox" placeholder="开始日期" editable="false">
+        --<input id="productionEndDate" name="productionEndDate" type="text" class="easyui-datebox" placeholder="结束日期" editable="false">
+        <a id="query" href="javascript:void(0)" class="easyui-linkbutton blue" iconCls="icon-search" onclick="checkInputQuery();">查询</a>
+        <a id="reset" href="javascript:void(0)" class="easyui-linkbutton blue" iconCls="icon-reload" onclick="reset();">重置查询</a>
+        <a id="sales_add" href="javascript:void(0)" class="easyui-linkbutton white" iconCls="icon-add" onclick="addSales();">新增</a>
+        <a id="sales_edit" href="javascript:void(0)" class="easyui-linkbutton white" iconCls="icon-edit"  onclick="editSales();" disabled="disabled">修改</a>
+        <a id="sales_remove" href="javascript:void(0)" class="easyui-linkbutton white" iconCls="icon-remove"  onclick="deleteSales();" disabled="disabled">删除</a>
+    </div>
+</div>
+
+<div class="easyui-panel" data-options="header:'#header',maximized : true">
+    <table id="sales_tab" style="width:100%;height:100%;">
+    </table>
+</div>
+
+
+<!--新增/编辑的模态框 -->
+<div id="sales_data" class="easyui-dialog" style="width: 600px;height: 500px;" closed="true" cache="false" modal="true" buttons="#dlg-buttons">
+    <form id="salesForm" method="post" style="padding:10px 20px 10px 40px;" action="/sales/saveOrUpdateSales" >
+        <div class="salesData">
+            <div class="salesinfo">
+                <table id="sales_info" class="sales_info" border="0">
+                    <input type="hidden" name="id" />
+                    <input type="hidden" name="useStatus" value="0" />
+                    <tr>
+                        <td>*订单号:</td>
+                        <td>
+                            <input  class="easyui-validatebox form-control" id="sales_code" name="salesCode" required="required" editable="false"/>
+                        </td>
+                        <td>*客户名:</td>
+                        <td>
+                            <input type="text" class="easyui-validatebox form-control" id="sales_name" name="salesName" required="required" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>*汽车号:</td>
+                        <td>
+                            <input type="text" class="easyui-validatebox form-control" id="sales_name" name="salesName" required="required" />
+                        </td>
+                        <td>*汽车名:</td>
+                        <td>
+                            <input id="sales_identityCard" name="identityCard" class="easyui-validatebox form-control" data-options="required:true,validType:'idcard'"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>*汽车类型:</td>
+                        <td>
+                            <input id="sales_identityCard" name="identityCard" class="easyui-validatebox form-control" data-options="required:true,validType:'idcard'"/>
+                        </td>
+                        <td>*车流向:</td>
+                        <td>
+                            <input id="sales_identityCard" name="identityCard" class="easyui-validatebox form-control" data-options="required:true,validType:'idcard'"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>*成交价:</td>
+                        <td>
+                            <input id="sales_identityCard" name="identityCard" class="easyui-validatebox form-control" data-options="required:true,validType:'idcard'"/>
+                        </td>
+                        <td>*销售日期:</td>
+                        <td>
+                            <input id="sales_identityCard" name="identityCard" class="easyui-validatebox form-control" data-options="required:true,validType:'idcard'"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>*销售状态:</td>
+                        <td>
+                            <input id="sales_identityCard" name="identityCard" class="easyui-validatebox form-control" data-options="required:true,validType:'idcard'"/>
+                        </td>
+                        <td>*说明:</td>
+                        <td>
+                            <input id="sales_identityCard" name="identityCard" class="easyui-validatebox form-control" data-options="required:true,validType:'idcard'"/>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </form>
+</div>
+
+<!--模态框按钮 -->
+<div id="dlg-buttons">
+    <table cellpadding="0" cellspacing="0" style="width:100%">
+        <tr>
+            <td style="text-align:right">
+                <a href="#" class="easyui-linkbutton blue" iconCls="icon-save" onclick="checkInputAdd();">确定</a>
+                <a href="#" class="easyui-linkbutton darkblue" iconCls="icon-cancel" onclick="javascript:$('#sales_data').dialog('close')">关闭</a>
+            </td>
+        </tr>
+    </table>
+</div>
 </body>
+<script>
+
+</script>
 </html>

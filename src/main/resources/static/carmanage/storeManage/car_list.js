@@ -23,7 +23,7 @@ $(function(){
         },
         columns: [[
             { field: 'id', title: '汽车ID', hidden: 'true'},
-            { field: 'carCode', title: '汽车编号',sortable:true, width:100, align: 'left', halign: 'center',align: 'center'},
+            { field: 'carCode', title: '汽车编号',sortable:true, width:150, align: 'left', halign: 'center',align: 'center'},
             { field: 'carName', title: '汽车名称',sortable:true, width:150, halign: 'center',align: 'center'},
             { field: 'carModel', title: '汽车型号',  align: 'left', halign: 'center',sortable:true,width:100,align: 'center'},
             { field: 'carColor', title: '汽车颜色',  align: 'left', halign: 'center',width:100,align: 'center'},
@@ -80,7 +80,7 @@ function openWin(title,image){
     if(image==undefined || image==""){
         $.messager.alert("提示","未上传图片","warning");
     }else{
-        var imgPath=getRootPath__()+"/main/show/img?imgUrl="+image;
+        var imgPath=getRootPath__()+"/main/show/img?imgName="+image;
         $("#stationImg").attr('src',imgPath);
         $("#win").window("open");
     }
