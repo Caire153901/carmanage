@@ -12,6 +12,7 @@ import com.wmt.carmanage.service.CarInfoService;
 import com.wmt.carmanage.service.RoleAuthorityService;
 import com.wmt.carmanage.util.FileUtils;
 import com.wmt.carmanage.util.ToolFunctions;
+import org.apache.catalina.connector.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -60,8 +61,11 @@ public class MainController extends BaseController {
      * 上传图片
      */
     @PostMapping("/upload/img")
-    public String upLoadCarImg(MultipartFile file, String fileName) throws IOException {
-        return FileUtils.saveUploadFile(file,fileName);
+    public Map upLoadCarImg(MultipartFile file, String fileName) throws IOException {
+        Map map = new HashMap();
+        String filePath =FileUtils.saveUploadFile(file,fileName);
+        map.put("imgUrl",filePath);
+        return map;
     }
 
     /**
@@ -71,8 +75,8 @@ public class MainController extends BaseController {
     @GetMapping("/show/img")
     public String logo(
             @RequestParam(value = "imgUrl",required = false) String imgUrl,
-            @RequestParam(value = "imgName",required = false) String imgName)throws Exception{
-        return FileUtils.IoReadImage(imgName,imgUrl);
+            @RequestParam(value = "imgName",required = false) String imgName,
+            HttpServletRequest request,HttpServletResponse response)throws Exception{
+        return FileUtils.IoReadImage(imgName,imgUrl,request,response);
     }
-
 }

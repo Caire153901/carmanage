@@ -6,6 +6,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.PostConstruct;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -60,28 +62,28 @@ public class FileUtils {
      * @return
      * @throws IOException
      */
-    public static  String IoReadImage(String imgName,String imgPath) throws IOException {
-        OutputStream ops = null;
+    public static  String IoReadImage(String imgName,String imgPath,HttpServletRequest request, HttpServletResponse response) throws IOException {
+        OutputStream out = null;
         InputStream ips = null;
         try {
             //获取图片存放路径
             if(null==imgPath){
-                imgPath = upload_file_save_path+imgName;
+                imgPath = upload_file_save_path+"\\"+imgName+".jpeg";
             }
-            File file  = new File(imgPath);
-            Path p1    = file.toPath();
-            ops = Files.newOutputStream(p1);
+            ips = new FileInputStream(new File(imgPath));
+            response.setContentType("multipart/form-data");
+            out = response.getOutputStream();
             //读取文件流
             int len = 0;
             byte[] buffer = new byte[1024 * 10];
             while ((len = ips.read(buffer)) != -1){
-                ops.write(buffer,0,len);
+                out.write(buffer,0,len);
             }
-            ops.flush();
+            out.flush();
         }catch (Exception e){
             e.printStackTrace();
         }finally {
-            ops.close();
+            out.close();
             ips.close();
         }
         return null;

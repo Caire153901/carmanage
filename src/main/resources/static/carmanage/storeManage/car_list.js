@@ -58,9 +58,8 @@ $(function(){
             },
             { field: 'imgUrl', title: '查看',  align: 'left', halign: 'center',width:100,align: 'center',
                 formatter: function(value,row,index){
-                    var image = row.carModel+"_"+row.carColor;
-                    var imgName = row.carName;
-                    return  "<a href='#' onclick=\"openWin('"+imgName+"','"+image+"')\"><span class='iconfont icon-tupian'></span></a>";
+                    var image = row.carName+"_"+row.carModel+"_"+row.carColor;
+                    return  "<a href='#' onclick=\"openWin('"+image+"','"+image+"')\"><span class='iconfont icon-tupian'></span></a>";
                 }
             }
         ]]

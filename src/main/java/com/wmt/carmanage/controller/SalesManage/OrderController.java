@@ -41,13 +41,16 @@ public class OrderController {
             @RequestParam(value = "customerCode",required = false) String customerCode,
             @RequestParam(value = "carModel",required = false) String carModel,
             @RequestParam(value = "carName",required = false) String carName,
+            @RequestParam(value = "orderStatus",required = false) Integer orderStatus,
+            @RequestParam(value = "saleStartDate",required = false) String saleStartDate,
+            @RequestParam(value = "saleEndDate",required = false) String saleEndDate,
             @RequestParam(value = "page",required = false,defaultValue = "1") Integer current,
             @RequestParam(value = "sort",required = false,defaultValue = "a.order_code") String sort,
             @RequestParam(value = "order",required = false) String asc,
             @Max(value = 100,message = "每页条数不超过100") @RequestParam(value = "rows",required = false,defaultValue = "10") Integer pageSize)
             throws Exception{
 
-        Page<OrderInfoVo> page = orderInfoService.getVisitInfoList(orderCode, customerName, customerCode, carName,carModel, current, sort, asc, pageSize);
+        Page<OrderInfoVo> page = orderInfoService.getVisitInfoList(orderCode, customerName, customerCode, carName,carModel,orderStatus,saleStartDate,saleEndDate,current, sort, asc, pageSize);
         EUDataGridResult all = new EUDataGridResult();
         all.setRows(page.getRecords());
         all.setTotal(page.getTotal());

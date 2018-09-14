@@ -52,12 +52,11 @@ $(function(){
             }
         ]]
     });
-
+    getOrderList();
 });
 
 //选中后按钮状态
 function selectVisit(row){
-    var state=row.useStatus;
     $('#visit_edit').linkbutton('enable');//修改按钮可用
     $('#visit_remove').linkbutton('enable');//删除按钮可用
 }
@@ -83,11 +82,61 @@ function reset(){
     $('#orderCode').val("");
     $('#visit_tab').datagrid('load',{});
 }
-function getCustomerSelect() {
-    
-}
-function getOrderSelect(){
 
+function chooseOrder(){
+
+}
+
+function getOrderList() {
+    $("#order_vo_tab").datagrid({
+        checkOnSelect: true,
+        pagination:true,
+        pageSize:20,//默认传参 rows
+        pageNumber:1,//默认传参 page
+        url: getRootPath__()+'/visit/list',
+        fitColumns:true,
+        singleSelect:true,
+        fit:true,
+        method:'get',
+        pageList : [10,20,30],
+        sortName : 'gmtModify',//默认传参 sort
+        sortOrder : 'asc',//默认传参 order吧
+        rownumbers:true,
+        onSelect:function(index, row){
+            selectVisit(row);
+        },
+        columns: [[
+            { field: 'id', title: '回访ID', hidden: 'true'},
+            { field: 'customer.id', title: '客户ID', hidden: 'true'},
+            { field: 'orderInfo.id', title: '订单ID', hidden: 'true'},
+            { field: 'customer', title: '客户名',sortable:true, width:80, align: 'left', halign: 'center',align: 'center',
+                formatter: function(value,row,index){
+                    return value.customerName
+                }
+            },
+            { field: 'orderInfo', title: '订单号',sortable:true, width:50, align: 'left', halign: 'center',align: 'center',
+                formatter: function(value,row,index){
+                    return value.orderCode
+                }
+            },
+            { field: 'visitDate', title: '回访时间',sortable:true, width:50, align: 'left', halign: 'center',align: 'center'},
+            { field: 'visitEvents', title: '回访事件',  align: 'left', halign: 'center',sortable:true,width:80,align: 'center'},
+            { field: 'visitRecord', title: '回访记录',  align: 'left', halign: 'center',width:80,align: 'center'},
+            { field: 'useStatus', title: '状态',  align: 'center', halign: 'center',sortable:true,width:30,
+                formatter: function(value,row,index){
+                    if (value=='0'){
+                        return "<span class='iconfont icon-chenggong' style='color:#1AE61A'></span>";
+                    }
+                    if (value=='2'){
+                        return "<span class='iconfont icon-iconset0187' style='color:red'></span>";
+                    }
+                    if(value =='1'){
+                        return "<span class='iconfont icon-dengpao' style='color:#aa00ff'></span>";
+                    }
+                }
+            }
+        ]]
+    });
 }
 /** 新增初始化 */
 function addVisit(){

@@ -45,8 +45,8 @@
         LEFT JOIN customer b ON a.customer_id = b.id
         LEFT JOIN car_info c ON a.car_id = c.id
         <where>
-            <if test="carCode != null and carCode !=''">
-                c.car_code LIKE CONCAT('%',#{carCode},'%')
+            <if test="carName != null and carName !=''">
+                c.car_name LIKE CONCAT('%',#{carName},'%')
             </if>
             <if test="carModel != null and carModel !=''">
                and c.car_model LIKE CONCAT('%',#{carModel},'%')
@@ -59,6 +59,15 @@
             </if>
             <if test="customerCode != null and customerCode !=''">
                and  b.customer_code LIKE CONCAT('%',#{customerCode},'%')
+            </if>
+            <if test="orderStatus != null and orderStatus !=''">
+               and  a.order_status =#{orderStatus}
+            </if>
+            <if test="saleStartDate!=null and saleStartDate!=''">
+                and date_format(a.sales_date,'%Y-%m-%d') <![CDATA[ >= ]]> #{saleStartDate}
+            </if>
+            <if test="saleEndDate!=null and saleEndDate!=''">
+                and date_format(a.sales_date,'%Y-%m-%d') <![CDATA[ <= ]]> #{saleEndDate}
             </if>
         </where>
     </select>

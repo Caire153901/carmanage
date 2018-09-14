@@ -185,6 +185,18 @@ public class PageController {
         return "/sales/cars_list";
     }
     /**
+     * 汽车图片管理
+     * @return
+     */
+    @RequestMapping(value = "/car_img")
+    public String carImgList(HttpSession session) {
+        UserInfo userInfo = (UserInfo) session.getAttribute(Const.USER_KEY);
+        if(null==userInfo){
+            return "redirect:/login";
+        }
+        return "/store/car_img";
+    }
+    /**
      * 仓库列表管理
      * @return
      */

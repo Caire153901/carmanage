@@ -48,51 +48,50 @@
                     <tr>
                         <td>*订单号:</td>
                         <td>
-                            <input  class="easyui-validatebox form-control" id="sales_code" name="salesCode" required="required" editable="false"/>
+                            <input  class="easyui-validatebox form-control" id="order_code" name="orderCode" required="required" editable="false"/>
                         </td>
                         <td>*客户名:</td>
                         <td>
-                            <input type="text" class="easyui-validatebox form-control" id="sales_name" name="salesName" required="required" />
+                            <input type="text"  id="customer_id" name="customerId" required="required" />
+                            <input type="text" class="easyui-validatebox form-control" id="customer_name" name="customerName" required="required" />
                         </td>
                     </tr>
                     <tr>
-                        <td>*汽车号:</td>
-                        <td>
-                            <input type="text" class="easyui-validatebox form-control" id="sales_name" name="salesName" required="required" />
-                        </td>
                         <td>*汽车名:</td>
                         <td>
-                            <input id="sales_identityCard" name="identityCard" class="easyui-validatebox form-control" data-options="required:true,validType:'idcard'"/>
+                            <input id="car_id" name="carId" />
+                            <input id="car_name" class="easyui-validatebox form-control" data-options="required:true" editable="false"/>
                         </td>
-                    </tr>
-                    <tr>
                         <td>*汽车类型:</td>
                         <td>
-                            <input id="sales_identityCard" name="identityCard" class="easyui-validatebox form-control" data-options="required:true,validType:'idcard'"/>
-                        </td>
-                        <td>*车流向:</td>
-                        <td>
-                            <input id="sales_identityCard" name="identityCard" class="easyui-validatebox form-control" data-options="required:true,validType:'idcard'"/>
+                            <input id="car_model" class="easyui-validatebox form-control" data-options="required:true"editable="false"/>
                         </td>
                     </tr>
                     <tr>
+                        <td>*汽车颜色:</td>
+                        <td>
+                            <input id="car_color" class="easyui-validatebox form-control" data-options="required:true" editable="false"/>
+                        </td>
                         <td>*成交价:</td>
                         <td>
-                            <input id="sales_identityCard" name="identityCard" class="easyui-validatebox form-control" data-options="required:true,validType:'idcard'"/>
+                            <input id="closing_cost" name="closingCost" class="easyui-validatebox form-control" data-options="required:true"/>
                         </td>
+
+                    </tr>
+                    <tr>
                         <td>*销售日期:</td>
                         <td>
-                            <input id="sales_identityCard" name="identityCard" class="easyui-validatebox form-control" data-options="required:true,validType:'idcard'"/>
+                            <input id="sales_date" name="salesDate" class="easyui-validatebox form-control" data-options="required:true"/>
+                        </td>
+                        <td>*销售状态:订单状态,0未出库，1已出库，2在运，3已送达</td>
+                        <td>
+                            <input id="order_status" name="orderStatus" class="easyui-validatebox form-control" data-options="required:true"/>
                         </td>
                     </tr>
                     <tr>
-                        <td>*销售状态:</td>
-                        <td>
-                            <input id="sales_identityCard" name="identityCard" class="easyui-validatebox form-control" data-options="required:true,validType:'idcard'"/>
-                        </td>
                         <td>*说明:</td>
                         <td>
-                            <input id="sales_identityCard" name="identityCard" class="easyui-validatebox form-control" data-options="required:true,validType:'idcard'"/>
+                            <input id="order_note" name="orderNote" class="easyui-validatebox form-control" data-options="required:true"/>
                         </td>
                     </tr>
                 </table>

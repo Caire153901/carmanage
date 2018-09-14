@@ -56,7 +56,9 @@ public class OrderInfoServiceImpl extends ServiceImpl<OrderInfoMapper, OrderInfo
      * @throws Exception
      */
     @Override
-    public Page<OrderInfoVo> getVisitInfoList(String orderCode, String customerName, String customerCode, String carModel, String carName, Integer current, String sort, String asc, Integer pageSize) throws Exception {
+    public Page<OrderInfoVo> getVisitInfoList(String orderCode, String customerName, String customerCode, String carName, String carModel,
+                                              Integer orderStatus,String saleStartDate,String saleEndDate,
+                                              Integer current, String sort, String asc, Integer pageSize) throws Exception {
         boolean orderSort = false;
         if(null==sort){
             sort="a.order_code";
@@ -71,6 +73,11 @@ public class OrderInfoServiceImpl extends ServiceImpl<OrderInfoMapper, OrderInfo
         map.put("customerCode",customerCode);
         map.put("carModel",carModel);
         map.put("carName",carName);
+        if(null!=orderStatus && orderStatus!=5){
+            map.put("orderStatus",orderStatus);
+        }
+        map.put("saleStartDate",saleStartDate);
+        map.put("saleEndDate",saleEndDate);
         List<OrderInfoVo> list = orderInfoMapper.getOrderInfoList(page,map);
         page = page.setRecords(list);
         return page;

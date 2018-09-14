@@ -55,7 +55,7 @@ public class OrderInfo implements Serializable {
     @JsonFormat(pattern = "yyyy-MM-dd",timezone = "GMT+8")
     private Date salesDate;
     /**
-     * 订单状态,0未出库，1已出库，2在运，3已送达
+     * 订单状态,0未出库，1已出库，2在运，3已送达，4退货
      */
     @TableField("order_status")
     private Integer orderStatus;
@@ -63,7 +63,6 @@ public class OrderInfo implements Serializable {
      * 订单说明
      */
     @TableField("order_note")
-    @JsonFormat(pattern = "yyyy-MM-dd",timezone = "GMT+8")
     private String orderNote;
     /**
      * 数据状态，0启用，1禁用，2删除
