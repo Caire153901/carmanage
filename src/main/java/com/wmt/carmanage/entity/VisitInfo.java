@@ -44,6 +44,11 @@ public class VisitInfo implements Serializable {
     @JsonFormat(pattern = "yyyy-MM-dd",timezone = "GMT+8")
     private Date visitDate;
     /**
+     *
+     */
+    @TableField(exist = false)
+    private String visitDates;
+    /**
      * 回访事件
      */
     @TableField("visit_events")
@@ -71,6 +76,13 @@ public class VisitInfo implements Serializable {
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
     private Date gmtModify;
 
+    public String getVisitDates() {
+        return visitDates;
+    }
+
+    public void setVisitDates(String visitDates) {
+        this.visitDates = visitDates;
+    }
 
     public Integer getId() {
         return id;
@@ -147,15 +159,16 @@ public class VisitInfo implements Serializable {
     @Override
     public String toString() {
         return "VisitInfo{" +
-        "id=" + id +
-        ", customerId=" + customerId +
-        ", orderId=" + orderId +
-        ", visitDate=" + visitDate +
-        ", visitEvents=" + visitEvents +
-        ", visitRecord=" + visitRecord +
-        ", useStatus=" + useStatus +
-        ", gmtCreate=" + gmtCreate +
-        ", gmtModify=" + gmtModify +
-        "}";
+                "id=" + id +
+                ", customerId=" + customerId +
+                ", orderId=" + orderId +
+                ", visitDate=" + visitDate +
+                ", visitDates='" + visitDates + '\'' +
+                ", visitEvents='" + visitEvents + '\'' +
+                ", visitRecord='" + visitRecord + '\'' +
+                ", useStatus=" + useStatus +
+                ", gmtCreate=" + gmtCreate +
+                ", gmtModify=" + gmtModify +
+                '}';
     }
 }

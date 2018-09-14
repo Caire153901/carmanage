@@ -10,6 +10,7 @@ import com.wmt.carmanage.service.CustomerService;
 import com.wmt.carmanage.service.OrderInfoService;
 import com.wmt.carmanage.service.VisitInfoService;
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
+import com.wmt.carmanage.util.DateUtils;
 import com.wmt.carmanage.vo.VisitInfoVo;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -96,6 +97,7 @@ public class VisitInfoServiceImpl extends ServiceImpl<VisitInfoMapper, VisitInfo
      */
     @Override
     public boolean saveVisitInfo(VisitInfo visitInfo) throws Exception {
+        visitInfo.setVisitDate(DateUtils.parseDate(visitInfo.getVisitDates()));
         return super.insert(visitInfo);
     }
 
@@ -107,6 +109,7 @@ public class VisitInfoServiceImpl extends ServiceImpl<VisitInfoMapper, VisitInfo
      */
     @Override
     public boolean editVisitInfo(VisitInfo visitInfo) throws Exception {
+        visitInfo.setVisitDate(DateUtils.parseDate(visitInfo.getVisitDates()));
         return super.updateById(visitInfo);
     }
 

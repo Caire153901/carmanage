@@ -31,7 +31,7 @@ public interface OrderInfoService extends IService<OrderInfo> {
      * @return
      * @throws Exception
      */
-    Page<OrderInfoVo> getVisitInfoList(String orderCode, String customerName, String customerCode, String carModel,String carName,
+    Page<OrderInfoVo> getOrderList(String orderCode, String customerName, String customerCode, String carModel,String carName,
                                        Integer orderStatus,String saleStartDate,String saleEndDate,
                                        Integer current, String sort, String asc, Integer pageSize) throws Exception;
 

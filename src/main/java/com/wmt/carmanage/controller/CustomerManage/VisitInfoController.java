@@ -56,7 +56,7 @@ public class VisitInfoController {
      * @return
      * @throws Exception
      */
-    @PostMapping("/saveOrUpdateVisitInfo")
+    @PostMapping("/saveOrUpdateVisit")
     public boolean saveOrUpdateVisitInfo(@Validated VisitInfo visitInfo) throws Exception{
         if(null==visitInfo.getId()){
             return visitInfoService.saveVisitInfo(visitInfo);

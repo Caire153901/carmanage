@@ -58,40 +58,38 @@
             <div class="visitinfo">
                 <table id="visit_info" class="visit_info" border="0">
                     <input type="hidden" name="id" />
+                    <input type="hidden" name="useStatus" value="0"/>
                     <tr>
                         <td>*客户:</td>
                         <td class="form-control-inner">
-                            <input  id="customer_id"  name="customerId" class="easyui-validatebox form-control" required="required" editable="false"/>
+                            <input  id="customer_id"  name="customerId"  type="hidden"/>
+                            <input  id="customer_name"   class="easyui-validatebox form-control" required="required" editable="false"/>
                         </td>
+                    </tr>
+                    <tr>
                         <td>*订单:</td>
                         <td class="form-control-inner">
-                            <input  id="order_id"  name="orderId" class="easyui-validatebox form-control" required="required" editable="false" style="float: left"/>
+                            <input  id="order_id"  name="orderId"  type="hidden"/>
+                            <input  id="order_name"   class="easyui-validatebox form-control" required="required" editable="false" style="float: left"/>
                             <button onclick="chooseOrder();" style="float: left">选择</button>
                         </td>
                     </tr>
                     <tr>
                         <td>*回访日期:</td>
                         <td>
-                            <input id="visit_date" name="visitDate" type="text" class="easyui-datebox" required="required">
-                        </td>
-                        <td>状态:</td>
-                        <td class="form-control-inner">
-                            <select id="visit_state" class="easyui-combobox form-control" name="useStatus" >
-                                <option value="0">启用</option>
-                                <option value="1">禁用</option>
-                            </select>
+                            <input id="visit_date" name="visitDates" type="text" class="easyui-datebox" required="required">
                         </td>
                     </tr>
                     <tr colspan="3">
                         <td>*回访事件:</td>
                         <td class="form-control-inner" colspan="3">
-                            <input  id="visit_events"  name="visitEvents" class="easyui-validatebox form-control" data-options="required:true"/>
+                            <textarea id="visit_events" name="visitEvents"   style="width:600px; height:60px;" required="required"></textarea>
                         </td>
                     </tr>
                     <tr>
                         <td>*回访记录:</td>
                         <td>
-                            <textarea id="visit_record" name="visitRecord"   style="width:400px; height:40px;"></textarea>
+                            <textarea id="visit_record" name="visitRecord"   style="width:600px; height:80px;" required="required"></textarea>
                         </td>
                     </tr>
                 </table>

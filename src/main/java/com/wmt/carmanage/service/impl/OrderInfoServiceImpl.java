@@ -56,7 +56,7 @@ public class OrderInfoServiceImpl extends ServiceImpl<OrderInfoMapper, OrderInfo
      * @throws Exception
      */
     @Override
-    public Page<OrderInfoVo> getVisitInfoList(String orderCode, String customerName, String customerCode, String carName, String carModel,
+    public Page<OrderInfoVo> getOrderList(String orderCode, String customerName, String customerCode, String carName, String carModel,
                                               Integer orderStatus,String saleStartDate,String saleEndDate,
                                               Integer current, String sort, String asc, Integer pageSize) throws Exception {
         boolean orderSort = false;

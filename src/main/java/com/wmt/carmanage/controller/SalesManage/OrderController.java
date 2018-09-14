@@ -35,7 +35,7 @@ public class OrderController {
      * @throws Exception
      */
     @GetMapping("/list")
-    public EUDataGridResult getCustomerList(
+    public EUDataGridResult getOrderList(
             @RequestParam(value = "orderCode",required = false) String orderCode,
             @RequestParam(value = "customerName",required = false) String customerName,
             @RequestParam(value = "customerCode",required = false) String customerCode,
@@ -50,12 +50,13 @@ public class OrderController {
             @Max(value = 100,message = "每页条数不超过100") @RequestParam(value = "rows",required = false,defaultValue = "10") Integer pageSize)
             throws Exception{
 
-        Page<OrderInfoVo> page = orderInfoService.getVisitInfoList(orderCode, customerName, customerCode, carName,carModel,orderStatus,saleStartDate,saleEndDate,current, sort, asc, pageSize);
+        Page<OrderInfoVo> page = orderInfoService.getOrderList(orderCode, customerName, customerCode, carName,carModel,orderStatus,saleStartDate,saleEndDate,current, sort, asc, pageSize);
         EUDataGridResult all = new EUDataGridResult();
         all.setRows(page.getRecords());
         all.setTotal(page.getTotal());
         return all;
     }
+
 
 
     /**
