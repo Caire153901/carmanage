@@ -6,13 +6,13 @@ $(function(){
         pagination:true,
         pageSize:20,//默认传参 rows
         pageNumber:1,//默认传参 page
-        url: getRootPath__()+'/sales/list',
+        url: getRootPath__()+'/order/list',
         fitColumns:true,
         singleSelect:true,
         fit:true,
         method:'get',
         pageList : [10,20,30],
-        sortName : 'gmtModify',//默认传参 sort
+        sortName : 'a.order_code',//默认传参 sort
         sortOrder : 'asc',//默认传参 order吧
         rownumbers:true,
         onSelect:function(index, row){
@@ -22,79 +22,64 @@ $(function(){
             buttonDisble();
         },
         columns: [[
-            { field: 'id', title: '客户ID', hidden: 'true'},
-            { field: 'provincialId', title: '省份ID', hidden: 'true'},
-            { field: 'salesCode', title: '客户编号',sortable:true, width:80, align: 'left', halign: 'center',align: 'center'},
-            { field: 'salesName', title: '客户名',sortable:true, width:50, align: 'left', halign: 'center',align: 'center'},
-            { field: 'sex', title: '性别',sortable:true, width:30, halign: 'center',align: 'center',
+            { field: 'id', title: '订单ID', hidden: 'true'},
+            { field: 'orderCode', title: '订单号',sortable:true, width:150, align: 'left', halign: 'center',align: 'center'},
+            { field: 'customer', title: '客户',  align: 'left', halign: 'center',width:100,align: 'center',
                 formatter: function(value,row,index){
-                    if (value=='0'){
-                        return "男";
-                    }
-                    if (value=='2'){
-                        return "其他>";
-                    }
-                    if(value =='1'){
-                        return "女";
-                    }
+                    return value.customerName;
                 }
             },
-            { field: 'telphone', title: '联系电话',  align: 'left', halign: 'center',sortable:true,width:80,align: 'center'},
-            { field: 'identityCard', title: '身份证号',  align: 'left', halign: 'center',width:80,align: 'center'},
-            { field: 'provincialName', title: '省份',  align: 'left', halign: 'center',width:50,align: 'center'},
-            { field: 'address', title: '地址',  align: 'left', halign: 'center',width:120,align: 'center'},
-            { field: 'useStatus', title: '状态',  align: 'center', halign: 'center',sortable:true,width:30,
+            { field: 'carInfo', title: '汽车名',  align: 'left', halign: 'center',width:100,align: 'center',
+                formatter: function(value,row,index){
+                    return value.carName;
+                }
+            },
+            { field: 'carInfo.carModel', title: '汽车型号',  align: 'left', halign: 'center',width:100,align: 'center',
+                formatter: function(value,row,index){
+                    return row.carInfo.carModel;
+                }
+            },
+            { field: 'carInfo.carColor', title: '汽车颜色',  align: 'left', halign: 'center',width:100,align: 'center',
+                formatter: function(value,row,index){
+                    return row.carInfo.carColor;
+                }
+            },
+            { field: 'closingCost', title: '成交价(元)',  align: 'left', halign: 'center',width:100,align: 'center'},
+            { field: 'salesDate', title: '销售日期',  align: 'left', halign: 'center',width:100,align: 'center'},
+            { field: 'orderNote', title: '描述',  align: 'left', halign: 'center',width:100,align: 'center'},
+            { field: 'orderStatus', title: '订单状态',  align: 'center', halign: 'center',sortable:true,width:60,
                 formatter: function(value,row,index){
                     if (value=='0'){
-                        return "<span class='iconfont icon-chenggong' style='color:#1AE61A'></span>";
+                        return "未出库";
                     }
-                    if (value=='2'){
-                        return "<span class='iconfont icon-iconset0187' style='color:red'></span>";
+                    if (value=='1'){
+                        return "已出库";
                     }
-                    if(value =='1'){
-                        return "<span class='iconfont icon-dengpao' style='color:#aa00ff'></span>";
+                    if(value =='2'){
+                        return "在运";
+                    }
+                    if(value =='3'){
+                        return "已送达";
+                    }
+                    if(value =='4'){
+                        return "退货";
                     }
                 }
             }
         ]]
     });
-    getSalesProvincial();
 });
-/**客户省份*/
-function getSalesProvincial(){
+/** 获取订单编号 **/
+function getOrderCode() {
+    var Code="DD";
     $.ajax({
         type: 'get',
         async:false,
-        url: getRootPath__()+'/sales/provincial',
+        url: getRootPath__()+'/order/order_code?config='+Code,
         complete:function(data){
             if(data.status=="200"){
-                var provincialData = data.responseJSON.data;
-                $('#provincial_id').combobox({
-                    data:provincialData,
-                    valueField:'id',
-                    textField:'name',
-                });
-                $('#provincialSelect').combobox({
-                    data:provincialData,
-                    valueField:'id',
-                    textField:'name',
-                });
-
-            }
-        }
-    });
-}
-/** 获取客户编号 **/
-function getSalesCode() {
-    var Code="CK";
-    $.ajax({
-        type: 'get',
-        async:false,
-        url: getRootPath__()+'/sales/sales_code?config='+Code,
-        complete:function(data){
-            if(data.status=="200"){
-                var salesCode = data.responseJSON.data;
-                $("#sales_code").val(salesCode.salesCode);
+                var orderCode = data.responseJSON.data;
+                $("#order_code").val(orderCode.orderCode);
             }
         }
     });
@@ -122,30 +107,26 @@ function buttonDisble(){
 
 /** 查询数据条件 */
 function checkInputQuery(){
-    var salesName = $('#salesName').val(); //客户名
-    var salesCode = $('#salesCode').val(); //用户真实姓名
-    var provincialId = $('#provincialSelect').val(); //用户真实姓名
-    $('#sales_tab').datagrid('options').url=getRootPath__()+'/sales/list';
+    var salesCode = $('#salesCode').val(); //客户名
+    var productionStartDate = $('#productionStartDate').val(); //用户真实姓名
+    var productionEndDate = $('#productionEndDate').val(); //用户真实姓名
+    $('#sales_tab').datagrid('options').url=getRootPath__()+'/order/list';
     $('#sales_tab').datagrid('reload',{
-        salesName:salesName,
         salesCode:salesCode,
-        provincialId:provincialId,
+        productionStartDate:productionStartDate,
+        productionEndDate:productionEndDate,
     });
 }
 /** 重置 **/
 function reset(){
-    $('#salesName').val("");
-    $('#salesCode').val("");
-    $('#provincialSelect').combobox('setValue', '');
+    $('#header input').val("");
     $('#sales_tab').datagrid('load',{});
 }
 /** 新增初始化 */
 function addSales(){
     $('#salesForm').form('clear');
-    $('#sales_state').combobox('setValue','0');
-    $('#sales_state').combobox('disable');
-    getSalesProvincial();
-    getSalesCode();
+    $('#order_status').combobox('setValue', '0');
+    getOrderCode();
     $("#sales_data").dialog("setTitle","添加客户信息").dialog("open");
 }
 
@@ -158,14 +139,17 @@ function editSales() {
         var id =selectRows[0].id;//获取选中行的用户ID
         var state=0;//状态参数初始化，默认为禁用
         var provincialId=selectRows[0].provincialId;
-        if(!selectRows[0].state){
+        if(!selectRows[0].useStatus){
             state=0;//启用
         }
+        var orderStatus =selectRows[0].orderStatus;
+        var saleDate = selectRows[0].salesDate;
         $('#salesForm').form('load', selectRows[0]);//表单加载
-        $('#sales_state').combobox('setValue',state);//状态下拉框赋值
-        getSalesProvincial();//省份
+        $('#sales_state').val(state);//状态下拉框赋值
+        $('#order_status').combobox('setValue',orderStatus);//状态下拉框赋值
         $('#provincial_id').combobox('select',provincialId);//用户类型下拉框赋值
-        $('#sales_state').combobox('enable');
+        $('#order_status').combobox('enable');
+        $('#sales_date').datebox('setValue',saleDate);
         $('#sales_data').dialog('open').dialog('setTitle', '编辑客户信息');
     }else{
         $.messager.alert("提示", "请选择要修改的行！", 'info');
@@ -176,9 +160,8 @@ function editSales() {
  * @returns
  */
 function checkInputAdd(){
-    $('#sales_state').combobox('enable');
     $("#salesForm").form("submit", {
-        url: getRootPath__()+'/sales/saveOrUpdateSales',
+        url: getRootPath__()+'/order/saveOrUpdateOrderInfo',
         onsubmit: function () {
             return $(this).form("validate");
         },
@@ -228,5 +211,141 @@ function deleteSales() {
     } else {
         $.messager.alert("提示", "请选择要删除的行！", 'info');
     }
+}
 
+function getCustomerList(){
+    $("#customer_vo_tab").datagrid({
+        checkOnSelect: true,
+        pagination:true,
+        pageSize:20,//默认传参 rows
+        pageNumber:1,//默认传参 page
+        url: getRootPath__()+'/customer/list?useStatus=0',
+        fitColumns:true,
+        singleSelect:true,
+        fit:true,
+        method:'get',
+        pageList : [10,20,30],
+        sortName : 'gmtModify',//默认传参 sort
+        sortOrder : 'asc',//默认传参 order吧
+        rownumbers:true,
+        onDblClickRow:function(row, data) {
+            setCustomerInfo(data);
+        },
+        columns: [[
+            { field: 'id', title: '客户ID', hidden: 'true'},
+            { field: 'provincialId', title: '省份ID', hidden: 'true'},
+            { field: 'customerCode', title: '客户编号',sortable:true, width:80, align: 'left', halign: 'center',align: 'center'},
+            { field: 'customerName', title: '客户名',sortable:true, width:50, align: 'left', halign: 'center',align: 'center'},
+            { field: 'sex', title: '性别',sortable:true, width:30, halign: 'center',align: 'center',
+                formatter: function(value,row,index){
+                    if (value=='0'){
+                        return "男";
+                    }
+                    if (value=='2'){
+                        return "其他>";
+                    }
+                    if(value =='1'){
+                        return "女";
+                    }
+                }
+            },
+            { field: 'telphone', title: '联系电话',  align: 'left', halign: 'center',sortable:true,width:80,align: 'center'},
+            { field: 'identityCard', title: '身份证号',  align: 'left', halign: 'center',width:80,align: 'center'},
+            { field: 'provincialName', title: '省份',  align: 'left', halign: 'center',width:50,align: 'center'},
+            { field: 'address', title: '地址',  align: 'left', halign: 'center',width:120,align: 'center'},
+        ]]
+    });
+}
+
+function getCarList() {
+    $("#car_vo_tab").datagrid({
+        checkOnSelect: true,
+        pagination:true,
+        pageSize:20,//默认传参 rows
+        pageNumber:1,//默认传参 page
+        url: getRootPath__()+'/car/choose/list',
+        fitColumns:true,
+        singleSelect:true,
+        fit:true,
+        method:'get',
+        pageList : [10,20,30],
+        sortName : 'a.car_code',//默认传参 sort
+        sortOrder : 'asc',//默认传参 order吧
+        rownumbers:true,
+        onDblClickRow:function(row, data) {
+            setCarInfo(data);
+        },
+        columns: [[
+            { field: 'id', title: '汽车ID', hidden: 'true'},
+            { field: 'carCode', title: '汽车编号',sortable:true, width:150, align: 'left', halign: 'center',align: 'center'},
+            { field: 'carName', title: '汽车名称',sortable:true, width:150, halign: 'center',align: 'center'},
+            { field: 'carModel', title: '汽车型号',  align: 'left', halign: 'center',sortable:true,width:100,align: 'center'},
+            { field: 'carColor', title: '汽车颜色',  align: 'left', halign: 'center',width:100,align: 'center'},
+            { field: 'engineNumber', title: '发动机编号',  align: 'left', halign: 'center',width:100,align: 'center'},
+            { field: 'storeInfo', title: '所属仓库',  align: 'left', halign: 'center',width:100,align: 'center',
+                formatter: function(value,row,index){
+                    return value.storeName;
+                }
+            },
+            { field: 'manufacturer', title: '厂商',  align: 'left', halign: 'center',width:100,align: 'center',
+                formatter: function(value,row,index){
+                    return value.manufacturerName;
+                }
+            },
+            { field: 'productionDate', title: '生产日期',  align: 'left', halign: 'center',width:100,align: 'center'},
+            { field: 'carNote', title: '描述',  align: 'left', halign: 'center',width:100,align: 'center'},
+            { field: 'flow', title: '流向',  align: 'left', halign: 'center',width:100,align: 'center'},
+        ]]
+    });
+}
+function chooseCustomer() {
+    getCustomerList();
+    $("#customer_vo").dialog("setTitle","双击选择客户！").dialog("open");
+}
+function chooseCar() {
+    getCarList();
+    $("#car_vo").dialog("setTitle","双击选择汽车！").dialog("open");
+}
+function setCarInfo(data) {
+    $("#car_id").val(data.id);
+    $("#car_name").val(data.carName);
+    $("#car_model").val(data.carModel);
+    $("#car_color").val(data.carColor);
+    $("#car_vo").dialog("close");
+}
+function setCustomerInfo(data) {
+    $("#customer_id").val(data.id);
+    $("#customer_name").val(data.customerName);
+    $("#customer_vo").dialog("close");
+}
+function queryCustomer() {
+    var customerName = $('#customerName').val(); //客户名
+    var customerCode = $('#customerCode').val(); //用户真实姓名
+    $('#customer_vo_tab').datagrid('options').url=getRootPath__()+'/customer/choose/list';
+    $('#customer_vo_tab').datagrid('reload',{
+        customerName:customerName,
+        customerCode:customerCode,
+        useStatus:0,
+    });
+}
+/** 重置 **/
+function resetCustomer(){
+    $('#header2 input').val("");
+    $('#customer_vo_tab').datagrid('load',{});
+}
+function queryCar() {
+    var carCode = $('#carCode').val(); //客户名
+    var carName = $('#carName').val(); //用户真实姓名
+    var carModel = $('#carModel').val(); //用户真实姓名
+    $('#car_vo_tab').datagrid('options').url=getRootPath__()+'/car/choose/list';
+    $('#car_vo_tab').datagrid('reload',{
+        carCode:carCode,
+        carName:carName,
+        carModel:carModel,
+    });
+}
+/** 重置 **/
+function resetCar(){
+    $('#header1 input').val("");
+    $('#car_vo_tab').datagrid('load',{});
 }

@@ -30,6 +30,10 @@
     </div>
 </div>
 
+<div class="easyui-panel" data-options="header:'#header',maximized : true">
+    <table id="visit_tab" style="width:100%;height:100%;">
+    </table>
+</div>
 <div id="header1" style="text-align:right;">
     <div>
         订单号： <input  id="order_code" class="form-control form-control-inline" name="orderCode"  value="">
@@ -37,28 +41,23 @@
         <a id="reset_vo" href="javascript:void(0)" class="easyui-linkbutton blue" iconCls="icon-reload" onclick="resetOrder();">重置查询</a>
     </div>
 </div>
-<div class="easyui-panel" data-options="header:'#header',maximized : true">
-    <table id="visit_tab" style="width:100%;height:100%;">
-    </table>
-</div>
 
 <!--订单选择模态框 -->
-<div id="order_vo" class="easyui-dialog" style="width: 600px;height: 500px;" closed="true" cache="false" modal="true" buttons="#dlg-buttons">
-    <div class="easyui-panel" data-options="header:'#header1',maximized : true">
+<div id="order_vo" class="easyui-dialog" style="width: 800px;height: 600px;" closed="true" cache="false" modal="true" >
+    <div class="easyui-panel" data-options="maximized : true">
         <table id="order_vo_tab" style="width:100%;height:100%;">
         </table>
     </div>
 </div>
 
-
 <!--新增/编辑的模态框 -->
 <div id="visit_data" class="easyui-dialog" style="width: 800px;height: 500px;" closed="true" cache="false" modal="true" buttons="#dlg-buttons">
-    <form id="visitForm" method="post" style="padding:10px 20px 10px 40px;" action="/visit/saveOrUpdateVisit" >
+    <form id="visitForm" method="post" style="padding:10px 20px 10px 40px;" action="/visit/saveOrUpdateVisit">
         <div class="visitData">
             <div class="visitinfo">
                 <table id="visit_info" class="visit_info" border="0">
-                    <input type="hidden" name="id" />
-                    <input type="hidden" name="useStatus" value="0"/>
+                    <input type="hidden"id="visit_id" name="id" />
+                    <input type="hidden"  id="useStatus" name="useStatus" value="0"/>
                     <tr>
                         <td>*客户:</td>
                         <td class="form-control-inner">
@@ -70,8 +69,8 @@
                         <td>*订单:</td>
                         <td class="form-control-inner">
                             <input  id="order_id"  name="orderId"  type="hidden"/>
-                            <input  id="order_name"   class="easyui-validatebox form-control" required="required" editable="false" style="float: left"/>
-                            <button onclick="chooseOrder();" style="float: left">选择</button>
+                            <input  id="order_name" class="easyui-validatebox form-control" required="required" editable="false" style="float: left"/>
+                            <button style="float: left" onclick="chooseOrder();">选择客户</button>
                         </td>
                     </tr>
                     <tr>
@@ -103,7 +102,7 @@
     <table cellpadding="0" cellspacing="0" style="width:100%">
         <tr>
             <td style="text-align:right">
-                <a href="#" class="easyui-linkbutton blue" iconCls="icon-save" onclick="checkInputAdd();">确定</a>
+                <a href="#" class="easyui-linkbutton blue" iconCls="icon-save" onclick="checkInputAdds();">确定</a>
                 <a href="#" class="easyui-linkbutton darkblue" iconCls="icon-cancel" onclick="javascript:$('#visit_data').dialog('close')">关闭</a>
             </td>
         </tr>

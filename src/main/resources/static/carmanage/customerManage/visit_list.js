@@ -27,7 +27,7 @@ $(function(){
             { field: 'customer', title: '客户名',sortable:true, width:80, align: 'left', halign: 'center',align: 'center',
                 formatter: function(value,row,index){
                     return value.customerName
-                 }
+                }
             },
             { field: 'orderInfo', title: '订单号',sortable:true, width:50, align: 'left', halign: 'center',align: 'center',
                 formatter: function(value,row,index){
@@ -52,7 +52,6 @@ $(function(){
             }
         ]]
     });
-    getOrderList();
 });
 
 //选中后按钮状态
@@ -76,6 +75,7 @@ function checkInputQuery(){
         orderCode:orderCode,
     });
 }
+
 /** 重置 **/
 function reset(){
     $('#customerName').val("");
@@ -83,71 +83,9 @@ function reset(){
     $('#visit_tab').datagrid('load',{});
 }
 
-function chooseOrder(){
-    getOrderList();
-    $("#order_vo").dialog("setTitle","双击选择订单！").dialog("open");
-}
-
-function getOrderList() {
-    $("#order_vo_tab").datagrid({
-        checkOnSelect: true,
-        pagination:true,
-        pageSize:20,//默认传参 rows
-        pageNumber:1,//默认传参 page
-        url: getRootPath__()+'/order/list',
-        fitColumns:true,
-        singleSelect:true,
-        fit:true,
-        method:'get',
-        pageList : [10,20,30],
-        sortName : 'a.order_status',//默认传参 sort
-        sortOrder : 'desc',//默认传参 order吧
-        rownumbers:true,
-        onDblClickRow:function(row, data) {
-            setOrderInfo(data);
-        },
-        columns: [[
-            { field: 'id', title: '订单ID', hidden: 'true'},
-            { field: 'orderCode', title: '订单号',sortable:true, width:150, align: 'left', halign: 'center',align: 'center'},
-            { field: 'customer', title: '客户',  align: 'left', halign: 'center',width:100,align: 'center',
-                formatter: function(value,row,index){
-                    return value.customerName;
-                }
-            },
-            { field: 'carInfo', title: '汽车名',  align: 'left', halign: 'center',width:100,align: 'center',
-                formatter: function(value,row,index){
-                    return value.carName;
-                }
-            },
-            { field: 'carInfo.carModel', title: '汽车型号',  align: 'left', halign: 'center',width:100,align: 'center',
-                formatter: function(value,row,index){
-                    return row.carInfo.carModel;
-                }
-            },
-            { field: 'carInfo.carColor', title: '汽车颜色',  align: 'left', halign: 'center',width:100,align: 'center',
-                formatter: function(value,row,index){
-                    return row.carInfo.carColor;
-                }
-            },
-            { field: 'closingCost', title: '成交价(元)',  align: 'left', halign: 'center',width:100,align: 'center'},
-            { field: 'salesDate', title: '销售日期',  align: 'left', halign: 'center',width:100,align: 'center'},
-            { field: 'orderNote', title: '描述',  align: 'left', halign: 'center',width:100,align: 'center'},
-        ]]
-    });
-}
-
-function setOrderInfo(data) {
-    $("#customer_id").val(data.customer.id);
-    $("#order_id").val(data.id);
-    $("#customer_name").val(data.customer.customerName);
-    $("#order_name").val(data.orderCode);
-    $("#order_vo").dialog("close");
-}
 /** 新增初始化 */
 function addVisit(){
     $('#visitForm').form('clear');
-    $('#visit_state').combobox('setValue','0');
-    $('#visit_state').combobox('disable');
     $("#visit_data").dialog("setTitle","添加客户信息").dialog("open");
 }
 
@@ -162,20 +100,34 @@ function editVisit() {
         if(!selectRows[0].state){
             state=0;//启用
         }
-        $('#visitForm').form('load', selectRows[0]);//表单加载
-        $('#visit_state').combobox('setValue',state);//状态下拉框赋值
-        $('#visit_state').combobox('enable');
-        $('#visit_data').dialog('open').dialog('setTitle', '编辑客户信息');
+        var visitDate = selectRows[0].visitDate;
+        var customerId= selectRows[0].customer.id;
+        var customerName = selectRows[0].customer.customerName;
+        var orderId= selectRows[0].orderInfo.id;
+        var orderCode = selectRows[0].orderInfo.orderCode;
+        var visitRecord = selectRows[0].visitRecord;
+        var visitEvent = selectRows[0].visitEvents;
+        $('#visit_date').datebox('setValue',visitDate);
+        $('#useStatus').val(state);//状态下拉框赋值
+        $('#visit_id').val(id);//状态下拉框赋值
+        $('#customer_id').val(customerId);
+        $('#customer_name').val(customerName);
+        $('#order_id').val(orderId);
+        $('#order_name').val(orderCode);
+        $('#visit_events').val(visitEvent);
+        $('#visit_record').val(visitRecord);
+        $('#visit_data').dialog('open').dialog('setTitle', '编辑回访信息');
     }else{
         $.messager.alert("提示", "请选择要修改的行！", 'info');
     }
 }
+
+
 /**
  * 提交
  * @returns
  */
-function checkInputAdd(){
-    $('#visit_state').combobox('enable');
+function checkInputAdds(){
     $("#visitForm").form("submit", {
         url: getRootPath__()+'/visit/saveOrUpdateVisit',
         onsubmit: function () {
@@ -227,5 +179,78 @@ function deleteVisit() {
     } else {
         $.messager.alert("提示", "请选择要删除的行！", 'info');
     }
+}
 
+function chooseOrder() {
+    alert(111)
+    // getOrderList();
+    //$("#order_vo").dialog("setTitle","双击选择订单！").dialog("open");
+}
+
+function getOrderList() {
+    $("#order_vo_tab").datagrid({
+        checkOnSelect: true,
+        pagination:true,
+        pageSize:20,//默认传参 rows
+        pageNumber:1,//默认传参 page
+        url: getRootPath__()+'/order/list',
+        fitColumns:true,
+        singleSelect:true,
+        fit:true,
+        method:'get',
+        pageList : [10,20,30],
+        sortName : 'sales_date',//默认传参 sort
+        sortOrder : 'desc',//默认传参 order吧
+        rownumbers:true,
+        onDblClickRow:function(row, data) {
+            setOrderInfo(data);
+        },
+        columns: [[
+            { field: 'id', title: '订单ID', hidden: 'true'},
+            { field: 'orderCode', title: '订单号',sortable:true, width:150, align: 'left', halign: 'center',align: 'center'},
+            { field: 'customer', title: '客户',  align: 'left', halign: 'center',width:100,align: 'center',
+                formatter: function(value,row,index){
+                    return value.customerName;
+                }
+            },
+            { field: 'carInfo', title: '汽车名',  align: 'left', halign: 'center',width:100,align: 'center',
+                formatter: function(value,row,index){
+                    return value.carName;
+                }
+            },
+            { field: 'carInfo.carModel', title: '汽车型号',  align: 'left', halign: 'center',width:100,align: 'center',
+                formatter: function(value,row,index){
+                    return row.carInfo.carModel;
+                }
+            },
+            { field: 'carInfo.carColor', title: '汽车颜色',  align: 'left', halign: 'center',width:100,align: 'center',
+                formatter: function(value,row,index){
+                    return row.carInfo.carColor;
+                }
+            },
+            { field: 'closingCost', title: '成交价(元)',  align: 'left', halign: 'center',width:100,align: 'center'},
+            { field: 'salesDate', title: '销售日期',  align: 'left', halign: 'center',width:100,align: 'center'},
+            { field: 'orderNote', title: '描述',  align: 'left', halign: 'center',width:100,align: 'center'},
+        ]]
+    });
+}
+
+function setOrderInfo(data) {
+    $("#customer_id").val(data.customer.id);
+    $("#order_id").val(data.id);
+    $("#customer_name").val(data.customer.customerName);
+    $("#order_name").val(data.orderCode);
+    $("#order_vo").dialog("close");
+}
+
+function queryOrder() {
+    var orderCode = $('#order_code').val(); //用户真实姓名
+    $('#order_vo_tab').datagrid('options').url=getRootPath__()+'/order/list';
+    $('#order_vo_tab').datagrid('reload',{
+        orderCode:orderCode,
+    });
+}
+function resetOrder() {
+    $('#order_code').val('');
+    $('#order_vo_tab').datagrid('load',{});
 }

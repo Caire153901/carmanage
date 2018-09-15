@@ -54,6 +54,8 @@ public class OrderInfo implements Serializable {
     @TableField("sales_date")
     @JsonFormat(pattern = "yyyy-MM-dd",timezone = "GMT+8")
     private Date salesDate;
+    @TableField(exist = false)
+    private String salesDates;
     /**
      * 订单状态,0未出库，1已出库，2在运，3已送达，4退货
      */
@@ -82,6 +84,14 @@ public class OrderInfo implements Serializable {
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
     private Date gmtModify;
 
+
+    public String getSalesDates() {
+        return salesDates;
+    }
+
+    public void setSalesDates(String salesDates) {
+        this.salesDates = salesDates;
+    }
 
     public Integer getId() {
         return id;
@@ -174,17 +184,18 @@ public class OrderInfo implements Serializable {
     @Override
     public String toString() {
         return "OrderInfo{" +
-        "id=" + id +
-        ", orderCode=" + orderCode +
-        ", customerId=" + customerId +
-        ", carId=" + carId +
-        ", closingCost=" + closingCost +
-        ", salesDate=" + salesDate +
-        ", orderStatus=" + orderStatus +
-        ", orderNote=" + orderNote +
-        ", useStatus=" + useStatus +
-        ", gmtCreate=" + gmtCreate +
-        ", gmtModify=" + gmtModify +
-        "}";
+                "id=" + id +
+                ", orderCode='" + orderCode + '\'' +
+                ", customerId=" + customerId +
+                ", carId=" + carId +
+                ", closingCost=" + closingCost +
+                ", salesDate=" + salesDate +
+                ", salesDates='" + salesDates + '\'' +
+                ", orderStatus=" + orderStatus +
+                ", orderNote='" + orderNote + '\'' +
+                ", useStatus=" + useStatus +
+                ", gmtCreate=" + gmtCreate +
+                ", gmtModify=" + gmtModify +
+                '}';
     }
 }

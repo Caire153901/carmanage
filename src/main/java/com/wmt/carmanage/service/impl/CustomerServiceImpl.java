@@ -5,11 +5,13 @@ import com.baomidou.mybatisplus.mapper.Wrapper;
 import com.baomidou.mybatisplus.plugins.Page;
 import com.wmt.carmanage.entity.Customer;
 import com.wmt.carmanage.entity.Provincial;
+import com.wmt.carmanage.entity.SysSerialNumber;
 import com.wmt.carmanage.exception.BaseException;
 import com.wmt.carmanage.mapper.CustomerMapper;
 import com.wmt.carmanage.service.CustomerService;
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
 import com.wmt.carmanage.service.ProvincialService;
+import com.wmt.carmanage.service.SysSerialNumberService;
 import com.wmt.carmanage.vo.CustomerVo;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +33,8 @@ public class CustomerServiceImpl extends ServiceImpl<CustomerMapper, Customer> i
 
     @Autowired
     ProvincialService provincialService;
+    @Autowired
+    SysSerialNumberService sysSerialNumberService;
     /**
      * 客户信息列表
      * @param customerName
@@ -77,6 +81,53 @@ public class CustomerServiceImpl extends ServiceImpl<CustomerMapper, Customer> i
     }
 
     /**
+     *
+     * @param customerName
+     * @param customerCode
+     * @param useStatus
+     * @param current
+     * @param sort
+     * @param asc
+     * @param pageSize
+     * @return
+     * @throws Exception
+     */
+    @Override
+    public Page<CustomerVo> getCustomerChooseList(String customerName, String customerCode, Integer useStatus, Integer current, String sort, String asc, Integer pageSize) throws Exception {
+        boolean orderSort = false;
+        if(null==sort){
+            sort = "gmtModify";
+        }
+        if(null!=asc && asc.equals("asc")){
+            orderSort = true;
+        }
+        Page page = new Page(current, pageSize, sort, orderSort);
+        EntityWrapper<Customer> wrapper = new EntityWrapper<>();
+        if(null!=customerName && !customerName.equals("")){
+            wrapper.like("customer_name",customerName);
+        }
+        if(null!=customerCode && !customerCode.equals("")){
+            wrapper.like("customer_code",customerCode);
+        }
+        if(null!=useStatus && !useStatus.equals("")){
+            wrapper.eq("use_status",useStatus);
+        }
+        Page<Customer> customerPage = super.selectPage(page,wrapper);
+        if(null!=customerPage.getRecords() && customerPage.getRecords().size()>0){
+            List<CustomerVo> customerVoList = new ArrayList<>();
+            customerPage.getRecords().stream().forEach(customer -> {
+                CustomerVo vos = new CustomerVo();
+                BeanUtils.copyProperties(customer,vos);
+                Provincial provincial = provincialService.selectById(customer.getProvincialId());
+                vos.setProvincialName(provincial.getName());
+                customerVoList.add(vos);
+            });
+            page = page.setRecords(customerVoList);
+        }
+        return page;
+    }
+
+    /**
      * 新增
      * @param customer
      * @return
@@ -92,6 +143,11 @@ public class CustomerServiceImpl extends ServiceImpl<CustomerMapper, Customer> i
         if(list.size()>0){
             throw new BaseException("客户编号【"+customer.getCustomerCode()+"】,或客户名【"+customer.getCustomerName()+"】已存在");
         }else {
+            Wrapper<SysSerialNumber> sysSerialNumberWrapper = new EntityWrapper<>();
+            sysSerialNumberWrapper.eq("config_templet","CK");
+            SysSerialNumber sysSerialNumber = sysSerialNumberService.selectOne(sysSerialNumberWrapper);
+            sysSerialNumber.setGmtModified(new Date());
+            sysSerialNumberService.updateById(sysSerialNumber);
             return super.insert(customer);
         }
     }

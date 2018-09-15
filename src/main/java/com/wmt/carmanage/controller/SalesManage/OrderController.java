@@ -4,12 +4,15 @@ import com.baomidou.mybatisplus.plugins.Page;
 import com.wmt.carmanage.constant.EUDataGridResult;
 import com.wmt.carmanage.entity.OrderInfo;
 import com.wmt.carmanage.service.OrderInfoService;
+import com.wmt.carmanage.service.SysSerialNumberService;
 import com.wmt.carmanage.vo.OrderInfoVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.constraints.Max;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * 订单管理
@@ -20,6 +23,8 @@ public class OrderController {
 
     @Autowired
     OrderInfoService orderInfoService;
+    @Autowired
+    SysSerialNumberService sysSerialNumberService;
 
     /**
      * 订单列表
@@ -83,5 +88,17 @@ public class OrderController {
     @PostMapping("/delete")
     public boolean deleteOrderInfo(@RequestParam Integer id) throws Exception{
         return orderInfoService.deleteOrderInfo(id);
+    }
+
+    /**
+     * 根据config_templet获取流水号
+     * @return
+     */
+    @GetMapping("/order_code")
+    public Map getCustomerCode(String config) throws Exception{
+        Map map = new HashMap();
+        String code= sysSerialNumberService.getSerialNumberByConfigTemplet(config);
+        map.put("orderCode",code);
+        return map;
     }
 }

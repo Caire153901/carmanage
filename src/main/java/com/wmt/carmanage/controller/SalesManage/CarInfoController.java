@@ -108,8 +108,8 @@ public class CarInfoController {
      * @return
      * @throws Exception
      */
-    @PostMapping("/edit")
-    public boolean editCarInfo(@Validated CarInfo carInfo) throws Exception{
+    @PostMapping("/move_store")
+    public boolean moveStore(@Validated CarInfo carInfo) throws Exception{
         return carInfoService.editCarInfoStore(carInfo);
     }
 
@@ -157,4 +157,21 @@ public class CarInfoController {
         return all;
     }
 
+
+    @GetMapping("/choose/list")
+    public EUDataGridResult getCarChooseVoList(
+            @RequestParam(value = "carCode",required = false) String carCode,
+            @RequestParam(value = "carName",required = false) String carName,
+            @RequestParam(value = "carModel",required = false) String carModel,
+            @RequestParam(value = "page",required = false,defaultValue = "1") Integer current,
+            @RequestParam(value = "sort",required = false,defaultValue = "a.car_code") String sort,
+            @RequestParam(value = "order",required = false) String asc,
+            @Max(value = 100,message = "每页条数不超过100") @RequestParam(value = "rows",required = false,defaultValue = "10") Integer pageSize)
+            throws Exception{
+        Page<CarInfoVo> page = carInfoService.getCarChooseList(carCode,carName,carModel,current,sort,asc,pageSize);
+        EUDataGridResult all = new EUDataGridResult();
+        all.setRows(page.getRecords());
+        all.setTotal(page.getTotal());
+        return all;
+    }
 }

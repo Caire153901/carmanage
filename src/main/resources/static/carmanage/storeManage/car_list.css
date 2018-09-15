@@ -2,3 +2,8 @@
 #car_info td th{text-align:right;width: 200px;}
 #car_info input{width:180px;}
 #car_info select{width:200px;}
+
+#move_store tr{height:35px;}
+#move_store td th{text-align:right;width: 200px;}
+#move_store input{width:180px;}
+#move_store select{width:200px;}

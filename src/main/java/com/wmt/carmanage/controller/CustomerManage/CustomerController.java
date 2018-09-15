@@ -61,6 +61,34 @@ public class CustomerController {
     }
 
     /**
+     *
+     * @param customerName
+     * @param customerCode
+     * @param useStatus
+     * @param current
+     * @param sort
+     * @param asc
+     * @param pageSize
+     * @return
+     * @throws Exception
+     */
+    @GetMapping("/choose/list")
+    public EUDataGridResult getCustomerChooseList(
+            @RequestParam(value = "customerName",required = false) String customerName,
+            @RequestParam(value = "customerCode",required = false) String customerCode,
+            @RequestParam(value = "useStatus",required = false) Integer useStatus,
+            @RequestParam(value = "page",required = false,defaultValue = "1") Integer current,
+            @RequestParam(value = "sort",required = false,defaultValue = "gmtModify") String sort,
+            @RequestParam(value = "order",required = false) String asc,
+            @Max(value = 100,message = "每页条数不超过100") @RequestParam(value = "rows",required = false,defaultValue = "10") Integer pageSize)
+            throws Exception{
+        Page<CustomerVo> page =  customerService.getCustomerChooseList(customerName, customerCode,useStatus,current, sort, asc, pageSize);
+        EUDataGridResult all = new EUDataGridResult();
+        all.setRows(page.getRecords());
+        all.setTotal(page.getTotal());
+        return all;
+    }
+    /**
      * 添加
      * @param customer
      * @return

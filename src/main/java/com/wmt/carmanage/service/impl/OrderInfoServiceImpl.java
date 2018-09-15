@@ -1,15 +1,18 @@
 package com.wmt.carmanage.service.impl;
 
 import com.baomidou.mybatisplus.mapper.EntityWrapper;
+import com.baomidou.mybatisplus.mapper.Wrapper;
 import com.baomidou.mybatisplus.plugins.Page;
 import com.wmt.carmanage.entity.CarInfo;
 import com.wmt.carmanage.entity.Customer;
 import com.wmt.carmanage.entity.OrderInfo;
+import com.wmt.carmanage.entity.SysSerialNumber;
 import com.wmt.carmanage.mapper.OrderInfoMapper;
 import com.wmt.carmanage.service.CarInfoService;
 import com.wmt.carmanage.service.CustomerService;
 import com.wmt.carmanage.service.OrderInfoService;
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
+import com.wmt.carmanage.service.SysSerialNumberService;
 import com.wmt.carmanage.util.DateUtils;
 import com.wmt.carmanage.vo.OrderInfoVo;
 import com.wmt.carmanage.vo.OrderLineVo;
@@ -41,6 +44,8 @@ public class OrderInfoServiceImpl extends ServiceImpl<OrderInfoMapper, OrderInfo
     CarInfoService carInfoService;
     @Autowired
     CustomerService customerService;
+    @Autowired
+    SysSerialNumberService sysSerialNumberService;
     /**
      * 订单列表
      * @param orderCode       订单编号
@@ -95,6 +100,12 @@ public class OrderInfoServiceImpl extends ServiceImpl<OrderInfoMapper, OrderInfo
         CarInfo carInfo = carInfoService.selectById(carId);
         carInfo.setUseStatus(3);
         carInfoService.updateById(carInfo);
+        orderInfo.setSalesDate(DateUtils.parseDate(orderInfo.getSalesDates()));
+        Wrapper<SysSerialNumber> sysSerialNumberWrapper = new EntityWrapper<>();
+        sysSerialNumberWrapper.eq("config_templet","DD");
+        SysSerialNumber sysSerialNumber = sysSerialNumberService.selectOne(sysSerialNumberWrapper);
+        sysSerialNumber.setGmtModified(new Date());
+        sysSerialNumberService.updateById(sysSerialNumber);
         return super.insert(orderInfo);
     }
 
@@ -109,11 +120,12 @@ public class OrderInfoServiceImpl extends ServiceImpl<OrderInfoMapper, OrderInfo
         OrderInfo old = super.selectById(orderInfo.getId());
         Integer oldCarId = old.getCarId();
         CarInfo oldCar = carInfoService.selectById(oldCarId);
-        oldCar.setUseStatus(0);
+        oldCar.setUseStatus(3);
         carInfoService.updateById(oldCar);
         Integer newCarId = orderInfo.getCarId();
         CarInfo newCar = carInfoService.selectById(newCarId);
         carInfoService.updateById(newCar);
+        orderInfo.setSalesDate(DateUtils.parseDate(orderInfo.getSalesDates()));
         return super.updateById(orderInfo);
     }
 

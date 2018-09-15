@@ -33,6 +33,7 @@
     <div style="float:left;margin-left: 20px;">
         <a id="car_add" href="javascript:void(0)" class="easyui-linkbutton white" iconCls="icon-add" onclick="addCar();">新增</a>
         <a id="car_edit" href="javascript:void(0)" class="easyui-linkbutton white" iconCls="icon-edit"  onclick="editCar();" disabled="disabled">修改</a>
+        <a id="car_move" href="javascript:void(0)" class="easyui-linkbutton white" iconCls="icon-edit"  onclick="moveStore();" disabled="disabled">移库</a>
         <a id="car_remove" href="javascript:void(0)" class="easyui-linkbutton white" iconCls="icon-remove"  onclick="removeCar();" disabled="disabled">删除</a>
     </div>
 </div>
@@ -45,6 +46,7 @@
 <div id="win">
     <img id="stationImg" style="width:100%;height:100%;"/>
 </div>
+
 
 <!--新增/编辑的模态框 -->
 <div id="car_data" class="easyui-dialog" style="width: 800px;height: 500px;" closed="true" cache="false" modal="true" buttons="#dlg-buttons">
@@ -116,11 +118,6 @@
             </div>
         </div>
     </form>
-
-   <!-- &lt;!&ndash; 上传汽车照片 &ndash;&gt;
-    <form id="uploadCarPic" name="uploadCarPic" method="post" enctype="multipart/form-data" style="padding: 0 20px 0 20px;">
-        <input id="file" name="file" type="file" title="上传" placeholder="请选择汽车图片">
-    </form>-->
 </div>
 
 <!--模态框按钮 -->
@@ -130,6 +127,78 @@
             <td style="text-align:right">
                 <a href="#" class="easyui-linkbutton blue" iconCls="icon-save" onclick="checkInputAdd();">确定</a>
                 <a href="#" class="easyui-linkbutton darkblue" iconCls="icon-cancel" onclick="javascript:$('#car_data').dialog('close')">关闭</a>
+            </td>
+        </tr>
+    </table>
+</div>
+
+
+<!--新增/编辑的模态框 -->
+<div id="move_store_data" class="easyui-dialog" style="width: 800px;height: 500px;" closed="true" cache="false" modal="true" buttons="#dlg-button">
+    <form id="moveStoreForm" method="post" style="padding:10px 20px 10px 40px;" action="/car/move_store" >
+        <div class="moveStoreData">
+            <div class="moveStore">
+                <table id="move_store" class="move_store" border="0">
+                    <input type="hidden" name="id" />
+                    <tr>
+                        <td>*汽车编号:</td>
+                        <td>
+                            <input  id="car_codes" name="carCode" disabled="disabled"/>
+                        </td>
+                        <td>*汽车名:</td>
+                        <td>
+                            <input  id="car_names" name="carName"  disabled="disabled" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>*汽车型号:</td>
+                        <td>
+                            <input type="text"  id="cars_model" name="carModel" disabled="disabled" />
+                        </td>
+                        <td>*汽车颜色:</td>
+                        <td>
+                            <input type="text"  id="car_colors" name="carColor" disabled="disabled" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>*生产日期:</td>
+                        <td>
+                            <input id="production_dates" name="productionDate" type="text" disabled="disabled">
+                        </td>
+                        <td>*产地:</td>
+                        <td>
+                            <input type="text"  id="yieldlys" name="yieldly" disabled="disabled" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>*所属仓库:</td>
+                        <td class="form-control-inner">
+                            <input  id="store_ids"  name="storeId" class="easyui-combobox" required="required" editable="false"/>
+                        </td>
+                        <td>*所属厂商:</td>
+                        <td class="form-control-inner">
+                            <input  id="manufacturer_ids"  name="manufacturerId" class="easyui-combobox"  editable="false" disabled="disabled"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>*发动机编号:</td>
+                        <td>
+                            <input type="text"  id="engine_numbers"name="engineNumber" disabled="disabled" />
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </form>
+</div>
+
+<!--模态框按钮 -->
+<div id="dlg-button">
+    <table cellpadding="0" cellspacing="0" style="width:100%">
+        <tr>
+            <td style="text-align:right">
+                <a href="#" class="easyui-linkbutton blue" iconCls="icon-save" onclick="moveStoreAdd();">确定</a>
+                <a href="#" class="easyui-linkbutton darkblue" iconCls="icon-cancel" onclick="javascript:$('#move_store_data').dialog('close')">关闭</a>
             </td>
         </tr>
     </table>

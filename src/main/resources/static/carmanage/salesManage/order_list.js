@@ -38,9 +38,7 @@ $(function(){
                     return row.carInfo.carColor;
                 }
             },
-            { field: 'closingCost', title: '成交价(元)',  align: 'left', halign: 'center',width:100,align: 'center'},
             { field: 'salesDate', title: '销售日期',  align: 'left', halign: 'center',width:100,align: 'center'},
-            { field: 'orderNote', title: '描述',  align: 'left', halign: 'center',width:100,align: 'center'},
             { field: 'orderStatus', title: '订单状态',  align: 'center', halign: 'center',sortable:true,width:60,
                 formatter: function(value,row,index){
                     if (value=='0'){

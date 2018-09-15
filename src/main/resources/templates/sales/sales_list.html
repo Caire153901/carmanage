@@ -35,63 +35,103 @@
     <table id="sales_tab" style="width:100%;height:100%;">
     </table>
 </div>
+<div id="header2" style="text-align:right;">
+    <div>
+        客户名： <input  id="customerName" class="form-control form-control-inline" name="customerName"  value="">
+        客户编号： <input  id="customerCode" class="form-control form-control-inline" name="customerCode"  value="">
+        <a id="query_customer_vo" href="javascript:void(0)" class="easyui-linkbutton blue" iconCls="icon-search" onclick="queryCustomer();">查询</a>
+        <a id="reset_customer_vo" href="javascript:void(0)" class="easyui-linkbutton blue" iconCls="icon-reload" onclick="resetCustomer();">重置查询</a>
+    </div>
+</div>
+<!--客户选择模态框 -->
+<div id="customer_vo" class="easyui-dialog" style="width: 800px;height: 600px;" closed="true" cache="false" modal="true" >
+    <div class="easyui-panel" data-options="header:'#header2',maximized : true">
+        <table id="customer_vo_tab" style="width:100%;height:100%;">
+        </table>
+    </div>
+</div>
 
+<div id="header1" style="text-align:right;">
+    <div>
+        汽车编号： <input  id="carCode" class="form-control form-control-inline" name="carCode"  value="">
+        汽车名： <input  id="carName" class="form-control form-control-inline" name="carName"  value="">
+        汽车类型： <input  id="carModel" class="form-control form-control-inline" name="carModel"  value="">
+        <a id="query_car_vo" href="javascript:void(0)" class="easyui-linkbutton blue" iconCls="icon-search" onclick="queryCar();">查询</a>
+        <a id="reset_car_vo" href="javascript:void(0)" class="easyui-linkbutton blue" iconCls="icon-reload" onclick="resetCar();">重置查询</a>
+    </div>
+</div>
+<!--汽车选择模态框-->
+<div id="car_vo" class="easyui-dialog" style="width: 1000px;height: 600px;" closed="true" cache="false" modal="true" >
+    <div class="easyui-panel" data-options="header:'#header1',maximized : true">
+        <table id="car_vo_tab" style="width:100%;height:100%;">
+        </table>
+    </div>
+</div>
 
 <!--新增/编辑的模态框 -->
-<div id="sales_data" class="easyui-dialog" style="width: 600px;height: 500px;" closed="true" cache="false" modal="true" buttons="#dlg-buttons">
-    <form id="salesForm" method="post" style="padding:10px 20px 10px 40px;" action="/sales/saveOrUpdateSales" >
+<div id="sales_data" class="easyui-dialog" style="width: 800px;height: 500px;" closed="true" cache="false" modal="true" buttons="#dlg-buttons">
+    <form id="salesForm" method="post" style="padding:10px 20px 10px 40px;" action="/order/saveOrUpdateOrderInfo" >
         <div class="salesData">
             <div class="salesinfo">
                 <table id="sales_info" class="sales_info" border="0">
                     <input type="hidden" name="id" />
-                    <input type="hidden" name="useStatus" value="0" />
+                    <input type="hidden" id="sales_state" name="useStatus" value="0" />
                     <tr>
                         <td>*订单号:</td>
                         <td>
                             <input  class="easyui-validatebox form-control" id="order_code" name="orderCode" required="required" editable="false"/>
                         </td>
+                        <td>*销售状态:</td>
+                        <td class="form-control-inner">
+                            <select id="order_status" class="easyui-combobox form-control" name="orderStatus" >
+                                <option value="0">未出库</option>
+                                <option value="1">已出库</option>
+                                <option value="2">在运</option>
+                                <option value="3">已送达</option>
+                                <option value="4">退货</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
                         <td>*客户名:</td>
                         <td>
-                            <input type="text"  id="customer_id" name="customerId" required="required" />
-                            <input type="text" class="easyui-validatebox form-control" id="customer_name" name="customerName" required="required" />
+                            <input type="hidden"  id="customer_id" name="customerId" />
+                            <input type="text" class="easyui-validatebox form-control" id="customer_name" required="required" editable="false" style="float: left"/>
+                            <button style="float: left" onclick="chooseCustomer();">选择客户</button>
                         </td>
                     </tr>
                     <tr>
                         <td>*汽车名:</td>
                         <td>
-                            <input id="car_id" name="carId" />
-                            <input id="car_name" class="easyui-validatebox form-control" data-options="required:true" editable="false"/>
-                        </td>
-                        <td>*汽车类型:</td>
-                        <td>
-                            <input id="car_model" class="easyui-validatebox form-control" data-options="required:true"editable="false"/>
+                            <input id="car_id" name="carId" type="hidden"  />
+                            <input id="car_name" class="easyui-validatebox form-control" data-options="required:true" editable="false" style="float: left"/>
+                            <button style="float: left" onclick="chooseCar();">选择汽车</button>
                         </td>
                     </tr>
                     <tr>
+                        <td>*汽车类型:</td>
+                        <td>
+                            <input id="car_model"  class="easyui-validatebox form-control"required="required" editable="false"/>
+                        </td>
                         <td>*汽车颜色:</td>
                         <td>
-                            <input id="car_color" class="easyui-validatebox form-control" data-options="required:true" editable="false"/>
+                            <input id="car_color"  class="easyui-validatebox form-control" required="required" editable="false"/>
                         </td>
-                        <td>*成交价:</td>
-                        <td>
-                            <input id="closing_cost" name="closingCost" class="easyui-validatebox form-control" data-options="required:true"/>
-                        </td>
-
                     </tr>
                     <tr>
                         <td>*销售日期:</td>
                         <td>
-                            <input id="sales_date" name="salesDate" class="easyui-validatebox form-control" data-options="required:true"/>
+                            <input id="sales_date" name="salesDates" type="text" class="easyui-datebox" required="required">
                         </td>
-                        <td>*销售状态:订单状态,0未出库，1已出库，2在运，3已送达</td>
+                        <td>*成交价:</td>
                         <td>
-                            <input id="order_status" name="orderStatus" class="easyui-validatebox form-control" data-options="required:true"/>
+                            <input id="closing_cost" name="closingCost" type="text" style="width: 180px;" class="easyui-numberbox" value="0" required="required" data-options="min:0,precision:2">
                         </td>
                     </tr>
-                    <tr>
+                    <tr colspan="3">
                         <td>*说明:</td>
-                        <td>
-                            <input id="order_note" name="orderNote" class="easyui-validatebox form-control" data-options="required:true"/>
+                        <td class="form-control-inner" colspan="3">
+                            <textarea id="order_note" name="orderNote"   style="width:600px; height:60px;" required="required"></textarea>
                         </td>
                     </tr>
                 </table>

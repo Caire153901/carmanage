@@ -87,11 +87,13 @@ function openWin(title,image){
 //选中后按钮状态
 function selectCar(){
     $('#car_edit').linkbutton('enable');//修改按钮可用
+    $('#car_move').linkbutton('enable');//修改按钮可用
     $('#car_remove').linkbutton('enable');//删除按钮可用
 }
 //按钮禁用初始化
 function buttonDisble(){
     $('#car_edit').linkbutton('disable');//修改按钮
+    $('#car_move').linkbutton('disable');//修改按钮
     $('#car_remove').linkbutton('disable');//删除按钮
 }
 /** 查询数据条件 */
@@ -132,12 +134,16 @@ function getStoreSelect() {
                     valueField:'id',
                     textField:'storeName',
                 });
-                $('#manufacturerSelect').combobox({
+                $('#store_ids').combobox({
                     data:storeData,
                     valueField:'id',
                     textField:'storeName',
                 });
-
+                $('#storeInfoSelect').combobox({
+                    data:storeData,
+                    valueField:'id',
+                    textField:'storeName',
+                });
             }
         }
     });
@@ -152,6 +158,11 @@ function getManufacturerSelect() {
             if(data.status=="200"){
                 var manufacturerData = data.responseJSON.data;
                 $('#manufacturer_id').combobox({
+                    data:manufacturerData,
+                    valueField:'id',
+                    textField:'manufacturerName',
+                });
+                $('#manufacturer_ids').combobox({
                     data:manufacturerData,
                     valueField:'id',
                     textField:'manufacturerName',
@@ -296,5 +307,51 @@ function removeCar() {
     } else {
         $.messager.alert("提示", "请选择要删除的行！", 'info');
     }
+}
+/** 移库 **/
+function moveStore() {
+    var selectRows = $("#car_tab").datagrid("getSelections");
+    if(selectRows.length > 1){
+        $.messager.alert("提示", "只能选择一行！", 'info');
+    }else if(selectRows.length >0){
+        var id =selectRows[0].id;//获取选中行的用户ID
+        var storeId=selectRows[0].storeInfo.id;
+        var manufacturerId =selectRows[0].manufacturer.id;
+        var productionDate = selectRows[0].productionDate;
+        $('#moveStoreForm').form('load', selectRows[0]);//表单加载
+        getStoreSelect();
+        getManufacturerSelect();
+        $('#store_ids').combobox('select',storeId);//仓库
+        $("#production_dates").val(productionDate);
+        $('#manufacturer_ids').combobox('select',manufacturerId);//厂商
+        $('#move_store_data').dialog('open').dialog('setTitle', '移库');
+    }else{
+        $.messager.alert("提示", "请选择要移库的行！", 'info');
+    }
+}
 
+/**
+ * 移库提交
+ * @returns
+ */
+function moveStoreAdd(){
+    $("#moveStoreForm").form("submit", {
+        url: getRootPath__()+'/car/move_store',
+        onsubmit: function () {
+            return $(this).form("validate");
+        },
+        success: function (result) {
+            var re = JSON.parse(result);
+            if (re.errorCode==0) {
+                msg("提交成功！");
+                $("#car_tab").datagrid("load");
+                $("#move_store_data").dialog("close");
+                buttonDisble();
+            }else if(re.data==="异常"){
+                $.messager.alert("提示信息", re.errorMsg, 'warning');
+            }else{
+                msg("保存数据失败！+,"+re.errorMsg);
+            }
+        }
+    });
 }

@@ -4,16 +4,20 @@ import com.baomidou.mybatisplus.mapper.EntityWrapper;
 import com.baomidou.mybatisplus.mapper.Wrapper;
 import com.baomidou.mybatisplus.plugins.Page;
 import com.wmt.carmanage.entity.Manufacturer;
+import com.wmt.carmanage.entity.SysSerialNumber;
 import com.wmt.carmanage.exception.BaseException;
 import com.wmt.carmanage.mapper.ManufacturerMapper;
 import com.wmt.carmanage.service.ManufacturerService;
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
+import com.wmt.carmanage.service.SysSerialNumberService;
 import com.wmt.carmanage.vo.ManufacturerVo;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.BeansException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -26,6 +30,9 @@ import java.util.List;
  */
 @Service
 public class ManufacturerServiceImpl extends ServiceImpl<ManufacturerMapper, Manufacturer> implements ManufacturerService {
+    @Autowired
+    SysSerialNumberService sysSerialNumberService;
+
     /**
      * 获取厂商下拉列表
      * @return
@@ -101,6 +108,11 @@ public class ManufacturerServiceImpl extends ServiceImpl<ManufacturerMapper, Man
         if(list.size()>0){
             throw new BaseException("厂商名："+manufacturer.getManufacturerName()+",或厂商编号"+manufacturer.getManufacturerCode()+"已存在");
         }else{
+            Wrapper<SysSerialNumber> sysSerialNumberWrapper = new EntityWrapper<>();
+            sysSerialNumberWrapper.eq("config_templet","CS");
+            SysSerialNumber sysSerialNumber = sysSerialNumberService.selectOne(sysSerialNumberWrapper);
+            sysSerialNumber.setGmtModified(new Date());
+            sysSerialNumberService.updateById(sysSerialNumber);
             return super.insert(manufacturer);
         }
     }

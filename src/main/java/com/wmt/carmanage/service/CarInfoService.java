@@ -49,6 +49,19 @@ public interface CarInfoService extends IService<CarInfo> {
                                      Integer current,String sort,String asc,Integer pageSize) throws Exception;
 
     /**
+     * 选择汽车列表
+     * @param carCode
+     * @param carName
+     * @param carModel
+     * @param current
+     * @param sort
+     * @param asc
+     * @param pageSize
+     * @return
+     * @throws Exception
+     */
+    Page<CarInfoVo> getCarChooseList(String carCode,String carName,String carModel,Integer current,String sort,String asc,Integer pageSize)throws Exception;
+    /**
      * 库存信息
      * @param storeId
      * @param carName

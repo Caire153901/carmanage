@@ -5,11 +5,13 @@ import com.baomidou.mybatisplus.mapper.Wrapper;
 import com.baomidou.mybatisplus.plugins.Page;
 import com.wmt.carmanage.entity.CarInfo;
 import com.wmt.carmanage.entity.StoreInfo;
+import com.wmt.carmanage.entity.SysSerialNumber;
 import com.wmt.carmanage.exception.BaseException;
 import com.wmt.carmanage.mapper.CarInfoMapper;
 import com.wmt.carmanage.service.CarInfoService;
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
 import com.wmt.carmanage.service.StoreInfoService;
+import com.wmt.carmanage.service.SysSerialNumberService;
 import com.wmt.carmanage.util.DateUtils;
 import com.wmt.carmanage.vo.CarInfoVo;
 import com.wmt.carmanage.vo.StoreVo;
@@ -37,6 +39,8 @@ public class CarInfoServiceImpl extends ServiceImpl<CarInfoMapper, CarInfo> impl
     CarInfoMapper carInfoMapper;
     @Autowired
     StoreInfoService storeInfoService;
+    @Autowired
+    SysSerialNumberService sysSerialNumberService;
     /**
      * 根据仓库ID获取汽车类型下拉列表
      * @param storeId
@@ -104,6 +108,26 @@ public class CarInfoServiceImpl extends ServiceImpl<CarInfoMapper, CarInfo> impl
     }
 
     @Override
+    public Page<CarInfoVo> getCarChooseList(String carCode, String carName, String carModel, Integer current, String sort, String asc, Integer pageSize) throws Exception {
+        boolean orderSort = false;
+        if(null==sort){
+            sort = "a.car_code";
+        }
+        if(null!=asc && asc.equals("asc")){
+            orderSort = true;
+        }
+        Page page = new Page(current,pageSize,sort,orderSort);
+        Map map = new HashMap();
+        map.put("carCode",carCode);
+        map.put("carName",carName);
+        map.put("carModel",carModel);
+        List<CarInfoVo> list = carInfoMapper.getCarInfoVoList(page,map);
+        List<CarInfoVo> collect = list.stream().filter(carInfoVo -> carInfoVo.getUseStatus() == 0).collect(Collectors.toList());
+        page = page.setRecords(collect);
+        return page;
+    }
+
+    @Override
     public Page<StoreVo> getCarInfoByStore(Integer storeId,String carName,String carModel,Integer current, String sort, String asc, Integer pageSize) throws Exception {
         boolean orderSort = false;
         if(null==sort){
@@ -142,6 +166,11 @@ public class CarInfoServiceImpl extends ServiceImpl<CarInfoMapper, CarInfo> impl
             storeInfoService.updateById(storeInfo);
             carInfo.setStorageDate(new Date());
             carInfo.setProductionDate(DateUtils.parseDate(carInfo.getProductionDates()));
+            Wrapper<SysSerialNumber> sysSerialNumberWrapper = new EntityWrapper<>();
+            sysSerialNumberWrapper.eq("config_templet","QC");
+            SysSerialNumber sysSerialNumber = sysSerialNumberService.selectOne(sysSerialNumberWrapper);
+            sysSerialNumber.setGmtModified(new Date());
+            sysSerialNumberService.updateById(sysSerialNumber);
             return super.insert(carInfo);
         }
     }
@@ -184,7 +213,8 @@ public class CarInfoServiceImpl extends ServiceImpl<CarInfoMapper, CarInfo> impl
         storeInfo.setCapacity(capacity + 1);
         storeInfo.setMarginCapacity(storeInfo.getMarginCapacity()-1);
         storeInfoService.updateById(storeInfo);
-        return super.updateById(carInfo);
+        old.setStoreId(carInfo.getStoreId());
+        return super.updateById(old);
     }
 
     /**
