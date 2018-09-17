@@ -1,3 +1,4 @@
+
 /* 启动时加载 */
 $(function(){
     $("#visit_tab").datagrid({
@@ -18,7 +19,7 @@ $(function(){
             selectVisit(row);
         },
         onLoadSuccess:function(data){
-            buttonDisble();
+            buttonDisbles();
         },
         columns: [[
             { field: 'id', title: '回访ID', hidden: 'true'},
@@ -54,39 +55,38 @@ $(function(){
     });
 });
 
+
 //选中后按钮状态
 function selectVisit(row){
     $('#visit_edit').linkbutton('enable');//修改按钮可用
     $('#visit_remove').linkbutton('enable');//删除按钮可用
 }
 //按钮禁用初始化
-function buttonDisble(){
+function buttonDisbles(){
     $('#visit_edit').linkbutton('disable');//修改按钮
     $('#visit_remove').linkbutton('disable');//删除按钮
 }
 
 /** 查询数据条件 */
-function checkInputQuery(){
-    var customerName = $('#customerName').val(); //客户名
-    var orderCode = $('#orderCode').val(); //用户真实姓名
+function checkInputQuerys(){
+    var customerName = $("#customerName").val();
+    var orderCode = $("#orderCode").val();
     $('#visit_tab').datagrid('options').url=getRootPath__()+'/visit/list';
     $('#visit_tab').datagrid('reload',{
         customerName:customerName,
         orderCode:orderCode,
     });
 }
-
 /** 重置 **/
-function reset(){
-    $('#customerName').val("");
-    $('#orderCode').val("");
+function resets(){
+    $('#header input').val("");
     $('#visit_tab').datagrid('load',{});
 }
-
 /** 新增初始化 */
 function addVisit(){
     $('#visitForm').form('clear');
-    $("#visit_data").dialog("setTitle","添加客户信息").dialog("open");
+    getOrderList();
+    $("#visit_data").dialog("setTitle","添加回访信息").dialog("open");
 }
 
 /**编辑初始化*/
@@ -96,33 +96,23 @@ function editVisit() {
         $.messager.alert("提示", "只能选择一行！", 'info');
     }else if(selectRows.length >0){
         var id =selectRows[0].id;//获取选中行的用户ID
-        var state=0;//状态参数初始化，默认为禁用
-        if(!selectRows[0].state){
-            state=0;//启用
-        }
         var visitDate = selectRows[0].visitDate;
-        var customerId= selectRows[0].customer.id;
+        var customerId = selectRows[0].customer.id;
         var customerName = selectRows[0].customer.customerName;
-        var orderId= selectRows[0].orderInfo.id;
+        var orderId = selectRows[0].orderInfo.id;
         var orderCode = selectRows[0].orderInfo.orderCode;
-        var visitRecord = selectRows[0].visitRecord;
-        var visitEvent = selectRows[0].visitEvents;
+        $('#visitForm').form('load', selectRows[0]);//表单加载
         $('#visit_date').datebox('setValue',visitDate);
-        $('#useStatus').val(state);//状态下拉框赋值
-        $('#visit_id').val(id);//状态下拉框赋值
         $('#customer_id').val(customerId);
         $('#customer_name').val(customerName);
         $('#order_id').val(orderId);
-        $('#order_name').val(orderCode);
-        $('#visit_events').val(visitEvent);
-        $('#visit_record').val(visitRecord);
+        $('#order_code').val(orderCode);
+        getOrderList();
         $('#visit_data').dialog('open').dialog('setTitle', '编辑回访信息');
     }else{
         $.messager.alert("提示", "请选择要修改的行！", 'info');
     }
 }
-
-
 /**
  * 提交
  * @returns
@@ -131,7 +121,7 @@ function checkInputAdds(){
     $("#visitForm").form("submit", {
         url: getRootPath__()+'/visit/saveOrUpdateVisit',
         onsubmit: function () {
-            return $(this).form("validate");
+                return $(this).form("validate");
         },
         success: function (result) {
             var re = JSON.parse(result);
@@ -139,7 +129,7 @@ function checkInputAdds(){
                 msg("提交成功！");
                 $("#visit_tab").datagrid("load");
                 $("#visit_data").dialog("close");
-                buttonDisble();
+                buttonDisbles();
             }else if(re.data==="异常"){
                 $.messager.alert("提示信息", re.errorMsg, 'warning');
             }else{
@@ -166,11 +156,11 @@ function deleteVisit() {
                         if(data.status=="200"){
                             msg("删除成功！");
                             $('#visit_tab').datagrid('load');
-                            buttonDisble();
+                            buttonDisbles();
                         }else{
                             msg("删除失败！");
                             $('#visit_tab').datagrid('load');
-                            buttonDisble();
+                            buttonDisbles();
                         }
                     }
                 });
@@ -181,24 +171,18 @@ function deleteVisit() {
     }
 }
 
-function chooseOrder() {
-    alert(111)
-    // getOrderList();
-    //$("#order_vo").dialog("setTitle","双击选择订单！").dialog("open");
-}
-
-function getOrderList() {
+function getOrderList(){
     $("#order_vo_tab").datagrid({
         checkOnSelect: true,
         pagination:true,
-        pageSize:20,//默认传参 rows
+        pageSize:5,//默认传参 rows
         pageNumber:1,//默认传参 page
-        url: getRootPath__()+'/order/list',
+        url: getRootPath__()+'/order/list?orderStatus=0',
         fitColumns:true,
         singleSelect:true,
         fit:true,
         method:'get',
-        pageList : [10,20,30],
+        pageList : [5,10,15],
         sortName : 'sales_date',//默认传参 sort
         sortOrder : 'desc',//默认传参 order吧
         rownumbers:true,
@@ -237,20 +221,21 @@ function getOrderList() {
 
 function setOrderInfo(data) {
     $("#customer_id").val(data.customer.id);
-    $("#order_id").val(data.id);
     $("#customer_name").val(data.customer.customerName);
-    $("#order_name").val(data.orderCode);
+    $("#order_id").val(data.id);
+    $("#order_code").val(data.orderCode);
     $("#order_vo").dialog("close");
 }
-
 function queryOrder() {
-    var orderCode = $('#order_code').val(); //用户真实姓名
+    var orderCode = $('#order_code_query').val(); //客户名
     $('#order_vo_tab').datagrid('options').url=getRootPath__()+'/order/list';
     $('#order_vo_tab').datagrid('reload',{
         orderCode:orderCode,
+        useStatus:0,
     });
 }
-function resetOrder() {
-    $('#order_code').val('');
+/** 重置 **/
+function resetOrder(){
+    $('#header1 input').val("");
     $('#order_vo_tab').datagrid('load',{});
 }

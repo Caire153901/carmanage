@@ -1,8 +1,4 @@
 #visit_info tr{height:40px;}
 #visit_info td th{text-align:right;}
-#visit_info input{width:180px;}
-#visit_info select{width:250px;}
-#order_info tr{height:40px;}
-#order_info td th{text-align:right;}
-#order_info input{width:180px;}
-#order_info select{width:250px;}
+#visit_info input{width:200px;}
+#visit_info select{width:200px;}
