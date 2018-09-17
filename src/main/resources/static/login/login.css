@@ -188,12 +188,6 @@
     	padding-top: 131px;
     	box-sizing: border-box;
     }
-      .qr-download:first-child{
-    	background: url(../public/images/login/androidapp.png) no-repeat 10px 31px/100px 100px padding-box;
-    }
-     .qr-download:last-child{
-    	background: url(../public/images/login/iosapp.png) no-repeat 10px 31px/100px 100px padding-box;
-    }
     .qr-download-title{
     	min-width: 84px;
     	margin-top: 10px;
