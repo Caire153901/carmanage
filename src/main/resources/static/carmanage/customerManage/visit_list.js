@@ -66,7 +66,10 @@ function buttonDisbles(){
     $('#visit_edit').linkbutton('disable');//修改按钮
     $('#visit_remove').linkbutton('disable');//删除按钮
 }
-
+function chooseOrder(){
+    getOrderList();
+    $("#order_vo").dialog("setTitle","双击选择订单！").dialog("open");
+}
 /** 查询数据条件 */
 function checkInputQuerys(){
     var customerName = $("#customerName").val();
@@ -175,14 +178,14 @@ function getOrderList(){
     $("#order_vo_tab").datagrid({
         checkOnSelect: true,
         pagination:true,
-        pageSize:5,//默认传参 rows
+        pageSize:10,//默认传参 rows
         pageNumber:1,//默认传参 page
         url: getRootPath__()+'/order/list?orderStatus=0',
         fitColumns:true,
         singleSelect:true,
         fit:true,
         method:'get',
-        pageList : [5,10,15],
+        pageList : [10,20,30],
         sortName : 'sales_date',//默认传参 sort
         sortOrder : 'desc',//默认传参 order吧
         rownumbers:true,

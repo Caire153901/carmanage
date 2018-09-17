@@ -144,12 +144,24 @@ function editSales() {
         }
         var orderStatus =selectRows[0].orderStatus;
         var saleDate = selectRows[0].salesDate;
+        var customerId = selectRows[0].customer.id;
+        var customerName = selectRows[0].customer.customerName;
+        var carId = selectRows[0].carInfo.id;
+        var carName =selectRows[0].carInfo.carName;
+        var carModel = selectRows[0].carInfo.carModel;
+        var carColor = selectRows[0].carInfo.carColor;
         $('#salesForm').form('load', selectRows[0]);//表单加载
         $('#sales_state').val(state);//状态下拉框赋值
         $('#order_status').combobox('setValue',orderStatus);//状态下拉框赋值
         $('#provincial_id').combobox('select',provincialId);//用户类型下拉框赋值
         $('#order_status').combobox('enable');
         $('#sales_date').datebox('setValue',saleDate);
+        $('#customer_id').val(customerId);
+        $('#customer_name').val(customerName);
+        $('#car_id').val(carId);
+        $('#car_name').val(carName);
+        $('#car_model').val(carModel);
+        $('#car_color').val(carColor);
         $('#sales_data').dialog('open').dialog('setTitle', '编辑客户信息');
     }else{
         $.messager.alert("提示", "请选择要修改的行！", 'info');
