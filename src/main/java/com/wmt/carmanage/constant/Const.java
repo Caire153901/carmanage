@@ -7,4 +7,5 @@ package com.wmt.carmanage.constant;
 public interface Const {
 
     String USER_KEY = "__user";
+
 }

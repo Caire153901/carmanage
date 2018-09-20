@@ -23,5 +23,9 @@ public interface OrderInfoMapper extends BaseMapper<OrderInfo> {
      * @return
      */
     List<OrderInfoVo> getOrderInfoList(Page page,Map map);
+    /**
+     * 订单
+     */
+    List<OrderInfoVo> getOrderInfoList(Map map);
 
 }

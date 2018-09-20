@@ -88,3 +88,17 @@ function reset(){
     $('#orderStatus').combobox('setValue','5');
     checkInputQuery();
 }
+
+function upLoadExcel() {
+    var orderCode = $('#orderCode').val(); //
+    var orderStatus = $('#orderStatus').val();
+    var customerName = $('#customerName').val();
+    var carName = $('#carName').val();
+    var carModel = $('#carModel').val();
+    var saleStartDate = $('#saleStartDate').val();
+    var saleEndDate = $('#saleEndDate').val();
+    var param ="orderCode="+orderCode+"&orderStatus="+orderStatus+"&customerName="
+        +customerName+"&carName="+carName+"&carModel="+carModel+"&saleStartDate="+saleStartDate
+        +"&saleEndDate="+saleEndDate;
+    window.location.href = getRootPath__() + "/order/downLoadExcel?"+param;
+}

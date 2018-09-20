@@ -88,6 +88,23 @@ public class OrderInfoServiceImpl extends ServiceImpl<OrderInfoMapper, OrderInfo
         return page;
     }
 
+    @Override
+    public List<OrderInfoVo> getOrderVoList(String orderCode, String customerName, String customerCode, String carModel, String carName, Integer orderStatus, String saleStartDate, String saleEndDate) throws Exception {
+        Map map = new HashMap();
+        map.put("orderCode",orderCode);
+        map.put("customerName",customerName);
+        map.put("customerCode",customerCode);
+        map.put("carModel",carModel);
+        map.put("carName",carName);
+        if(null!=orderStatus && orderStatus!=5){
+            map.put("orderStatus",orderStatus);
+        }
+        map.put("saleStartDate",saleStartDate);
+        map.put("saleEndDate",saleEndDate);
+        List<OrderInfoVo> list = orderInfoMapper.getOrderInfoList(map);
+        return list;
+    }
+
     /**
      * 新增
      * @param orderInfo

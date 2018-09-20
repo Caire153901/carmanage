@@ -10,15 +10,20 @@ import com.wmt.carmanage.entity.UserInfo;
 import com.wmt.carmanage.service.AuthorityService;
 import com.wmt.carmanage.service.CarInfoService;
 import com.wmt.carmanage.service.RoleAuthorityService;
+import com.wmt.carmanage.service.UserInfoService;
 import com.wmt.carmanage.util.FileUtils;
 import com.wmt.carmanage.util.ToolFunctions;
+import com.wmt.carmanage.vo.ChangePassWordVo;
+import com.wmt.carmanage.vo.UserInfoVo;
 import org.apache.catalina.connector.Response;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 import java.io.*;
 import java.util.*;
 
@@ -35,6 +40,8 @@ public class MainController extends BaseController {
     AuthorityService authorityService;
     @Autowired
     CarInfoService carInfoService;
+    @Autowired
+    UserInfoService userInfoService;
 
      /**
      * 获取当前用户可用菜单
@@ -79,4 +86,30 @@ public class MainController extends BaseController {
             HttpServletRequest request,HttpServletResponse response)throws Exception{
         return FileUtils.IoReadImage(imgName,imgUrl,request,response);
     }
+
+    /**
+     * 修改密码
+     * @param changePassWordVo
+     * @return
+     */
+    @PostMapping("/change/pwd")
+    public Map changePwd(@Validated ChangePassWordVo changePassWordVo){
+        Map map = new HashMap();
+        Integer userId = changePassWordVo.getUserId();
+        UserInfo userInfo = userInfoService.selectById(userId);
+        String oldPwd = changePassWordVo.getOldPwd();
+        if(null==userInfo){
+            map.put("msg","当前用户不存在！");
+        }else{
+            if(!oldPwd.equals(userInfo.getPassword())){
+                map.put("msg","nomatch");
+            }else{
+                userInfo.setPassword(changePassWordVo.getNewPwd());
+                userInfoService.updateById(userInfo);
+                map.put("msg","success");
+            }
+        }
+        return map;
+    }
+
 }

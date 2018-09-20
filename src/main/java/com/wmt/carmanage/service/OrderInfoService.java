@@ -5,6 +5,7 @@ import com.wmt.carmanage.entity.OrderInfo;
 import com.baomidou.mybatisplus.service.IService;
 import com.wmt.carmanage.vo.OrderInfoVo;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -31,11 +32,11 @@ public interface OrderInfoService extends IService<OrderInfo> {
      * @return
      * @throws Exception
      */
-    Page<OrderInfoVo> getOrderList(String orderCode, String customerName, String customerCode, String carModel,String carName,
+    Page<OrderInfoVo> getOrderList(String orderCode, String customerName, String customerCode, String carName,String carModel,
                                        Integer orderStatus,String saleStartDate,String saleEndDate,
                                        Integer current, String sort, String asc, Integer pageSize) throws Exception;
-
-
+     List<OrderInfoVo> getOrderVoList(String orderCode, String customerName, String customerCode, String carModel,
+                                      String carName, Integer orderStatus, String saleStartDate, String saleEndDate) throws Exception;
     /**
      * 新增
      * @param orderInfo

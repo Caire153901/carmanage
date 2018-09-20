@@ -127,6 +127,7 @@ var mainPlatform = {
 
         //修改密码
         $(document).on('click', '.pf-modify-pwd', function () {
+
             $("#cg_password").dialog("setTitle", "修改密码").dialog("open").dialog("center");
         });
 
@@ -138,7 +139,7 @@ var mainPlatform = {
 
 function changePassword() {
     var userId = $('#userId').val();
-    var oldpass = $('#useroldpwd').val();
+    var oldpass = $('#oldPwd').val();
     var password = $('#userpwd').val();
     var repassword = $('#userrepwd').val();
     if (oldpass == "" || password == "" || repassword == "") {
@@ -147,18 +148,22 @@ function changePassword() {
         $.messager.alert("提示信息", "新密码不能和旧密码相同！", 'warning');
     } else {
         $("#passwordForm").form("submit", {
-            url: getRootPath__() + '/sys_manage/user_manage/changepassword',
+            url: getRootPath__() + '/main/change/pwd',
             onsubmit: function () {
                 return $(this).form("validate");
             },
             success: function (result) {
-                if (result == "success") {
+                console.log(result)
+                debugger
+                var rel = JSON.parse(result);
+                console.log(rel.data)
+                if (rel.data.msg == "success") {
                     $("#cg_password").dialog("close");
                     $.messager.alert("提示信息", "密码修改成功！请重新登录！", 'info');
                     setTimeout(function () {
-                        window.location.href = getRootPath__() + "/logout";
+                        window.location.href = getRootPath__() + "/login";
                     }, 1500);
-                } else if (result == "nomatch") {
+                } else if (rel.data.msg == "nomatch") {
                     $.messager.alert("提示信息", "旧密码与原密码不同！", 'warning');
                 } else {
                     $.messager.alert("提示信息", "修改密码失败！", 'warning');
